@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.smartdrobi.aplikasipkm.ui.home.toplevelview.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_bridgeFormActivity"
+            app:destination="@id/bridgeFormActivity" />
+        <action
+            android:id="@+id/action_home_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_home_to_droneCamRecordActivity2"
+            app:destination="@id/droneCamRecordActivity2" />
+    </fragment>
+    <fragment
+        android:id="@+id/guide"
+        android:name="com.smartdrobi.aplikasipkm.ui.home.toplevelview.GuideFragment"
+        android:label="fragment_panduan"
+        tools:layout="@layout/fragment_guide" />
+    <fragment
+        android:id="@+id/history"
+        android:name="com.smartdrobi.aplikasipkm.ui.home.toplevelview.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history"/>
+    <activity
+        android:id="@+id/bridgeFormActivity"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeFormActivity"
+        android:label="activity_bridge_form"
+        tools:layout="@layout/activity_add_bridge_form"/>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+
+        <action
+            android:id="@+id/action_detailFragment_to_home"
+            app:destination="@id/home"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/home"
+            app:popUpToInclusive="true"
+            />
+
+        <action
+            android:id="@+id/action_detailFragment_to_droneCamRecordActivity2"
+            app:destination="@id/droneCamRecordActivity2" />
+    </fragment>
+    <activity
+        android:id="@+id/droneCamRecordActivity2"
+        android:name="com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamRecordActivity"
+        android:label="activity_drone_cam_record"
+        tools:layout="@layout/activity_drone_cam_record" />
+</navigation>

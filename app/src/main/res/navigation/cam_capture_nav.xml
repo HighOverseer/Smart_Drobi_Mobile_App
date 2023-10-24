@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cam_capture_nav"
+    app:startDestination="@id/droneCamFragment">
+
+    <fragment
+        android:id="@+id/droneCamFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamFragment"
+        android:label="fragment_drone_cam"
+        tools:layout="@layout/fragment_drone_cam" >
+        <action
+            android:id="@+id/action_droneCamFragment_to_capturedImageFragment2"
+            app:destination="@id/capturedImageFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/capturedImageFragment2"
+        android:name="com.smartdrobi.aplikasipkm.ui.dronecam.CapturedImageFragment"
+        android:label="fragment_captured_image"
+        tools:layout="@layout/fragment_captured_image" />
+</navigation>

@@ -1,0 +1,256 @@
+<resources>
+    <string name="app_name">Smart Drobi</string>
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="search_view_hint">Ketik contoh “Jembatan Siti Nurbaya”</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="jadwal_pemeriksaan">Jadwal Pemeriksaan</string>
+    <string name="jembatan_siti_nurbaya">Jembatan Siti Nurbaya</string>
+    <string name="pemeriksaan_terakhir_20_08_2022">Pemeriksaan terakhir: 20/08/2022</string>
+    <string name="pemeriksaan_terakhir">Pemeriksaan Terakhir: %1$s</string>
+    <string name="pemeriksaan_selanjutnya">Pemeriksaan Selanjutnya: %1$s</string>
+    <string name="lokasi_format">Lokasi: %1$s</string>
+    <string name="home">Home</string>
+    <string name="panduan">Panduan</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="panduan_pemeriksaan">Panduan Pemeriksaan</string>
+    <string name="panduan_content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industries standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="riwayat_pemeriksaan">Riwayat Pemeriksaan</string>
+    <string name="tahun">Tahun</string>
+    <string name="year">Year</string>
+    <string name="pilih_bulan">Pilih Bulan</string>
+    <string name="cant_blank">Tidak boleh kosong!</string>
+    <string name="bulan">Bulan</string>
+    <string name="status_drone">Status Drone: connected</string>
+    <string name="connected">Connected</string>
+    <string name="form_jembatan">Form Jembatan</string>
+    <string name="nama_jembatan">Nama Jembatan</string>
+    <string name="nomor_jembatan">Nomor Jembatan</string>
+    <string name="tanggal_dibangun">Tanggal Dibangun</string>
+    <string name="alamat_jembatan">Alamat Jembatan</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="panjang">Panjang (m)</string>
+    <string name="lebar">Lebar (m)</string>
+    <string name="rencana_npemeriksaan">Rencana\nPemeriksaan</string>
+    <string name="bahan_jembatan">Bahan\nJembatan</string>
+    <string name="simpan">Simpan</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="cancel">Batal</string>
+    <string name="pilih">Pilih</string>
+    <string name="location_permission_info">Perlu Izin Lokasi Untuk Melanjutkan</string>
+    <string name="curr_location">Lokasi Saat ini</string>
+    <string name="default_location_snippet">Lat: %1$s Lon: %2$s</string>
+    <string name="unknown_location_title">Unknown</string>
+    <string name="ibu_kota_indonesia">Ibu Kota Indonesia</string>
+    <string name="selesai">Selesai</string>
+    <string name="jakarta">Jakarta</string>
+    <string name="pilih_lokasi">Pilih Lokasi</string>
+    <string name="choose_a_picture">Choose a Picture</string>
+    <string name="pilih_metode">Pilih Metode</string>
+    <string name="date">%1$s/%2$s/%3$s</string>
+    <string name="pemeriksaan_nselanjutnya">Pemeriksaan\nSelanjutnya</string>
+    <string name="mulai_pemeriksaan">Mulai Pemeriksaan</string>
+    <string name="form_pemeriksaan_jembatan">Form Pemeriksaan Jembatan</string>
+    <string name="tampak_awal_dan_akhir_jembatan">Tampak awal dan akhir jembatan</string>
+    <string name="catatan">Catatan</string>
+    <string name="choose_file">Choose File</string>
+    <string name="choose_drone_camera">Choose Drone Camera</string>
+    <string name="drone_camera">Drone Camera</string>
+    <string name="camera">Camera</string>
+    <string name="name_pemeriksa">Nama Pemeriksa</string>
+    <string name="tanggal_pemeriksaan">Tanggal\nPemeriksaan</string>
+    <string name="nilai_lalu_lintas">Nilai Lalu Lintas</string>
+    <string name="kamera_drone">Kamera Drone</string>
+    <string name="ambil_foto">Ambil Foto</string>
+    <string name="no_jembatan_ruas_njalan_nasional_dan_nprovinsi">No. Jembatan Ruas\nJalan Nasional dan\nProvinsi</string>
+    <string name="no_jembatan_ruas_njalan_kabupaten_ndan_kota">No. Jembatan Ruas\nJalan Kabupaten\ndan Kota</string>
+    <string name="no_jembatan_ruas_njalan_tol">No. Jembatan Ruas\nJalan Tol</string>
+    <string name="rekam">Rekam</string>
+    <string name="stop">Stop</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="foto">Foto</string>
+    <string name="selanjutnya">Selanjutnya</string>
+    <string name="lhr">LHR (%)</string>
+    <string name="keamanan_jembatan">Keamanan Jembatan</string>
+    <string name="_1_tanah_timbunan">1. Tanah Timbunan</string>
+    <string name="keruntuhan_longsor_atau_amblas">Keruntuhan, longsor, atau amblas</string>
+    <string name="aliran_sungai">2. Aliran Sungai</string>
+    <string name="a_gerusan_degradasi_dasar_sungai">a. Gerusan/degradasi dasar sungai</string>
+    <string name="b_endapan_agradasi">b. Endapan/agradasi</string>
+    <string name="c_benda_hanyutan_debris_di_aliran_sungai">c. Benda hanyutan/debris di aliran sungai</string>
+    <string name="d_sisa_struktur_jembatan_lama">d. Sisa struktur jembatan lama</string>
+    <string name="bangunan_bawah">4. Bangunan Bawah</string>
+    <string name="a_pergerakan_atau_amblasnya_kepala_jembatan_pilar">a. Pergerakan atau amblasnya kepala jembatan/pilar</string>
+    <string name="b_keretakan_bagian_tembok_sayap_kepala_jembatan_dan_pilar">b. Keretakan bagian tembok sayap, kepala jembatan dan pilar</string>
+    <string name="c_kerusakan_berupa_pelepasan_bahan_gompal_delaminasi_karat_atau_busuk">c. Kerusakan berupa pelepasan bahan (gompal, delaminasi, karat, atau busuk)</string>
+    <string name="d_rembesan_air">d. Rembesan air</string>
+    <string name="e_lepas_rusaknya_sistem_perlindungan_cat_galvanis_proteksi_katodik">e. Lepas/rusaknya sistem perlindungan (cat, galvanis, proteksi katodik)</string>
+    <string name="f_tidak_berfungsinya_sistem_perkuatan">f. Tidak berfungsinya sistem perkuatan</string>
+    <string name="bangunan_atas">5. Bangunan Atas</string>
+    <string name="a_lendutan_berlebihan_sewaktu_lalu_lintas_lewat_di_atas_jembatan">a. Lendutan berlebihan sewaktu lalu lintas lewat di atas jembatan</string>
+    <string name="b_keretakan_bahan_bangunan_atas">b. Keretakan bahan bangunan atas</string>
+    <string name="c_kerusakan_berupa_pelepasan_bahan">c. Kerusakan berupa pelepasan bahan (gompal, delaminasi, karat, atau busuk)</string>
+    <string name="d_lepas_longgar_sistem_sambungan">d. Lepas/longgar sistem sambungan</string>
+    <string name="e_rusaknya_elemen_penahan_struktur_kabel">e. Rusaknya elemen penahan struktur kabel</string>
+    <string name="g_pergeseran_bangunan_atas_yang_ekstrim">g. Pergeseran bangunan atas yang ekstrim</string>
+    <string name="h_lepasnya_ikatan_penahan_gempa">h. Lepasnya ikatan penahan gempa</string>
+    <string name="i_sampah_pada_elemen_rangka_baja">i. Sampah pada elemen rangka baja</string>
+    <string name="j_rembesan_air_bangunan_atas">j. Rembesan air bangunan atas</string>
+    <string name="k_rembesan_rembesan_air_bagian_bawah_lantai">k. Rembesan Rembesan air bagian bawah lantai</string>
+    <string name="l_tidak_berfungsinya_elemen_elemen_drainase">l. Tidak berfungsinya elemen-elemen drainase</string>
+    <string name="siar_muai">6. Siar Muai</string>
+    <string name="a_beda_tinggi_antara_elevansi_jalan_pendekatandengan_elevansi_lantai_jembatan">a. Beda tinggi antara elevansi jalan pendekatandengan elevansi lantai jembatan</string>
+    <string name="b_hilang_elemen_sambungan_siar_muai">b. Hilang elemen sambungan siar-muai</string>
+    <string name="c_tidak_berfungsinya_sambungan_siar_muai">c. Tidak berfungsinya sambungan siar-muai</string>
+    <string name="_3_fondasi">3. Fondasi</string>
+    <string name="a_penurunan_atau_deformasi">a. Penurunan atau deformasi</string>
+    <string name="b_retak_pada_bagian_fondasi">b. Retak pada bagian fondasi</string>
+    <string name="c_kerusakan_berupa_lepasnya_bahan_fondasi_gompal_delaminasi_karat_atau_busuk">c. Kerusakan berupa lepasnya bahan fondasi (gompal, delaminasi, karat, atau busuk)</string>
+    <string name="d_lepas_rusaknya_sistem_perlindungan_cat_galvanis_proteksi_katodik">d. Lepas/rusaknya sistem perlindungan (cat, galvanis, proteksi katodik)</string>
+    <string name="_7_perletakan">7. Perletakan</string>
+    <string name="a_tidak_lengkapnya_elemen_perletakan">a. Tidak lengkapnya elemen perletakan</string>
+    <string name="b_pergerakan_pergeseran_landasan_ekstrim">b. Pergerakan/pergeseran landasan ekstrim</string>
+    <string name="c_keutuhan_sistem_pendukung_landasan_i">c. keutuhan sistem pendukung landasan :\ni) bantalan mortar; ii) batang pengikat, dll</string>
+    <string name="keselamatan_jembatan">Keselamatan Jemabatan</string>
+    <string name="a_ketidaklengkapan_elemen">a. Ketidaklengkapan elemen</string>
+    <string name="_1_sandaran">1. Sandaran</string>
+    <string name="b_longgar_hilang_sistem_sambungan">b. Longgar/ hilang sistem sambungan</string>
+    <string name="rambu_dan_tanda">2. Rambu dan Tanda</string>
+    <string name="_3_penangkal_petir">3. Penangkal Petir</string>
+    <string name="b_tidak_berfungsinya_elemen">b. Tidak berfungsinya elemen</string>
+    <string name="c_longgar_hilang_sistem_sambungan">c. Longgar/ hilang sistem sambungan</string>
+    <string name="d_kerusakan_berupa_pelepasan_bahan_gompal_delaminasi_karat_atau_busuk">d. Kerusakan berupa pelepasan bahan\n(gompal, delaminasi, karat, atau busuk)</string>
+    <string name="_4_smks">4. SMKS</string>
+    <string name="kenyamanan_jembatan">Kenyamanan Jembatan</string>
+    <string name="_1_sistem_lantai">1. Sistem Lantai</string>
+    <string name="a_kerataan_permukaan_pada_lapis_permukaan">a. Kerataan permukaan pada lapis permukaan</string>
+    <string name="_2_bangunan_atas">2. Bangunan atas</string>
+    <string name="a_getaran_yang_mengganggu_kenyamanan_kendaraan_dan_pejalan_kaki">a. Getaran yang mengganggu kenyamanan\nkendaraan dan pejalan kaki</string>
+    <string name="_3_jalan_pendekat">3. Jalan Pendekat</string>
+    <string name="a_tidak_berfungsinya_drainase_jalan_pendekat">a. Tidak berfungsinya drainase jalan pendekat</string>
+    <string name="pemeliharaan_rehabilitasi_penggantian_dan_pembangunan">Pemeliharaan, Rehabilitasi, Penggantian, dan Pembangunan</string>
+    <string name="_1_pemeliharaan_rutin">1. Pemeliharaan Rutin</string>
+    <string name="a_pembuatan_jalan_akses">a. Pembuatan jalan akses</string>
+    <string name="b_pembersihan_secara_umum">b. Pembersihan secara umum</string>
+    <string name="c_pengecatan_sederhana">c. Pengecatan sederhana</string>
+    <string name="d_penanganan_kerusakan_ringan">d. Penanganan kerusakan ringan</string>
+    <string name="_2_pemeliharaan_berkala">2. Pemeliharaan berkala</string>
+    <string name="a_pengecatan_ulang">a. Pengecatan ulang</string>
+    <string name="b_penggantian_lapisan_permukaan">b. Penggantian lapisan permukaan</string>
+    <string name="c_penggantian_lantai_kayu">c. Penggantian lantai kayu</string>
+    <string name="d_penggantian_kayu_jalur_roda_kendaraan">d. Penggantian kayu jalur roda kendaraan</string>
+    <string name="e_pembersihan_keseluruhan_jembatan">e. Pembersihan keseluruhan jembatan</string>
+    <string name="f_pemeliharaan_peletakan_landasan">f. Pemeliharaan peletakan/landasan;</string>
+    <string name="g_penggantian_sambungan_siar_muai">g. Penggantian sambungan siar-muai</string>
+    <string name="h_perbaikan_keretakan_pasangan_batu_bata">h. Perbaikan keretakan pasangan batu/bata</string>
+    <string name="i_penggatian_elemen_elemen_kecil">i. Penggatian elemen-elemen kecil</string>
+    <string name="j_perbaikan_tiang_dan_sandaran">j. Perbaikan tiang dan sandaran</string>
+    <string name="k_perawatan_bagian_bagian_yang_bergerak">k. Perawatan bagian-bagian yang bergerak</string>
+    <string name="l_perkuatan_skala_elemen_struktural_jembatan">l. Perkuatan skala elemen struktural jembatan</string>
+    <string name="m_perbaikan_longsor_dan_erosi_tebing">m. Perbaikan longsor dan erosi tebing</string>
+    <string name="n_perbaikan_sederhana_bangunan_pengaman">n. Perbaikan sederhana bangunan pengaman</string>
+    <string name="_3_rehabilitasi">3. Rehabilitasi</string>
+    <string name="a_penggantian_skala_komponen_jembatan">a. Penggantian skala komponen jembatan</string>
+    <string name="b_modifikasi_bangunan_atas_bawah_fondasi">b. Modifikasi bangunan atas/bawah, fondasi</string>
+    <string name="c_perubahan_sistem_siar_muai_dan_perletakan">c. Perubahan sistem siar-muai dan perletakan</string>
+    <string name="_4_penggantian">4. Penggantian</string>
+    <string name="a_bangunan_atas">a. Bangunan Atas</string>
+    <string name="b_bangunan_bawah">b. Bangunan Bawah</string>
+    <string name="_5_pelebaran_duplikasi_jembatan">5. Pelebaran/Duplikasi Jembatan</string>
+    <string name="back">Kembali</string>
+    <string name="_1_ketidakbersihan_sekitar_jembatan_sampah_dan_limbah">1. Ketidakbersihan sekitar jembatan (sampah dan limbah)</string>
+    <string name="_2_ketidaksesuaian_peruntukan_jembatan">2. Ketidaksesuaian peruntukan jembatan</string>
+    <string name="_3_aktivitas_yang_mengganggu_pelayanan">3. Aktivitas yang mengganggu pelayanan jembatan \n(Gangguan keamanan, vandalisme, perselisihan adat, perlintasan\nbinatang liar)</string>
+    <string name="kondisi_sosial_kemasyarakatan">Kondisi Sosial Kemasyarakatan</string>
+    <string name="elemen">Elemen</string>
+    <string name="kode">Kode</string>
+    <string name="uraiain">Uraiain</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="a_p_b">A/P/B</string>
+    <string name="x">X</string>
+    <string name="y">Y</string>
+    <string name="z">Z</string>
+    <string name="alasan_untuk_melakukan_tindakan_darurat">Alasan untuk melakukan tindakan darurat</string>
+    <string name="elemen_elemen_yang_memerlukan_tindakan_darurat">Elemen-elemen yang memerlukan tindakan darurat</string>
+    <string name="tindakan_darurat">Tindakan Darurat</string>
+    <string name="apakah_tindakan_darurat_disarankan">Apakah tindakan darurat disarankan?</string>
+    <string name="apakah_kondisi_jembatan_sesuai_dengan">Apakah kondisi jembatan sesuai dengan Pemeriksaan Inventarisasi terakhir?</string>
+    <string name="apakah_kondisi_jembatan_sesuai_dengan_pemeriksaan_detail_terakhir">Apakah kondisi jembatan sesuai dengan Pemeriksaan Detail terakhir?</string>
+    <string name="tolong_lengkapi_formnya">Tolong Lengkapi Formnya !</string>
+    <string name="data_jembatan_berhasil_disimpan">Data Jembatan Berhasil Disimpan</string>
+    <string name="no_jembatan_1_s">No Jembatan : %1$s</string>
+    <string name="_1_ruas_jalan_nasional_dan_provinsi_100">1. Ruas Jalan Nasional dan Provinsi : %1$s</string>
+    <string name="_2_ruas_jalan_kabupaten_dan_kota_122">2. Ruas Jalan Kabupaten dan Kota : %1$s</string>
+    <string name="_3_ruas_jalan_tol_122">3. Ruas Jalan Tol : %1$s</string>
+    <string name="tanggal_pembangunan_12_10_2020">Tanggal Pembangunan : %1$s</string>
+    <string name="alamat_1_s">Alamat : %1$s</string>
+    <string name="provinsi_kabupaten_kota_1_s">Provinsi/Kabupaten/Kota : %1$s</string>
+    <string name="panjang_jembatan_1_s">Panjang Jembatan : %1$s</string>
+    <string name="luas_jembatan_1_s">Luas Jembatan : %1$s</string>
+    <string name="bahan_jembatan_1_s">Bahan Jembatan : %1$s</string>
+    <string name="pemeriksaan_terakhir_1_s">Pemeriksaan terakhir: %1$s</string>
+    <string name="yakin_ingin_keluar_dari_halaman_form">Yakin ingin keluar dari halaman Form?</string>
+    <string name="yakin_ingin_menyimpan_form_ini">Yakin ingin menyimpan form ini?</string>
+    <string name="berhasil_menambahkan_form_pemeriksaan_jembatan">Berhasil Menambahkan Form Pemeriksaan Jembatan</string>
+    <string name="wah_maaf_datanya_belum_ada">Wah.. Maaf, Datanya belum ada</string>
+    <string name="belum_ada_pemeriksaan">Belum ada pemeriksaan..</string>
+    <string name="berhasil_disimpan">Berhasil disimpan!</string>
+    <string name="maaf_tidak_ada_aplikasi_yang_mensupport_aksi_ini">Maaf tidak ada aplikasi yang mensupport aksi ini..</string>
+    <string name="yakin_ingin_menampilkan_lokasi_di_map">Yakin ingin Menampilkan lokasi di map?</string>
+    <string name="berhasil_mengupdate_form_pemeriksaan_jembatan">Berhasil Mengupdate Form Pemeriksaan Jembatan</string>
+
+
+    <string-array name="years_list">
+        <item>Pilih Tahun</item>
+        <item>2023</item>
+        <item>2022</item>
+        <item>2021</item>
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+    </string-array>
+
+    <string-array name="months_list">
+        <item>Pilih Bulan</item>
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Maret</item>
+        <item>April</item>
+        <item>Mei</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>Agustus</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Desember</item>
+    </string-array>
+
+
+    <string-array name="bridge_material_list">
+        <item>Pilih Material</item>
+        <item>Kayu</item>
+        <item>Besi</item>
+        <item>Baja</item>
+    </string-array>
+
+    <string-array name="intent_photo_options">
+        <item>Galeri</item>
+        <item>Kamera</item>
+    </string-array>
+
+    <string-array name="intent_photo">
+        <item>Galeri</item>
+        <item>Kamera Drone</item>
+        <item>Kamera HP</item>
+    </string-array>
+</resources>

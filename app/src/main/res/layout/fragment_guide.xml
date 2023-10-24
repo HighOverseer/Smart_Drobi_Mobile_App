@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="30dp"
+    tools:context=".ui.home.toplevelview.GuideFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="-8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_pupr"
+        tools:viewBindingIgnore="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_guide_info"
+        style="@style/MyTextView.SansSerif.Medium.Black.H3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/panduan_pemeriksaan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        tools:ViewBindingIgnore="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_guide"
+        style="@style/MyTextView.SansSerif.Medium.Black.H6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/tv_panduan_bg"
+        android:inputType="textMultiLine"
+        android:justificationMode="inter_word"
+        android:lineSpacingMultiplier="1.75"
+        android:minLines="16"
+        android:paddingStart="17dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="17dp"
+        android:text="@string/panduan_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_guide_info" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

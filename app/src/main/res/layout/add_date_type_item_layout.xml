@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="4dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_info"
+        style="@style/MyTextView.SansSerif.Medium.Black.H6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Tanggal\nPemeriksaan"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:viewBindingIgnore="true" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_date"
+        style="@style/EditTextFormStyle.Date"
+        android:layout_width="0dp"
+        android:maxLength="10"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingVertical="6dp"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_info"
+        app:layout_constraintTop_toTopOf="@id/tv_info"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+</androidx.constraintlayout.widget.ConstraintLayout>

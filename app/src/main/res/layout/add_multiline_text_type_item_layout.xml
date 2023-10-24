@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_info"
+        style="@style/MyTextView.SansSerif.Medium.Black.H7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/catatan"
+        tools:viewBindingIgnore="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_input"
+        style="@style/EditTextFormStyle.rad10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="viewStart"
+        android:gravity="top|start"
+        android:minLines="10"
+        android:maxLength="200"
+        app:layout_constraintEnd_toEndOf="@id/tv_info"
+        app:layout_constraintStart_toStartOf="@id/tv_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_info"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

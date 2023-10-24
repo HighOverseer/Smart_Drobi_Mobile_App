@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_check_form_nav"
+    app:startDestination="@id/addBridgeCheckFragment2">
+
+    <fragment
+        android:id="@+id/addBridgeCheckFragment2"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.AddBridgeCheckFragment"
+        android:label="fragment_add_bridge_check"
+        tools:layout="@layout/fragment_add_base_form" >
+
+        <action
+            android:id="@+id/action_addBridgeCheckFragment2_to_bridgeSecurityFormFragment"
+            app:destination="@id/bridgeSecurityFormFragment" />
+        <action
+            android:id="@+id/action_addBridgeCheckFragment2_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/bridgeSecurityFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeSecurityFormFragment"
+        android:label="fragment_bridge_security_form"
+        tools:layout="@layout/fragment_add_base_form" >
+        <action
+            android:id="@+id/action_bridgeSecurityFormFragment_to_bridgeSafetyFormFragment"
+            app:destination="@id/bridgeSafetyFormFragment" />
+        <action
+            android:id="@+id/action_bridgeSecurityFormFragment_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bridgeSafetyFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeSafetyFormFragment"
+        android:label="BridgeSafetyFormFragment"
+        tools:layout="@layout/fragment_add_base_form">
+        <action
+            android:id="@+id/action_bridgeSafetyFormFragment_to_bridgeConvenienceFormFragment"
+            app:destination="@id/bridgeConvenienceFormFragment" />
+        <action
+            android:id="@+id/action_bridgeSafetyFormFragment_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bridgeConvenienceFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeConvenienceFormFragment"
+        android:label="BridgeConvenienceFormFragment"
+        tools:layout="@layout/fragment_add_base_form">
+        <action
+            android:id="@+id/action_bridgeConvenienceFormFragment_to_bridgeMaintenanceFormFragment"
+            app:destination="@id/bridgeMaintenanceFormFragment" />
+        <action
+            android:id="@+id/action_bridgeConvenienceFormFragment_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/bridgeMaintenanceFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeMaintenanceFormFragment"
+        android:label="BridgeMaintenanceFormFragment"
+        tools:layout="@layout/fragment_add_base_form">
+        <action
+            android:id="@+id/action_bridgeMaintenanceFormFragment_to_bridgeSocialFormFragment"
+            app:destination="@id/bridgeSocialFormFragment" />
+        <action
+            android:id="@+id/action_bridgeMaintenanceFormFragment_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/bridgeSocialFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeSocialFormFragment"
+        android:label="BridgeSocialFormFragment"
+        tools:layout="@layout/fragment_add_base_form">
+        <action
+            android:id="@+id/action_bridgeSocialFormFragment_to_bridgeEmergencyFormFragment"
+            app:destination="@id/bridgeEmergencyFormFragment" />
+        <action
+            android:id="@+id/action_bridgeSocialFormFragment_to_droneCamCaptureActivity"
+            app:destination="@id/droneCamCaptureActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/bridgeEmergencyFormFragment"
+        android:name="com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeEmergencyFormFragment"
+        android:label="BridgeEmergencyFormFragment"
+        tools:layout="@layout/fragment_add_base_form"/>
+    <activity
+        android:id="@+id/droneCamCaptureActivity"
+        android:name="com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamCaptureActivity"
+        android:label="activity_drone_cam_capture"
+        tools:layout="@layout/activity_drone_cam_capture" />
+
+</navigation>

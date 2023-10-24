@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/grey_45"/>
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/ic_add_v2"
+        android:start="21dp"
+        android:end="21dp"
+        android:top="21dp"
+        android:bottom="21dp"
+        />
+</layer-list>
