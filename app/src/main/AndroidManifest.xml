@@ -52,7 +52,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDr8rJCSDrhb5sRxqIXr_QsCLX9XtrxLt0" />
+            android:value="${GMAP_KEY}" />
 
         <activity
             android:name=".ui.addbridge.AddBridgeFormActivity"
