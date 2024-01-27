@@ -64,7 +64,6 @@ class DetailBridgeCheckPreviewAdapter(
         context: Context,
         stringDate: String
     ): String {
-
         var monthsPosition = 1
         try {
             monthsPosition = stringDate.split("/")[1].toInt()
