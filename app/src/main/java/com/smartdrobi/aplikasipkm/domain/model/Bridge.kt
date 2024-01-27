@@ -1,13 +1,13 @@
 package com.smartdrobi.aplikasipkm.domain.model
 
 
-private var currentIncrementId = 100
+/*private var currentIncrementId = 100
     get(){
         field += 1
         return field
-    }
+    }*/
 data class Bridge(
-    val id:Int = currentIncrementId,
+    val id:Int = 0,
     val imagePath:String,
     val name:String,
     val nationalNumber:Int,

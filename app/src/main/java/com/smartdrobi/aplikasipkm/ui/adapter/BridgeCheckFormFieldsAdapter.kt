@@ -420,15 +420,15 @@ class BridgeCheckFormFieldsAdapter(
                         val fieldPosition = adapterPosition
                         adapter = ImageCollectionAdapter(
                             currField.listImagePath,
-                            spanCount,
-                            4,
+                            /*spanCount,
+                            4,*/
                             fieldPosition,
                             callback = it
                         )
                         layoutManager = GridLayoutManager(
                             context,
-                            spanCount,
-                            GridLayoutManager.HORIZONTAL,
+                            4/*spanCount*/,
+                            GridLayoutManager.VERTICAL,
                             false
                         )
                     }

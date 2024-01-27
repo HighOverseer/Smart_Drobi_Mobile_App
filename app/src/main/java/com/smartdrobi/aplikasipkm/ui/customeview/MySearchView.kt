@@ -59,13 +59,13 @@ class MySearchView:SearchView{
         editText.onFocusChangeListener = listener
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (!hasFocus() && query.isEmpty()){
             isActivated = false
             mPaint.color = colorGrey
-            canvas?.drawText(hintText, 11f.toDp(), 18.5f.toDp(), mPaint)
-            canvas?.drawBitmap(
+            canvas.drawText(hintText, 11f.toDp(), 18.5f.toDp(), mPaint)
+            canvas.drawBitmap(
                 vectorToBitmap(
                     R.drawable.ic_search,
                     ResourcesCompat.getColor(resources, R.color.blue, null)
@@ -76,9 +76,9 @@ class MySearchView:SearchView{
             )
         }else if(hasFocus()){
             isActivated = true
-            if (query.isBlank()){
+            if (query.isEmpty()){
                 mPaint.color = colorGrey
-                canvas?.drawText(hintText, 26f.toDp(), 18.5f.toDp(), mPaint)
+                canvas.drawText(hintText, 26f.toDp(), 18.5f.toDp(), mPaint)
             }
         }
     }

@@ -3,6 +3,8 @@ package com.smartdrobi.aplikasipkm.ui.adapter
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.smartdrobi.aplikasipkm.R
@@ -12,17 +14,19 @@ import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 
 class ImageCollectionAdapter(
     images:List<String?>,
-    spanCount:Int,
-    columnCount:Int,
+    /*spanCount:Int,
+    columnCount:Int,*/
     private val fieldPosition: Int,
     private val parentFieldPositionIfAny: Int = -1,
     private val callback:OnImageCollectionCallback
 ):RecyclerView.Adapter<ImageCollectionAdapter.ImageCollectionViewHolder>() {
 
-    private val listImages:List<String?>
-    private var plusSignPos:Int = -1
+    private val listImages:List<String?> = images.toMutableList().also { it.add(null) }
+    //private var plusSignPos:Int = -1
 
-    init {
+
+
+/*    init {
         listImages = images.toMutableList().let {
             it.add(null)
 
@@ -43,7 +47,7 @@ class ImageCollectionAdapter(
             }
             fixImages
         }
-    }
+    }*/
     class ImageCollectionViewHolder(
         val binding:ImageItemLayoutBinding,
     ):RecyclerView.ViewHolder(binding.root)
@@ -69,24 +73,38 @@ class ImageCollectionAdapter(
                     context,
                     currImage
                 )
-            }else if(position == plusSignPos){
-                val addSignDrawable = getDrawable(
-                    resources, R.drawable.btn_add_image_bg
-                )
+            }else{
                 holder.binding.ivImage.apply {
+                    val addSignDrawable = getDrawable(
+                        resources,
+                        R.drawable.btn_add_image_bg
+                    )
                     setBackgroundDrawable(
                         addSignDrawable
                     )
-                    setOnClickListener {
-                        showImageChooser()
-                    }
+                    setOnClickListener(onImageChooserClickListener)
                 }
-
             }
+            /*else if(position == plusSignPos){
+                                val addSignDrawable = getDrawable(
+                                    resources, R.drawable.btn_add_image_bg
+                                )
+                                holder.binding.ivImage.apply {
+                                    setBackgroundDrawable(
+                                        addSignDrawable
+                                    )
+                                    setOnClickListener {
+                                        showImageChooser()
+                                    }
+                                }
+
+                            }*/
         }catch (e:Exception){
             e.printStackTrace()
         }
     }
+
+    private val onImageChooserClickListener = OnClickListener { showImageChooser() }
 
     private fun showImageChooser(){
         val isParentAChild = parentFieldPositionIfAny != -1

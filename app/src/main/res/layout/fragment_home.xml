@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="30dp"
         android:paddingBottom="206dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <ImageButton
         android:id="@+id/ib_add"

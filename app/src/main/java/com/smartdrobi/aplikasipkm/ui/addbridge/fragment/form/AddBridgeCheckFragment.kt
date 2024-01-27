@@ -1,6 +1,7 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form
 
 import android.app.DatePickerDialog
+import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import com.smartdrobi.aplikasipkm.R
@@ -13,6 +14,7 @@ class AddBridgeCheckFragment
     : BaseFormFragment(FormPage.FIRST),
     BridgeCheckFormFieldsAdapter.OnTextDateCallback,
     BridgeCheckFormFieldsAdapter.OnTextCallback{
+
 
     override fun showDatePicker(fieldPosition: Int) {
         binding?.apply {

@@ -199,6 +199,9 @@
     <string name="maaf_tidak_ada_aplikasi_yang_mensupport_aksi_ini">Maaf tidak ada aplikasi yang mensupport aksi ini..</string>
     <string name="yakin_ingin_menampilkan_lokasi_di_map">Yakin ingin Menampilkan lokasi di map?</string>
     <string name="berhasil_mengupdate_form_pemeriksaan_jembatan">Berhasil Mengupdate Form Pemeriksaan Jembatan</string>
+    <string name="connect">Connect</string>
+    <string name="server_ip">Server/IP</string>
+    <string name="drone_setting">Drone Setting</string>
 
 
     <string-array name="years_list">

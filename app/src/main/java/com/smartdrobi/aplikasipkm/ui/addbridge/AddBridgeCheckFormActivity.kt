@@ -2,29 +2,30 @@ package com.smartdrobi.aplikasipkm.ui.addbridge
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.longdo.mjpegviewer.MjpegView
 import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
-import com.smartdrobi.aplikasipkm.ViewModelFactory
 import com.smartdrobi.aplikasipkm.databinding.ActivityAddBridgeCheckFormBinding
 import com.smartdrobi.aplikasipkm.domain.helper.AUTHORITY
 import com.smartdrobi.aplikasipkm.domain.helper.createCustomTempFile
+import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogConfirmation
 import com.smartdrobi.aplikasipkm.domain.helper.uriToFile
 import com.smartdrobi.aplikasipkm.domain.model.FieldPositionIntentPhoto
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.IntentPhotoInterface
 import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BaseFormFragment
 import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
+import com.smartdrobi.aplikasipkm.ui.addbridge.uievent.CheckFormUiEvent
 import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
 import com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamCaptureActivity
 import com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamRecordActivity
@@ -33,18 +34,21 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 
-class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
+class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
 
     private lateinit var viewModel: AddBridgeCheckFormViewModel
 
     private lateinit var navController: NavController
-    private lateinit var binding:ActivityAddBridgeCheckFormBinding
+    private lateinit var binding: ActivityAddBridgeCheckFormBinding
 
     //for saving image path intent camera
-    private var currSelectedPhotoPath:String?=null
+    private var currSelectedPhotoPath: String? = null
 
     //just for intent gallery and camera (not for camera drone yet)
-    private var fieldPositionIntentPhoto: FieldPositionIntentPhoto?=null
+    private var fieldPositionIntentPhoto: FieldPositionIntentPhoto? = null
+
+    //for saving state when vm just init for first time, so navigation is in sync
+    private var isViewModelStartingSession:Boolean = false
 
     private var uriToFileJob: Job? = null
 
@@ -53,10 +57,20 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         super.onCreate(savedInstanceState)
         binding = ActivityAddBridgeCheckFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = obtainViewModel()
         initRetrieveState(savedInstanceState)
+        viewModel = obtainViewModel<
+                AddBridgeCheckFormViewModel.ViewModelFactory,
+                AddBridgeCheckFormViewModel
+                >(this, applicationContext, intent?.extras)
+
+        /*initRetrieveState(savedInstanceState)
         setUpNavigation()
+        initViewDroneCam()*/
         initViewDroneCam()
+        observeUiEvents()
+        setUpNavigation()
+
+
 
         binding.apply {
             btnCancel.setOnClickListener {
@@ -68,7 +82,9 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
             }
 
             btnBack.setOnClickListener {
-                navController.popBackStack()
+                navController.navigateUp()
+                //sus
+                //navController.popBackStack()
             }
 
             containerDroneCam.setOnClickListener {
@@ -77,12 +93,37 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         }
     }
 
-    private fun obtainViewModel(): AddBridgeCheckFormViewModel {
-        val factory = ViewModelFactory.getInstance(intent.extras)
-        return ViewModelProvider(this, factory)[AddBridgeCheckFormViewModel::class.java]
+    private fun observeUiEvents() {
+        viewModel.uiEvent.observe(this){ event ->
+            when(event){
+                is CheckFormUiEvent.StartingSession -> {
+                    event{
+                        binding.progressBar.isVisible = true
+                        isViewModelStartingSession = true
+                    }
+                }
+                is CheckFormUiEvent.NotifyWhenFragmentReadyToInit -> {
+                    event{
+                        if(isViewModelStartingSession){
+                            binding.progressBar.isVisible = false
+                            isViewModelStartingSession = false
+                            setUpNavigation()
+                        }
+                    }
+                }
+                is CheckFormUiEvent.EndingSession -> {
+                    event{
+                        setResult(event.resultCode)
+                        finish()
+                    }
+                }
+                else -> return@observe
+            }
+        }
     }
 
-    private fun initRetrieveState(savedInstanceState: Bundle?){
+
+    private fun initRetrieveState(savedInstanceState: Bundle?) {
 
         savedInstanceState?.let {
             fieldPositionIntentPhoto = it.getDataParcel(
@@ -90,31 +131,39 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
                 FieldPositionIntentPhoto::class.java
             )
             currSelectedPhotoPath = it.getString(IMAGE_PATH_SAVE_KEY, null)
+            isViewModelStartingSession = it.getBoolean(VIEW_MODEL_SESSION_SAVE_KEY, false)
         }
     }
 
-    private fun goToDroneCamRecord(){
+    private fun goToDroneCamRecord() {
         val intent = Intent(this, DroneCamRecordActivity::class.java)
         startActivity(intent)
     }
 
-    private fun setUpNavigation(){
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_framgent) as NavHostFragment
-        navController = navHostFragment.navController
+    private fun setUpNavigation() {
+        if(!isViewModelStartingSession){
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_framgent) as NavHostFragment
+            navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener(
-            onDestinationChangedListener
-        )
+            navController.removeOnDestinationChangedListener(
+                onDestinationChangedListener
+            )
+            navController.addOnDestinationChangedListener(
+                onDestinationChangedListener
+            )
 
-        binding.btnContinue.setOnClickListener {
-            val currDestinationId = navController.currentDestination?.id ?:return@setOnClickListener
-            goToNextPage(currDestinationId)
+            binding.btnContinue.setOnClickListener {
+                val currDestinationId =
+                    navController.currentDestination?.id ?: return@setOnClickListener
+                goToNextPage(currDestinationId)
+            }
         }
     }
 
-    private fun goToNextPage(currDestinationId:Int){
-        val nextDestinationId = when(currDestinationId){
-            R.id.addBridgeCheckFragment2 -> { R.id.action_addBridgeCheckFragment2_to_bridgeSecurityFormFragment }
+    private fun goToNextPage(currDestinationId: Int) {
+        val nextDestinationId = when (currDestinationId) {
+            R.id.addBridgeCheckFragment2 -> R.id.action_addBridgeCheckFragment2_to_bridgeSecurityFormFragment
             R.id.bridgeSecurityFormFragment -> R.id.action_bridgeSecurityFormFragment_to_bridgeSafetyFormFragment
             R.id.bridgeSafetyFormFragment -> R.id.action_bridgeSafetyFormFragment_to_bridgeConvenienceFormFragment
             R.id.bridgeConvenienceFormFragment -> R.id.action_bridgeConvenienceFormFragment_to_bridgeMaintenanceFormFragment
@@ -131,13 +180,14 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
                 )
                 return
             }
+
             else -> return
         }
         navigate(nextDestinationId)
     }
 
 
-    private fun initViewDroneCam(){
+    private fun initViewDroneCam() {
         binding.apply {
             viewDroneCam.apply {
                 mode = MjpegView.MODE_STRETCH
@@ -157,20 +207,20 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         }
     }
 
-    private fun setBtnNavigationForNextDest(newDestinationId:Int){
+    private fun setBtnNavigationForNextDest(newDestinationId: Int) {
         binding.apply {
             val isFirsPageForm = newDestinationId == R.id.addBridgeCheckFragment2
             val isLastPageForm = newDestinationId == R.id.bridgeEmergencyFormFragment
 
-            if (isFirsPageForm){
+            if (isFirsPageForm) {
                 btnBack.visibility = View.INVISIBLE
                 btnBack.isEnabled = false
                 btnContinue.text = getText(R.string.selanjutnya)
-            }else if(isLastPageForm){
+            } else if (isLastPageForm) {
                 btnBack.visibility = View.VISIBLE
                 btnBack.isEnabled = true
                 btnContinue.text = getText(R.string.simpan)
-            }else{
+            } else {
                 btnBack.visibility = View.VISIBLE
                 btnBack.isEnabled = true
                 btnContinue.text = getText(R.string.selanjutnya)
@@ -178,8 +228,8 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         }
     }
 
-    private fun initFormFieldForNextDest(newDestinationId: Int){
-        val nextDestFormPage = when(newDestinationId){
+    private fun initFormFieldForNextDest(newDestinationId: Int) {
+        val nextDestFormPage = when (newDestinationId) {
             R.id.addBridgeCheckFragment2 -> BaseFormFragment.FormPage.FIRST
             R.id.bridgeConvenienceFormFragment -> BaseFormFragment.FormPage.CONVENIENCE
             R.id.bridgeMaintenanceFormFragment -> BaseFormFragment.FormPage.MAINTENANCE
@@ -193,12 +243,11 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
     }
 
 
-
     private val captureDroneCamLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
+    ) { result ->
         result.data?.extras?.let {
-            when(result.resultCode){
+            when (result.resultCode) {
                 RESULT_WITHOUT_PARENT -> {
 
                     val parcelData = it.getDataParcel(
@@ -214,6 +263,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
                     )
 
                 }
+
                 RESULT_WITH_PARENT -> {
 
                     val parcelData = it.getDataParcel(
@@ -236,18 +286,18 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
     }
 
     @Suppress("DEPRECATION")
-    private fun <T>Bundle.getDataParcel(
-        key:String,
-        clazz:Class<T>
-    ): T?{
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+    private fun <T> Bundle.getDataParcel(
+        key: String,
+        clazz: Class<T>
+    ): T? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getParcelable(key, clazz)
-        }else{
+        } else {
             getParcelable(key)
         }
     }
 
-    private fun navigate(actionId:Int){
+    private fun navigate(actionId: Int) {
         navController.navigate(
             actionId
         )
@@ -255,8 +305,8 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
 
     override fun openGallery(
         fieldPosition: Int,
-        parentFieldPosition:Int
-    ){
+        parentFieldPosition: Int
+    ) {
         Intent().apply {
             action = Intent.ACTION_GET_CONTENT
             type = "image/*"
@@ -272,9 +322,9 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
     }
 
     override fun openCamera(
-        fieldPosition:Int,
-        parentFieldPosition:Int
-    ){
+        fieldPosition: Int,
+        parentFieldPosition: Int
+    ) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
 
@@ -302,7 +352,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
             DroneCamCaptureActivity.FIELD_POSITION_KEY,
             fieldPosition
         )
-        if (parentFieldPosition != -1){
+        if (parentFieldPosition != -1) {
             intent.putExtra(
                 DroneCamCaptureActivity.PARENT_FIELD_POSITION_KEY,
                 parentFieldPosition
@@ -314,8 +364,8 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
 
     private val intentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
-        if (result.resultCode == RESULT_OK){
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
             val lastSavePosition = fieldPositionIntentPhoto ?: return@registerForActivityResult
 
             val fieldPosition = lastSavePosition.fieldPosition
@@ -336,7 +386,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
                     if (file.exists()) file.delete()*/
 
             }
-        }else if(result.resultCode == RESULT_CANCELED){
+        } else if (result.resultCode == RESULT_CANCELED) {
             result.data?.data?.let { imageUri ->
                 val file = imageUri.path?.let { File(it) }
                 file?.delete()
@@ -346,8 +396,8 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
 
     private val intentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
-        if (result.resultCode == RESULT_OK){
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
             val lastSavePosition = fieldPositionIntentPhoto ?: return@registerForActivityResult
 
             val fieldPosition = lastSavePosition.fieldPosition
@@ -404,7 +454,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
     private fun saveFieldPosition(
         fieldPosition: Int,
         parentFieldPosition: Int
-    ){
+    ) {
         fieldPositionIntentPhoto = FieldPositionIntentPhoto(
             fieldPosition,
             parentFieldPosition
@@ -419,10 +469,13 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         currSelectedPhotoPath?.let {
             outState.putString(IMAGE_PATH_SAVE_KEY, it)
         }
+        isViewModelStartingSession.let {
+            outState.putBoolean(VIEW_MODEL_SESSION_SAVE_KEY, it)
+        }
 
     }
 
-    companion object{
+    companion object {
         const val RESULT_WITH_PARENT = 10
         const val RESULT_WITHOUT_PARENT = 100
 
@@ -432,6 +485,8 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface{
         const val FIELDS_SAVE_KEY = "save"
 
         const val IMAGE_PATH_SAVE_KEY = "image"
+
+        const val VIEW_MODEL_SESSION_SAVE_KEY = "session"
 
         const val ADD_MODE_KEY = "add"
         const val MODE_ID_KEY = "mode_id"

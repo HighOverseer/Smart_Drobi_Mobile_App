@@ -1,16 +1,15 @@
 
-
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.smartdrobi.aplikasipkm"
-    compileSdk = 33
+    compileSdk = 34
 
 
     defaultConfig {
@@ -33,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     buildFeatures{
@@ -70,6 +69,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     implementation("com.perthcpe23.dev:android-mjpeg-view:1.1.2")
+
+    implementation("androidx.room:room-runtime:2.6.0")
+    ksp("androidx.room:room-compiler:2.6.0")
+    implementation("androidx.room:room-ktx:2.6.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
 
     //implementation("io.reactivex.rxjava3:rxandroid:3.0.2")

@@ -168,6 +168,10 @@
         <item name="android:background">@drawable/field_form_grey_bg</item>
     </style>
 
+    <style name="EditTextFormStyle.Grey.rad10">
+        <item name="android:background">@drawable/field_form_grey_rad_10_bg</item>
+    </style>
+
     <style name="EditTextFormStyle.Date">
         <item name="android:focusable">false</item>
         <item name="android:cursorVisible">false</item>
@@ -216,6 +220,15 @@
         <item name="android:textColor">@color/white_100</item>
         <item name="android:fontFamily">@font/sans_medium</item>
         <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="BtnConnectStyle">
+        <item name="android:background">@drawable/btn_connect_bg</item>
+        <item name="android:text">@string/back</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white_100</item>
+        <item name="android:fontFamily">@font/sans_medium</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="BtnStartCheckStyle">

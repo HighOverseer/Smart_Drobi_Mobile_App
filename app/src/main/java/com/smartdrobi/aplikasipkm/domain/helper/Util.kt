@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
 import android.text.method.DigitsKeyListener
@@ -21,11 +22,21 @@ import androidx.appcompat.widget.ListPopupWindow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.ConfigurationCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.bumptech.glide.Glide
 import com.smartdrobi.aplikasipkm.R
+import com.smartdrobi.aplikasipkm.data.Repository
+import com.smartdrobi.aplikasipkm.di.Injection
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.adapter.SpAdapter
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -39,10 +50,62 @@ const val JAKARTA_LAT = -6.2293796
 const val JAKARTA_LON = 106.6647046
 const val AUTHORITY = "com.smartdrobi.aplikasipkm"
 
+
+const val DATE_FORMAT_PATTERN = "dd/MM/yyyy"
+
+fun <T> Flow<T>.toStateFlow(scope: CoroutineScope, initialValue:T):StateFlow<T>{
+    return stateIn(
+        scope,
+        SharingStarted.WhileSubscribed(5000L),
+        initialValue
+    )
+}
+
+inline fun <reified T:ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
+    applicationContext: Context
+):T{
+    val constructor = T::class.java.getConstructor(Repository::class.java)
+
+    val factoryInstance = constructor.newInstance(Injection.provideRepository(applicationContext))
+    if (factoryInstance !is T){
+        throw Exception("Error creating ViewModel Factory")
+    }
+
+    return factoryInstance
+}
+
+inline fun <reified T:ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
+    applicationContext: Context,
+    arguments: Bundle
+):T{
+    val constructor = T::class.java.getConstructor(Repository::class.java, Bundle::class.java)
+
+    val factoryInstance = constructor.newInstance(Injection.provideRepository(applicationContext), arguments)
+    if (factoryInstance !is T){
+        throw Exception("Error creating ViewModel Factory")
+    }
+    return factoryInstance
+}
+inline fun <
+        reified U:ViewModelProvider.NewInstanceFactory,
+        reified T:ViewModel>  obtainViewModel(
+    owner: ViewModelStoreOwner,
+    applicationContext: Context,
+    arguments: Bundle? = null
+):T{
+    val factory = if(arguments == null){
+        obtainViewModelFactory<U>(applicationContext)
+    }else {
+        obtainViewModelFactory<U>(applicationContext, arguments)
+    }
+    return ViewModelProvider(owner, factory)[T::class.java]
+}
+
 fun ImageView.loadImage(context: Context, imageUrl:String){
     Glide.with(context)
         .load(imageUrl)
         .into(this)
+
 }
 
 private var numOfPhotos = 0

@@ -161,8 +161,8 @@ class BooleanQuestionsAdapter(
                     rvImages.apply {
                         adapter = ImageCollectionAdapter(
                             currQuestion.listImagePath,
-                            spanCount,
-                            3,
+                            /*spanCount,
+                            3,*/
                             fieldPosition,
                             parentFieldPosition,
                             it
@@ -170,8 +170,8 @@ class BooleanQuestionsAdapter(
 
                         layoutManager = GridLayoutManager(
                             context,
-                            spanCount,
-                            GridLayoutManager.HORIZONTAL,
+                            4/*spanCount*/,
+                            GridLayoutManager.VERTICAL,
                             false
                         )
                     }

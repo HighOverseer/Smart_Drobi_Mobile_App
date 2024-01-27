@@ -100,13 +100,14 @@ abstract class BaseFormFragment(
                             }
                         }
                     }
-                    is CheckFormUiEvent.EndingSession -> {
+                    /*is CheckFormUiEvent.EndingSession -> {
                         event{
                             val activity = requireActivity()
                             activity.setResult(event.resultCode)
                             activity.finish()
                         }
-                    }
+                    }*/
+                    else -> return@observe
                 }
             }
         }

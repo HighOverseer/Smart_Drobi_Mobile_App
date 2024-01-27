@@ -1,11 +1,19 @@
 package com.smartdrobi.aplikasipkm
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.smartdrobi.aplikasipkm.data.Repository
+import com.smartdrobi.aplikasipkm.di.Injection
 import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
+import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeFormViewModel
+import com.smartdrobi.aplikasipkm.ui.home.viewmodel.DetailViewModel
 
-class ViewModelFactory private constructor(): ViewModelProvider.NewInstanceFactory() {
+/*
+class ViewModelFactory private constructor(
+    private val repository: Repository
+): ViewModelProvider.NewInstanceFactory() {
 
     private var args:Bundle? = null
 
@@ -20,10 +28,15 @@ class ViewModelFactory private constructor(): ViewModelProvider.NewInstanceFacto
                 it.isAssignableFrom(AddBridgeCheckFormViewModel::class.java) -> {
                     val currArgs = args ?: return@out
 
-                    return AddBridgeCheckFormViewModel(currArgs) as T
+                    return AddBridgeCheckFormViewModel(repository, currArgs) as T
+                }
+                it.isAssignableFrom(AddBridgeFormViewModel::class.java) -> {
+                    return AddBridgeFormViewModel(repository) as T
+                }
+                it.isAssignableFrom(DetailViewModel::class.java) -> {
+                    return DetailViewModel(repository) as T
                 }
                 else -> return@out
-
             }
         }
         args = null
@@ -35,12 +48,17 @@ class ViewModelFactory private constructor(): ViewModelProvider.NewInstanceFacto
         private var INSTANCE: ViewModelFactory?=null
 
         fun getInstance(
+            applicationContext: Context,
             args:Bundle? = null
         ): ViewModelFactory {
             return INSTANCE?.also {
                 it.setArguments(args)
             } ?: synchronized(ViewModelFactory::class.java){
-                INSTANCE ?: ViewModelFactory().also {
+                INSTANCE ?: ViewModelFactory(
+                    Injection.provideRepository(
+                        applicationContext
+                    )
+                ).also {
                     it.setArguments(args)
                 }
             }.also {
@@ -48,4 +66,4 @@ class ViewModelFactory private constructor(): ViewModelProvider.NewInstanceFacto
             }
         }
     }
-}
+}*/

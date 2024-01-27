@@ -1,10 +1,15 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.smartdrobi.aplikasipkm.data.Repository
+import com.smartdrobi.aplikasipkm.di.Injection
+import com.smartdrobi.aplikasipkm.domain.helper.DATE_FORMAT_PATTERN
 import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.toString
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheck
@@ -23,11 +28,15 @@ import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BaseFormFragment
 import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeEmergencyFormFragment
 import com.smartdrobi.aplikasipkm.ui.addbridge.uistate.CheckFormUiState
 import com.smartdrobi.aplikasipkm.ui.home.HomeActivity
+import com.smartdrobi.aplikasipkm.ui.home.viewmodel.DetailViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.NullPointerException
 
 class AddBridgeCheckFormViewModel(
+    private val repository: Repository,
     args: Bundle
 ) : ViewModel() {
 
@@ -36,7 +45,7 @@ class AddBridgeCheckFormViewModel(
         EDIT
     }
 
-    private val currentSession:Session
+    private lateinit var currentSession:Session
 
     private lateinit var currentBridgeCheck:BridgeCheck
 
@@ -47,7 +56,11 @@ class AddBridgeCheckFormViewModel(
     val uiEvent: LiveData<CheckFormUiEvent> = _uiEvent
 
     private fun sendEvent(event: CheckFormUiEvent) {
-        _uiEvent.value = event
+        try {
+            _uiEvent.value = event
+        }catch (e:IllegalStateException){
+            _uiEvent.postValue(event)
+        }
     }
 
     private var job: Job?=null
@@ -59,13 +72,20 @@ class AddBridgeCheckFormViewModel(
     ){
         //case when config changes
         val currFormPage = uiState.value?.currentFormPage ?: return
+
+        try {
+            //check if currentBridgeCheck Has been initialized
+            currentBridgeCheck.id
+        }catch (e:UninitializedPropertyAccessException){
+            return
+        }
+
         if (currFormPage == nextDestFormPage) return
 
         job?.cancel()
         _uiState.value = CheckFormUiState()
 
         job = viewModelScope.launch {
-
             val nextDestFields = when(nextDestFormPage){
                 BaseFormFragment.FormPage.FIRST -> getFirstFormFields(currentBridgeCheck)
                 BaseFormFragment.FormPage.SECURITY -> getSecurityFormFields(currentBridgeCheck)
@@ -159,6 +179,7 @@ class AddBridgeCheckFormViewModel(
 
                         val selectedField = parentField.booleanQuestions[action.fieldPosition]
                         selectedField.listImagePath.add(action.imagePath)
+
                         sendEvent(
                             CheckFormUiEvent.NotifyAddedImageOnNestedRv(
                                 action.parentFieldPosition,
@@ -201,7 +222,8 @@ class AddBridgeCheckFormViewModel(
                     when(currentSession){
                         Session.ADD -> {
 
-                            val newLastInspectionDate = currentBridgeCheck.inspectionDate.toString("dd/MM/yyyy")
+                            /* handled by bridgeDao
+                            val newLastInspectionDate = currentBridgeCheck.inspectionDate.toString(DATE_FORMAT_PATTERN)
 
                             (0..Dummy.listBridges.lastIndex).forEach {i ->
                                 Dummy.apply {
@@ -212,21 +234,36 @@ class AddBridgeCheckFormViewModel(
                                         )
                                     }
                                 }
-                            }
-
-                            Dummy.listBridgeCheck.add(currentBridgeCheck)
-
-
+                            }*/
+                            /*Dummy.listBridgeCheck.add(currentBridgeCheck)
 
                             sendEvent(
                                 CheckFormUiEvent.EndingSession(
                                     HomeActivity.ADD_CHECK_RESULT_SUCCESS
                                 )
-                            )
+                            )*/
+                            _uiState.value = CheckFormUiState()
+
+                            viewModelScope.launch {
+
+                                repository.insertBridgeCheck(
+                                    currentBridgeCheck
+                                )
+
+
+                                sendEvent(
+                                    CheckFormUiEvent.EndingSession(
+                                        HomeActivity.ADD_CHECK_RESULT_SUCCESS
+                                    )
+                                )
+                            }
+
+
                         }
                         Session.EDIT -> {
 
-                            //assign clone to fake repo
+                            /*//assign clone to fake repo
+
                             (0..Dummy.listBridgeCheck.lastIndex).forEach {i ->
                                 Dummy.apply {
                                     val currBridgeCheck = listBridgeCheck[i]
@@ -240,7 +277,22 @@ class AddBridgeCheckFormViewModel(
                                 CheckFormUiEvent.EndingSession(
                                     HomeActivity.EDIT_CHECK_RESULT_SUCCESS
                                 )
-                            )
+                            )*/
+
+                            _uiState.value = CheckFormUiState()
+
+                            viewModelScope.launch {
+                                repository.updateBridgeCheck(
+                                    currentBridgeCheck
+                                )
+
+                                sendEvent(
+                                    CheckFormUiEvent.EndingSession(
+                                        HomeActivity.EDIT_CHECK_RESULT_SUCCESS
+                                    )
+                                )
+                            }
+
                         }
                     }
                 }
@@ -249,22 +301,51 @@ class AddBridgeCheckFormViewModel(
     }
 
     init {
-        args.let {
+        sendEvent(
+            CheckFormUiEvent.StartingSession()
+        )
+        viewModelScope.launch{
+            args.let {
 
-            val isInAddMode = it.getBoolean(AddBridgeCheckFormActivity.ADD_MODE_KEY)
-            if (isInAddMode){
-                val selectedBridgeId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
-                currentSession = Session.ADD
-                currentBridgeCheck = BridgeCheck(bridgeId = selectedBridgeId)
-                return@let
+                val isInAddMode = it.getBoolean(AddBridgeCheckFormActivity.ADD_MODE_KEY)
+                if (isInAddMode){
+                    val selectedBridgeId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
+                    currentSession = Session.ADD
+                    currentBridgeCheck = BridgeCheck(bridgeId = selectedBridgeId)
+                }else{
+                    currentSession = Session.EDIT
+                    val selectedBridgeCheckId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
+                    /*currentBridgeCheck = Dummy
+                        .listBridgeCheck
+                        .find { check -> check.id == selectedBridgeCheckId }
+                        ?.clone() ?: return@let*/
+                    currentBridgeCheck = repository.getBridgeCheckById(selectedBridgeCheckId)
+                }
             }
 
-            currentSession = Session.EDIT
-            val selectedBridgeCheckId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
-            currentBridgeCheck = Dummy
-                .listBridgeCheck
-                .find { check -> check.id == selectedBridgeCheckId }
-                ?.clone() ?: return@let
+            sendEvent(
+                CheckFormUiEvent.NotifyWhenFragmentReadyToInit()
+            )
+        }
+
+    }
+
+    class ViewModelFactory(
+        private val repository: Repository,
+        private val arguments:Bundle
+    ): ViewModelProvider.NewInstanceFactory() {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            modelClass.let out@ {
+                when {
+                    it.isAssignableFrom(AddBridgeCheckFormViewModel::class.java) -> {
+                        return AddBridgeCheckFormViewModel(repository, arguments) as T
+                    }
+                    else -> return@out
+                }
+            }
+            return super.create(modelClass)
         }
     }
 

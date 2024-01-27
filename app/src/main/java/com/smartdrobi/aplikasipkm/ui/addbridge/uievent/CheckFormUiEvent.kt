@@ -27,6 +27,9 @@ sealed class CheckFormUiEvent private constructor(
         }else event()
     }
 
+    class StartingSession:CheckFormUiEvent(true)
+    class NotifyWhenFragmentReadyToInit:CheckFormUiEvent(true)
+
     class NotifyAddedImage(
         val selectedFieldPosition:Int
     ):CheckFormUiEvent(true)
@@ -36,8 +39,8 @@ sealed class CheckFormUiEvent private constructor(
         val fieldPosition:Int
     ):CheckFormUiEvent(true)
 
-
     class EndingSession(
         val resultCode:Int
     ):CheckFormUiEvent(true)
+
 }

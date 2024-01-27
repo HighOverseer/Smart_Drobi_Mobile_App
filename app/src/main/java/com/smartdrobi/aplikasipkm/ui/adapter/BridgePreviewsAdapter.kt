@@ -17,6 +17,7 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.SearchState
 
+//used in history fragment
 class BridgePreviewsAdapter(
     private val items: List<BridgePreview>,
     private val onItemClickedEvent: OnItemClickedEvent,
@@ -114,7 +115,7 @@ class BridgePreviewsAdapter(
                 }else {
                     searchBar.clearEditTextFocus()
                 }*/
-                searchBar.editText.addTextChangedListener(
+           /*     searchBar.editText.addTextChangedListener(
                     afterTextChanged = { text: Editable? ->
                         text?.let {
                             sendAction(
@@ -128,14 +129,14 @@ class BridgePreviewsAdapter(
                         }
 
                     }
-                )
+                )*/
 
                 searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         sendAction(
                             ItemCallbackAction.ClearFocus
                         )
-                        /*val q = query ?: ""
+                        val q = query ?: ""
                         sendAction(
                             ItemCallbackAction.Search(
                                 SearchState(
@@ -144,13 +145,12 @@ class BridgePreviewsAdapter(
                                 )
                             )
 
-                        )*/
+                        )
                         return true
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        return true
-                        /*val q = newText ?:""
+                        val q = newText ?:""
                         sendAction(
                             ItemCallbackAction.Search(
                                 SearchState(
@@ -159,7 +159,7 @@ class BridgePreviewsAdapter(
                                 )
                             )
                         )
-                        return true*/
+                        return true
                     }
                 })
             }

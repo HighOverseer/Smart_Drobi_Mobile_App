@@ -129,7 +129,7 @@ class HomeActivity
 
         if (currFragment !is OnAddBridgeSuccessListener) return@registerForActivityResult
 
-        currFragment.updateAdapter()
+        //currFragment.updateAdapter()
 
     }
 

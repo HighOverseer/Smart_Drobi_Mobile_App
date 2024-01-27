@@ -14,7 +14,7 @@
         android:layout_marginStart="-8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_pupr"
+        app:srcCompat="@drawable/logo"
         tools:viewBindingIgnore="true" />
 
     <androidx.appcompat.widget.AppCompatTextView

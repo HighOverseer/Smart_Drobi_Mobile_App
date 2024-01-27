@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,12 +29,14 @@ import com.smartdrobi.aplikasipkm.domain.helper.JAKARTA_LAT
 import com.smartdrobi.aplikasipkm.domain.helper.JAKARTA_LON
 import com.smartdrobi.aplikasipkm.domain.helper.createCustomTempFile
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
+import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.helper.setInit
 import com.smartdrobi.aplikasipkm.domain.helper.showToast
 import com.smartdrobi.aplikasipkm.domain.helper.uriToFile
 import com.smartdrobi.aplikasipkm.domain.model.AddBridgeSaveState
 import com.smartdrobi.aplikasipkm.domain.model.Bridge
 import com.smartdrobi.aplikasipkm.domain.model.BridgeMaterial
+import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeFormViewModel
 import com.smartdrobi.aplikasipkm.ui.home.HomeActivity
 import com.smartdrobi.aplikasipkm.ui.map.MapsActivity
 import kotlinx.coroutines.Job
@@ -43,6 +46,7 @@ import java.util.Calendar
 
 class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding:ActivityAddBridgeFormBinding
+    private lateinit var viewModel:AddBridgeFormViewModel
     private lateinit var mMap:GoogleMap
     private var currSelectedPhotoPath:String?=null
 
@@ -56,9 +60,17 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBridgeFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = obtainViewModel<
+                AddBridgeFormViewModel.ViewModelFactory,
+                AddBridgeFormViewModel
+                >(this, applicationContext)
         retrieveState(savedInstanceState)
         initViewComponents()
+        observeEvent()
     }
+
+
+
 
     private fun initViewComponents(){
         initMap()
@@ -67,6 +79,26 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
         initEditTexts()
         initSpinner()
     }
+
+    private fun observeEvent(){
+        viewModel.apply {
+            bridgeAddedEvent.observe(this@AddBridgeFormActivity){
+                it.getContentIfNotHandled()?.let {
+                    showToast(
+                        this@AddBridgeFormActivity,
+                        getString(R.string.data_jembatan_berhasil_disimpan)
+                    )
+                    setResult(HomeActivity.ADD_BRIDGE_RESULT_SUCCESS)
+                    finish()
+                }
+            }
+
+            isLoading.observe(this@AddBridgeFormActivity){ isVisible ->
+                binding.progressBar.isVisible = isVisible
+            }
+        }
+    }
+
 
     private fun retrieveState(savedInstanceState: Bundle?){
         savedInstanceState?.let {
@@ -179,7 +211,26 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                 else -> return@out
             }
             try {
-                Dummy.listBridges.add(
+                /*Dummy.listBridges.add(
+                    Bridge(
+                        imagePath = imagePath,
+                        name = name.toString(),
+                        nationalNumber = nationalNum.toString().toInt(),
+                        cityNumber = cityNum.toString().toInt(),
+                        tollNumber = tollNum.toString().toInt(),
+                        buildDate = buildDate.toString(),
+                        latitudePosition = lat.toString().toDouble(),
+                        longitudePosition = lon.toString().toDouble(),
+                        mapLocName = mapLocName,
+                        provinceCity = provinceCity.toString(),
+                        length = length.toString().toDouble(),
+                        wide = wide.toString().toDouble(),
+                        inspectionPlanDate = inspectPlanDate.toString(),
+                        bridgeMaterial = material
+                    )
+                )*/
+
+                viewModel.insertBridge(
                     Bridge(
                         imagePath = imagePath,
                         name = name.toString(),
@@ -197,12 +248,6 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                         bridgeMaterial = material
                     )
                 )
-                showToast(
-                    this@AddBridgeFormActivity,
-                    getString(R.string.data_jembatan_berhasil_disimpan)
-                )
-                setResult(HomeActivity.ADD_BRIDGE_RESULT_SUCCESS)
-                finish()
                 return
 
             }catch (e:Exception){

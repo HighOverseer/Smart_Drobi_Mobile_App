@@ -12,13 +12,16 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentDetailBinding
 import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
+import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogConfirmation
 import com.smartdrobi.aplikasipkm.domain.helper.showToast
 import com.smartdrobi.aplikasipkm.domain.model.Bridge
@@ -28,8 +31,10 @@ import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity
 import com.smartdrobi.aplikasipkm.ui.home.AddBridgeCheckLauncher
 import com.smartdrobi.aplikasipkm.ui.home.EditBridgeCheckLauncher
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.FragmentActivityCallback
+import com.smartdrobi.aplikasipkm.ui.home.viewmodel.DetailViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -37,6 +42,7 @@ import java.util.Calendar
 class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     private var binding:FragmentDetailBinding?=null
+    private lateinit var viewModel:DetailViewModel
 
     private lateinit var selectedBridge:Bridge
 
@@ -51,12 +57,76 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
     }
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        setObservers()
+        setListeners()
+    }
 
+    private fun setObservers(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.selectedBridge.collectLatest {
+                    if (it == null) return@collectLatest
+
+                    selectedBridge = it
+                    setDesc()
+                }
+
+                /*viewModel.selectedBridgeCheckPreviews.collectLatest {
+
+                    binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
+                        it,
+                        ::checkHistoryClickAction
+                    )
+
+                    binding?.tvEmptyInfo?.isVisible = it.isEmpty()
+                }*/
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.selectedBridgeCheckPreviews.collectLatest {
+
+                    binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
+                        it,
+                        ::checkHistoryClickAction
+                    )
+
+                    binding?.tvEmptyInfo?.isVisible = it.isEmpty()
+                }
+            }
+
+        }
+
+        viewModel.toastEvent.observe(viewLifecycleOwner){
+            it.getContentIfNotHandled()?.let { stringRes ->
+                showToast(requireActivity(), stringRes.getValue(requireActivity()))
+            }
+        }
+        /*viewModel.selectedBridge.observe(viewLifecycleOwner){
+            selectedBridge = it
+            setDesc()
+        }*/
+
+        /*viewModel.selectedBridgeCheckPreviews.observe(viewLifecycleOwner){ data ->
+            binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
+                data,
+                ::checkHistoryClickAction
+            )
+
+            binding?.tvEmptyInfo?.isVisible = data.isEmpty()
+        }*/
+
+
+    }
+
+    private fun setListeners(){
         binding?.apply {
-
             btnStartCheck.setOnClickListener {
                 val activity = requireActivity()
 
@@ -88,6 +158,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
                 )
             }
         }
+
     }
 
     private fun goToMap(){
@@ -111,7 +182,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     private fun updateNextInspectionDate() {
         binding?.apply {
-            Dummy.apply {
+            /*Dummy.apply {
                 (0..listBridges.lastIndex).forEach { i  ->
                     val currBridge = listBridges[i]
                     if (currBridge.id == selectedBridge.id){
@@ -126,12 +197,15 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
                         setDesc()
                     }
                 }
-            }
+            }*/
+            val newInspectionPlanDate = etNextInspectionDate.text.toString()
+            viewModel.updateBridge(selectedBridge.copy(inspectionPlanDate = newInspectionPlanDate))
+
         }
     }
 
     private fun init(){
-        arguments?.let { args ->
+        /*arguments?.let { args ->
             val id = args.getInt(SELECTED_BRIDGE_ID_KEY, -1)
 
             val bridge = Dummy.listBridges.find { it.id == id }
@@ -147,7 +221,37 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
             activityFragment.keepBottomNavSelected(R.id.home)
         }
 
-        setDesc()
+        setDesc()*/
+
+        arguments?.let { args ->
+            viewModel = obtainViewModel<
+                    DetailViewModel.ViewModelFactory,
+                    DetailViewModel>(this, requireContext(), args)
+
+        }
+
+        val activityFragment = requireActivity()
+        if (activityFragment is FragmentActivityCallback){
+            activityFragment.keepBottomNavSelected(R.id.home)
+        }
+
+        binding?.rvCheckHistory?.apply {
+            layoutManager = LinearLayoutManager(
+                requireActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            addItemDecoration(
+                BridgePreviewsItemDecoration(
+                    resources.displayMetrics,
+                    paddingTop = 2,
+                    paddingStart = 2,
+                    paddingBottom = 4,
+                    paddingEnd = 4
+                )
+            )
+
+        }
     }
 
     private fun setDesc(){
@@ -214,7 +318,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
                 etNextInspectionDate.setText(inspectionPlanDate)
 
-                rvCheckHistory.apply {
+               /* rvCheckHistory.apply {
                     layoutManager = LinearLayoutManager(
                         requireActivity(),
                         LinearLayoutManager.HORIZONTAL,
@@ -238,7 +342,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
                     tvEmptyInfo.isVisible = data.isEmpty()
 
 
-                }
+                }*/
             }
         }
     }
@@ -304,12 +408,17 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         val activity = requireActivity()
         if (activity !is EditBridgeCheckLauncher) return
 
-        val selectedBridgeCheckHistory = Dummy.listBridgeCheck.find { it.id == clickedItemId }?:return
+        /*val selectedBridgeCheckHistory = Dummy.listBridgeCheck.find { it.id == clickedItemId }?:return
 
         binding?.etNextInspectionDate?.setText(selectedBridge.inspectionPlanDate)
         val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
         intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)
         intent.putExtra(AddBridgeCheckFormActivity.MODE_ID_KEY, selectedBridgeCheckHistory.id)
+        activity.launchEditBridgeCheckSession(intent)*/
+
+        val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
+        intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)
+        intent.putExtra(AddBridgeCheckFormActivity.MODE_ID_KEY, clickedItemId)
         activity.launchEditBridgeCheckSession(intent)
     }
 

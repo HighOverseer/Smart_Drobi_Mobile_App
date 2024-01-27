@@ -4,13 +4,13 @@ import com.smartdrobi.aplikasipkm.domain.helper.getCurrentDate
 import java.util.Calendar
 import java.util.Date
 
-private var currentIncrementId = 100
+/*private var currentIncrementId = 100
     get(){
         field += 1
         return field
-    }
+    }*/
 data class BridgeCheck(
-    val id:Int = currentIncrementId,
+    val id:Int = 0,
     val bridgeId:Int,
     var firstPageAnswer: FirstPageAnswer = FirstPageAnswer(),
     var securityPageAnswer: SecurityPageAnswer = SecurityPageAnswer(),

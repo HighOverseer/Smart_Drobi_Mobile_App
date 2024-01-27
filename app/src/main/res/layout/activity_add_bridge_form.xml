@@ -53,7 +53,7 @@
             android:layout_marginStart="-8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo_pupr"
+            app:srcCompat="@drawable/logo"
             tools:viewBindingIgnore="true" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -391,6 +391,19 @@
             app:layout_constraintBottom_toBottomOf="@id/btn_save"
             app:layout_constraintStart_toStartOf="@id/tv_material_info"
             tools:ignore="TouchTargetSizeCheck"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

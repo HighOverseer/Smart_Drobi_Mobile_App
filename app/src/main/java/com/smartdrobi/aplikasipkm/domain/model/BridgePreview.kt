@@ -8,3 +8,4 @@ data class BridgePreview(
     val nextInspectionDate:String,
     val location:String
 )
+

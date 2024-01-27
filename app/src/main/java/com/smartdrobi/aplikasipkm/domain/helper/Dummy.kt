@@ -1,19 +1,19 @@
 package com.smartdrobi.aplikasipkm.domain.helper
 
 import android.net.Uri
-import android.os.Environment
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.domain.model.Bridge
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheck
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckPreview
 import com.smartdrobi.aplikasipkm.domain.model.BridgeMaterial
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
+import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
 
 val a = "/storage/emulated/0/Android/data/com.smartdrobi.aplikasipkm/files/Pictures/photo_18305932342310678567.jpg"
 object Dummy {
+
     //fake data for temporal
     val listBridges = mutableListOf(
         Bridge(
@@ -95,13 +95,34 @@ object Dummy {
         BridgeCheck(bridgeId = 3)
     )
 
+
+
+
+    var droneCamStatus = DroneCamConnectivityStatus.DISCONNECTED.string
+        set(value){
+            field = value
+            updateBridgePreviews()
+        }
+
+
+    private val bridgePreviews = generateBridgePreviews().toMutableList()
+
     fun getBridgePreviews():List<BridgePreview>{
+        updateBridgePreviews()
+        return bridgePreviews
+    }
+    private fun updateBridgePreviews() {
+        bridgePreviews.clear()
+        bridgePreviews.addAll(generateBridgePreviews())
+    }
+
+    private fun generateBridgePreviews():List<BridgePreview>{
         val bridgePreviews = mutableListOf(
             BridgePreview(
-            -1,
-            "",
-            "",
-            "",
+                -1,
+                "",
+                droneCamStatus,
+                "",
                 "",
                 "")
         )
@@ -134,7 +155,7 @@ object Dummy {
             BridgePreview(
                 -1,
                 "",
-                "",
+                droneCamStatus,
                 "",
                 "",
                 "")
@@ -143,6 +164,13 @@ object Dummy {
             .filter { it.name.lowercase().contains(query.lowercase()) }
             .forEach { bridgePreviews.add(it.toBridgePreview()) }
         bridgePreviews
+       /* bridgePreviews.apply {
+            removeAll { it.id != -1 }
+            addAll(
+                listBridges.filter { it.name.lowercase().contains(query.lowercase()) }
+                .map { it.toBridgePreview() }
+            )
+        }*/
     }
 
     fun getBridgePreviewsByHistory():List<BridgePreview>{
@@ -175,7 +203,7 @@ object Dummy {
         val bridgeChecks = listBridgeCheck.filter{ it.bridgeId == selectedBridge.id }
 
         bridgeChecks.forEach {
-            val date = it.inspectionDate.toString("dd/MM/yyyy")
+            val date = it.inspectionDate.toString(DATE_FORMAT_PATTERN)
             list.add(
                 BridgeCheckPreview(
                     it.id,
@@ -198,4 +226,6 @@ object Dummy {
         }
         return list*/
     }
+
 }
+

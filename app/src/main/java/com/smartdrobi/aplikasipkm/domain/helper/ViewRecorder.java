@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi;
 import android.util.Size;
 import android.view.View;
 
-import com.smartdrobi.aplikasipkm.BuildConfig;
 
 /**
  * Used to record a video with view that can be captured. It also supports to switch views during recording.
