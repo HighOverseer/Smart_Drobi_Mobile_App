@@ -12,8 +12,8 @@ import com.smartdrobi.aplikasipkm.databinding.SpinnerItemBinding
 
 class SpAdapter(
     context: Context,
-    private val listItem:List<String>,
-):ArrayAdapter<String>(context, 0, listItem) {
+    private val listItem: List<String>,
+) : ArrayAdapter<String>(context, 0, listItem) {
 
     private val colorGrey = ResourcesCompat.getColor(context.resources, R.color.grey_1000, null)
     private val colorBlack = ResourcesCompat.getColor(context.resources, R.color.black_100, null)
@@ -25,19 +25,23 @@ class SpAdapter(
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val currItem = getItem(position)
-        val textView = if (convertView != null){
+        val textView = if (convertView != null) {
             convertView.findViewById(android.R.id.text1)
-        }else{
-            val binding = SpinnerDropdownItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        } else {
+            val binding = SpinnerDropdownItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             binding.text1
         }
         return textView.apply {
             text = currItem
-            if (currItem == listItem[0]){
+            if (currItem == listItem[0]) {
                 setTextColor(colorGrey)
-            }else setTextColor(colorBlack)
+            } else setTextColor(colorBlack)
 
-            if (currItem == listItem.last()){
+            if (currItem == listItem.last()) {
                 setBackgroundResource(R.drawable.spinner_dropdown_bg)
             }
         }
@@ -55,14 +59,15 @@ class SpAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val currSelectedItem = getItem(position)
-        val textView = if (convertView != null){
+        val textView = if (convertView != null) {
             convertView.findViewById(android.R.id.text1)
-        }else{
-            val binding = SpinnerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        } else {
+            val binding =
+                SpinnerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             binding.text1
         }
         textView.text = currSelectedItem
-        if (position == 0){
+        if (position == 0) {
             textView.setTextColor(colorGrey)
         }
         return textView

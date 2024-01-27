@@ -9,17 +9,21 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class DateStringConverter {
-    private val format = SimpleDateFormat(DATE_FORMAT_PATTERN, ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+    private val format = SimpleDateFormat(
+        DATE_FORMAT_PATTERN,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
+    )
 
     @TypeConverter
-    fun dateToString(date:Date):String{
+    fun dateToString(date: Date): String {
         return format.format(date)
     }
+
     @TypeConverter
-    fun stringToDate(value:String):Date?{
+    fun stringToDate(value: String): Date? {
         return try {
             format.parse(value)
-        }catch (e:ParseException){
+        } catch (e: ParseException) {
             null
         }
     }

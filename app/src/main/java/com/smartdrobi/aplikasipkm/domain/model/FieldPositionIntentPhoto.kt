@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FieldPositionIntentPhoto(
-    val fieldPosition:Int,
-    val parentFieldPosition:Int = -1
-):Parcelable
+    val fieldPosition: Int,
+    val parentFieldPosition: Int = -1
+) : Parcelable

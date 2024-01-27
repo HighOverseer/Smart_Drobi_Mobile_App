@@ -17,19 +17,19 @@ import java.io.IOException
 
 class DroneCamRecordActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityDroneCamRecordBinding
-/*    private var job: Job?=null
-    private var convertJob: Job?=null*/
+    private lateinit var binding: ActivityDroneCamRecordBinding
+    /*    private var job: Job?=null
+        private var convertJob: Job?=null*/
 
     private var isRecording = false
-  /*  private lateinit var encoder: BitmapVideoEncoder
+    /*  private lateinit var encoder: BitmapVideoEncoder
 
-    private val listBitmaps = mutableListOf<Bitmap>()*/
+      private val listBitmaps = mutableListOf<Bitmap>()*/
 
-    private lateinit var viewRecorder:ViewRecorder
+    private lateinit var viewRecorder: ViewRecorder
 
     private lateinit var workerHandler: Handler
-    private lateinit var handlerThread:HandlerThread
+    private lateinit var handlerThread: HandlerThread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +38,13 @@ class DroneCamRecordActivity : AppCompatActivity() {
 
         initViewDroneCam()
 
-      /*  encoder = BitmapVideoEncoder(
-            object:BitmapVideoEncoder.IBitmapToVideoEncoderCallback{
-                override fun onEncodingComplete(outputFile: File?) {
-                    println(outputFile?.absolutePath)
-                }
-            }
-        )*/
+        /*  encoder = BitmapVideoEncoder(
+              object:BitmapVideoEncoder.IBitmapToVideoEncoderCallback{
+                  override fun onEncodingComplete(outputFile: File?) {
+                      println(outputFile?.absolutePath)
+                  }
+              }
+          )*/
 
 
         handlerThread = HandlerThread("bg_view_recorder")
@@ -58,13 +58,13 @@ class DroneCamRecordActivity : AppCompatActivity() {
             }
 
             btnRecord.setOnClickListener {
-                workerHandler.post{
-                    if (!isRecording){
+                workerHandler.post {
+                    if (!isRecording) {
                         runOnUiThread {
                             btnRecord.text = getString(R.string.stop)
                         }
                         startRecord()
-                    }else{
+                    } else {
                         runOnUiThread {
                             btnRecord.text = getString(R.string.rekam)
                         }
@@ -75,67 +75,67 @@ class DroneCamRecordActivity : AppCompatActivity() {
             }
 
 
-       /*     btnRecord.setOnClickListener {
-                if (btnRecord.text == "Rekam"){
-                    btnRecord.text = "Stop"
-                    isRecording = true
-                    job = lifecycleScope.launch {
-                        while (isRecording){
-                            val bitmap = binding.viewDroneCam.drawToBitmap()
-                            listBitmaps.add(bitmap)
-                            delay(10)
-                        }
-                    }
-                }else{
-                    btnRecord.text = "Rekam"
-                    //job?.cancel()
-                    isRecording = false
-                    convertBitmapsToVideo()
-                }
-            }*/
+            /*     btnRecord.setOnClickListener {
+                     if (btnRecord.text == "Rekam"){
+                         btnRecord.text = "Stop"
+                         isRecording = true
+                         job = lifecycleScope.launch {
+                             while (isRecording){
+                                 val bitmap = binding.viewDroneCam.drawToBitmap()
+                                 listBitmaps.add(bitmap)
+                                 delay(10)
+                             }
+                         }
+                     }else{
+                         btnRecord.text = "Rekam"
+                         //job?.cancel()
+                         isRecording = false
+                         convertBitmapsToVideo()
+                     }
+                 }*/
 
-           /* btnRecord.setOnClickListener {
-                if (btnRecord.text == "Rekam"){
-                    btnRecord.text = "Stop"
-                    isRecording = true
-                    encoder.startEncoding(root.width, root.height, File(
-                        Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DCIM
-                        ),
-                        "test.mp4"
-                    ))
-                    job = lifecycleScope.launch {
-                        while (isRecording){
-                            delay(30)
-                            val bitmap = createBitmap()
-                            encoder.queueFrame(bitmap)
-                        }
-                    }
-                }else{
-                    btnRecord.text = "Rekam"
-                    //job?.cancel()
-                    isRecording = false
-                    encoder.stopEncoding()
-                }
+            /* btnRecord.setOnClickListener {
+                 if (btnRecord.text == "Rekam"){
+                     btnRecord.text = "Stop"
+                     isRecording = true
+                     encoder.startEncoding(root.width, root.height, File(
+                         Environment.getExternalStoragePublicDirectory(
+                             Environment.DIRECTORY_DCIM
+                         ),
+                         "test.mp4"
+                     ))
+                     job = lifecycleScope.launch {
+                         while (isRecording){
+                             delay(30)
+                             val bitmap = createBitmap()
+                             encoder.queueFrame(bitmap)
+                         }
+                     }
+                 }else{
+                     btnRecord.text = "Rekam"
+                     //job?.cancel()
+                     isRecording = false
+                     encoder.stopEncoding()
+                 }
 
-            }*/
+             }*/
         }
 
     }
 
-    private fun startRecord(){
+    private fun startRecord() {
         val dir = applicationContext.externalCacheDir
-        if (dir != null){
+        if (dir != null) {
             dir.mkdirs()
-            if (!dir.exists()){
+            if (!dir.exists()) {
                 println("failed to start")
                 return
             }
         }
 
-        viewRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+        viewRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             ViewRecorder(this)
-        }else ViewRecorder()
+        } else ViewRecorder()
 
         viewRecorder.apply {
             setVideoSource(MediaRecorder.VideoSource.SURFACE)
@@ -146,7 +146,7 @@ class DroneCamRecordActivity : AppCompatActivity() {
                 binding.viewDroneCam.width,
                 binding.viewDroneCam.height
             )
-            setVideoEncodingBitRate(2000*1000)
+            setVideoEncodingBitRate(2000 * 1000)
             setOutputFile(
                 "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/Aplikasi_PKM-${System.currentTimeMillis()}.mp4"
             )
@@ -156,21 +156,21 @@ class DroneCamRecordActivity : AppCompatActivity() {
             try {
                 prepare()
                 start()
-            }catch (e:IOException){
+            } catch (e: IOException) {
                 return
             }
             isRecording = true
         }
     }
 
-    private fun stopRecord(){
+    private fun stopRecord() {
         try {
             viewRecorder.apply {
                 stop()
                 reset()
                 release()
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         isRecording = false
@@ -231,31 +231,31 @@ class DroneCamRecordActivity : AppCompatActivity() {
         }
     }*/
 
-/*    private suspend fun Bitmap.saveToFile(file:File) = withContext(Dispatchers.IO){
-        val bos = ByteArrayOutputStream()
-        compress(Bitmap.CompressFormat.PNG, 0, bos)
-        val bitmapData = bos.toByteArray()
+    /*    private suspend fun Bitmap.saveToFile(file:File) = withContext(Dispatchers.IO){
+            val bos = ByteArrayOutputStream()
+            compress(Bitmap.CompressFormat.PNG, 0, bos)
+            val bitmapData = bos.toByteArray()
 
-        val fos = FileOutputStream(file)
-        fos.write(bitmapData)
-        fos.flush()
-        fos.close()
-    }*/
+            val fos = FileOutputStream(file)
+            fos.write(bitmapData)
+            fos.flush()
+            fos.close()
+        }*/
 
-/*    private fun createBitmap():Bitmap{
-        val bitmap = Bitmap.createBitmap(
-            binding.viewDroneCam.width,
-            binding.viewDroneCam.height,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(
-            Color.TRANSPARENT,
-            PorterDuff.Mode.CLEAR
-        )
-        binding.viewDroneCam.draw(canvas)
-        return bitmap
-    }*/
+    /*    private fun createBitmap():Bitmap{
+            val bitmap = Bitmap.createBitmap(
+                binding.viewDroneCam.width,
+                binding.viewDroneCam.height,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            canvas.drawColor(
+                Color.TRANSPARENT,
+                PorterDuff.Mode.CLEAR
+            )
+            binding.viewDroneCam.draw(canvas)
+            return bitmap
+        }*/
 
     override fun onDestroy() {
         super.onDestroy()
@@ -263,12 +263,12 @@ class DroneCamRecordActivity : AppCompatActivity() {
         handlerThread.quitSafely()
     }
 
-    private fun initViewDroneCam(){
+    private fun initViewDroneCam() {
         binding.apply {
             viewDroneCam.apply {
-                mode = if (isInPortraitMode()){
+                mode = if (isInPortraitMode()) {
                     MjpegView.MODE_FIT_HEIGHT
-                }else MjpegView.MODE_FIT_WIDTH
+                } else MjpegView.MODE_FIT_WIDTH
 
                 isAdjustHeight = true
                 setUrl(BuildConfig.DRONE_CAM_URL)
@@ -276,16 +276,16 @@ class DroneCamRecordActivity : AppCompatActivity() {
         }
     }
 
-/*    private fun getVideoFile(): File {
-        return File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM
-            ),
-            "test.mp4"
-        )
-    }*/
+    /*    private fun getVideoFile(): File {
+            return File(
+                Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM
+                ),
+                "test.mp4"
+            )
+        }*/
 
-    private fun isInPortraitMode():Boolean{
+    private fun isInPortraitMode(): Boolean {
         return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     }
 

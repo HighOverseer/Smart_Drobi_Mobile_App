@@ -1,25 +1,16 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form
 
-import android.content.Intent
-import androidx.navigation.findNavController
-import com.smartdrobi.aplikasipkm.R
-import com.smartdrobi.aplikasipkm.domain.StaticString
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogIntentPhoto
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.adapter.BooleanQuestionsAdapter
 import com.smartdrobi.aplikasipkm.ui.adapter.ImageCollectionAdapter
-import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.IntentPhotoInterface
 import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
-import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
-import com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamCaptureActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class BridgeSafetyFormFragment
     : BaseFormFragment(FormPage.SAFETY),
     BooleanQuestionsAdapter.OnItemCallback,
-    ImageCollectionAdapter.OnImageCollectionCallback{
+    ImageCollectionAdapter.OnImageCollectionCallback {
 
     override fun saveAnswerInChild(
         parentFieldPosition: Int,
@@ -83,14 +74,14 @@ class BridgeSafetyFormFragment
     }
 
 
-    enum class ViewId(val id:Int){
+    enum class ViewId(val id: Int) {
         BACKREST(0),
         SIGN(1),
         LIGHTNING_ROD(2),
         SMKS(3)
     }
 
-    enum class QuestionId(val id:Int){
+    enum class QuestionId(val id: Int) {
         BACKREST_A(0),
         BACKREST_B(1),
         BACKREST_C(2),

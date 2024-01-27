@@ -36,7 +36,7 @@ class Repository private constructor(
         bridgeDao.insertBridge(newBridgeEntity)
     }
 
-    suspend fun updateBridge(bridge: Bridge) = withContext(Dispatchers.Default){
+    suspend fun updateBridge(bridge: Bridge) = withContext(Dispatchers.Default) {
         bridgeDao.updateBridge(
             BridgeMapper.toBridgeEntity(bridge)
         )
@@ -54,9 +54,9 @@ class Repository private constructor(
         }
     }*/
 
-    fun getSelectedBridgeById(bridgeId: Int):Flow<Bridge>{
+    fun getSelectedBridgeById(bridgeId: Int): Flow<Bridge> {
         return bridgeDao.getSelectedBridgeById(bridgeId).map {
-            withContext(Dispatchers.Default){
+            withContext(Dispatchers.Default) {
                 BridgeMapper.toBridge(it)
             }
         }
@@ -68,24 +68,24 @@ class Repository private constructor(
         }
     }
 
-/*    fun getBridgePreviewsLiveData():LiveData<List<BridgePreview>>{
-        return bridgeDao.getBridgesWithLastInspectionDateLiveData()
-            .map { list ->
-                val listWithHeader = mutableListOf(
-                    BridgePreview(
-                        -1,
-                        "",
-                        Dummy.droneCamStatus,
-                        "",
-                        "",
-                        "")
-                )
-                list.forEach{
-                    listWithHeader.add(BridgeMapper.toBridgePreview(it))
+    /*    fun getBridgePreviewsLiveData():LiveData<List<BridgePreview>>{
+            return bridgeDao.getBridgesWithLastInspectionDateLiveData()
+                .map { list ->
+                    val listWithHeader = mutableListOf(
+                        BridgePreview(
+                            -1,
+                            "",
+                            Dummy.droneCamStatus,
+                            "",
+                            "",
+                            "")
+                    )
+                    list.forEach{
+                        listWithHeader.add(BridgeMapper.toBridgePreview(it))
+                    }
+                    listWithHeader
                 }
-                listWithHeader
-            }
-    }*/
+        }*/
 
     /*fun getBridgePreviewsByHistory():LiveData<List<BridgePreview>>{
         return bridgeDao.searchBridgePreview(query = "")
@@ -111,10 +111,10 @@ class Repository private constructor(
 
     }*/
 
-    fun getBridgePreviewsByHistory():Flow<List<BridgePreview>>{
+    fun getBridgePreviewsByHistory(): Flow<List<BridgePreview>> {
         return bridgeDao.getBridgePreviewByHistory()
             .map { list ->
-                withContext(Dispatchers.Default){
+                withContext(Dispatchers.Default) {
                     val listBridgePreviewByHistory = mutableListOf(
                         BridgePreview(
                             -1,
@@ -127,7 +127,7 @@ class Repository private constructor(
                     )
                     list.sortedByDescending {
                         it.lastInspectionDate
-                    }.forEach{
+                    }.forEach {
                         listBridgePreviewByHistory.add(BridgeMapper.toBridgePreview(it))
                     }
                     listBridgePreviewByHistory
@@ -158,7 +158,7 @@ class Repository private constructor(
     fun searchBridgePreview(query: String = ""): Flow<List<BridgePreview>> {
         return bridgeDao.searchBridgePreview(query)
             .map { list ->
-                withContext(Dispatchers.Default){
+                withContext(Dispatchers.Default) {
                     val listWithHeader = mutableListOf(
                         BridgePreview(
                             -1,
@@ -166,9 +166,10 @@ class Repository private constructor(
                             Dummy.droneCamStatus,
                             "",
                             "",
-                            "")
+                            ""
+                        )
                     )
-                    list.forEach{
+                    list.forEach {
                         listWithHeader.add(BridgeMapper.toBridgePreview(it))
                     }
                     listWithHeader
@@ -176,12 +177,13 @@ class Repository private constructor(
             }
     }
 
-    suspend fun getBridgeCheckById(bridgeCheckId: Int): BridgeCheck = withContext(Dispatchers.Default){
-        val bridgeCheckAndAnswer = bridgeCheckDao.getBridgeCheckAndAnswersByBridgeCheckId(
-            bridgeCheckId
-        )
-        BridgeCheckMapper.toBridgeCheck(bridgeCheckAndAnswer)
-    }
+    suspend fun getBridgeCheckById(bridgeCheckId: Int): BridgeCheck =
+        withContext(Dispatchers.Default) {
+            val bridgeCheckAndAnswer = bridgeCheckDao.getBridgeCheckAndAnswersByBridgeCheckId(
+                bridgeCheckId
+            )
+            BridgeCheckMapper.toBridgeCheck(bridgeCheckAndAnswer)
+        }
 
     /*fun getBridgeCheckPreviewsInLiveData(bridgeId: Int): LiveData<List<BridgeCheckPreview>> {
         return bridgeCheckDao.getBridgeCheckPreviewLiveData(bridgeId).map { list ->
@@ -194,7 +196,7 @@ class Repository private constructor(
     fun getBridgeCheckPreviewsInFlow(bridgeId: Int): Flow<List<BridgeCheckPreview>> {
         val flow = bridgeCheckDao.getBridgeCheckPreviewInFlow(bridgeId)
         return flow.map { list ->
-            withContext(Dispatchers.Default){
+            withContext(Dispatchers.Default) {
                 list.map {
                     BridgeCheckMapper.toBridgeCheckPreview(it)
                 }
@@ -203,113 +205,118 @@ class Repository private constructor(
         }
     }
 
-    suspend fun getLatestBridgeCheckIdOnSelectedBridge(selectedBridgeId:Int):Int = withContext(Dispatchers.Default){
-        bridgeCheckDao.getBridgeCheckPreview(selectedBridgeId)
-            .sortedByDescending {
-                it.firstPageAnswerEntity.inspectionDate
-            }[0]
-            .bridgeCheckEntity
-            .id
-            .toInt()
-    }
-
-    suspend fun insertBridgeCheck(bridgeCheck: BridgeCheck):Unit = withContext(Dispatchers.Default) {
-        bridgeCheck.apply {
-            BridgeCheckMapper.apply {
-                val firstPageAnswerId = async { insertFirstPageAnswer(firstPageAnswer) }
-                val securityPageAnswerId = async { insertSecurityPageAnswer(securityPageAnswer) }
-                val safetyPageAnswerId = async { insertSafetyPageAnswer(safetyPageAnswer) }
-                val maintenancePageAnswerId =
-                    async { insertMaintenancePageAnswer(maintenancePageAnswer) }
-                val socialPageAnswerId = async { insertSocialPageAnswer(socialPageAnswer) }
-                val conveniencePageAnswerId =
-                    async { insertConveniencePageAnswer(conveniencePageAnswer) }
-                val emergencyPageAnswerId = async { insertEmergencyPageAnswer(emergencyPageAnswer) }
-
-                bridgeCheckDao.insertBridgeCheck(
-                    toBridgeCheckEntity(
-                        bridgeId,
-                        firstPageAnswerId.await(),
-                        safetyPageAnswerId.await(),
-                        securityPageAnswerId.await(),
-                        maintenancePageAnswerId.await(),
-                        conveniencePageAnswerId.await(),
-                        socialPageAnswerId.await(),
-                        emergencyPageAnswerId.await()
-                    )
-                )
-            }
-
+    suspend fun getLatestBridgeCheckIdOnSelectedBridge(selectedBridgeId: Int): Int =
+        withContext(Dispatchers.Default) {
+            bridgeCheckDao.getBridgeCheckPreview(selectedBridgeId)
+                .sortedByDescending {
+                    it.firstPageAnswerEntity.inspectionDate
+                }[0]
+                .bridgeCheckEntity
+                .id
+                .toInt()
         }
-    }
 
-    suspend fun updateBridgeCheck(bridgeCheck: BridgeCheck):Unit = withContext(Dispatchers.Default) {
-        bridgeCheck.apply {
-            BridgeCheckMapper.apply {
-                val selectedBridgeCheckEntity =
-                    bridgeCheckDao.getBridgeCheckAndAnswersByBridgeCheckId(id)
+    suspend fun insertBridgeCheck(bridgeCheck: BridgeCheck): Unit =
+        withContext(Dispatchers.Default) {
+            bridgeCheck.apply {
+                BridgeCheckMapper.apply {
+                    val firstPageAnswerId = async { insertFirstPageAnswer(firstPageAnswer) }
+                    val securityPageAnswerId =
+                        async { insertSecurityPageAnswer(securityPageAnswer) }
+                    val safetyPageAnswerId = async { insertSafetyPageAnswer(safetyPageAnswer) }
+                    val maintenancePageAnswerId =
+                        async { insertMaintenancePageAnswer(maintenancePageAnswer) }
+                    val socialPageAnswerId = async { insertSocialPageAnswer(socialPageAnswer) }
+                    val conveniencePageAnswerId =
+                        async { insertConveniencePageAnswer(conveniencePageAnswer) }
+                    val emergencyPageAnswerId =
+                        async { insertEmergencyPageAnswer(emergencyPageAnswer) }
 
-                listOf(
-                    launch{
-                        updateFirstPageAnswer(
-                            firstPageAnswer,
-                            selectedBridgeCheckEntity.firstPageAnswerEntity.id
+                    bridgeCheckDao.insertBridgeCheck(
+                        toBridgeCheckEntity(
+                            bridgeId,
+                            firstPageAnswerId.await(),
+                            safetyPageAnswerId.await(),
+                            securityPageAnswerId.await(),
+                            maintenancePageAnswerId.await(),
+                            conveniencePageAnswerId.await(),
+                            socialPageAnswerId.await(),
+                            emergencyPageAnswerId.await()
                         )
-                    },
-                    launch{
-                        updateSecurityPageAnswer(
-                            securityPageAnswer,
-                            selectedBridgeCheckEntity.securityPageAnswerEntity.id
-                        )
-                    },
-                    launch {
-                        updateSafetyPageAnswer(
-                            safetyPageAnswer,
-                            selectedBridgeCheckEntity.safetyPageAnswerEntity.id
-                        )
-                    },
-                    launch {
-                        updateMaintenancePageAnswer(
-                            maintenancePageAnswer,
-                            selectedBridgeCheckEntity.maintenancePageAnswerEntity.id
-                        )
-                    },
-                    launch {
-                        updateSocialPageAnswer(
-                            socialPageAnswer,
-                            selectedBridgeCheckEntity.socialPageAnswerEntity.id
-                        )
-                    },
-                    launch {
-                        updateConveniencePageAnswer(
-                            conveniencePageAnswer,
-                            selectedBridgeCheckEntity.conveniencePageAnswerEntity.id
-                        )
-                    },
-                    launch {
-                        updateEmergencyPageAnswer(
-                            emergencyPageAnswer,
-                            selectedBridgeCheckEntity.emergencyPageAnswerEntity.id
-                        )
-                    }
-                ).joinAll()
-
-                bridgeCheckDao.updateBridgeCheck(
-                    toBridgeCheckEntity(
-                        bridgeId = bridgeId,
-                        firstPageAnswerId = selectedBridgeCheckEntity.firstPageAnswerEntity.id,
-                        securityPageAnswerId = selectedBridgeCheckEntity.securityPageAnswerEntity.id,
-                        safetyPageAnswerId = selectedBridgeCheckEntity.safetyPageAnswerEntity.id,
-                        maintenancePageAnswerId = selectedBridgeCheckEntity.maintenancePageAnswerEntity.id,
-                        socialPageAnswerId = selectedBridgeCheckEntity.socialPageAnswerEntity.id,
-                        conveniencePageAnswerId = selectedBridgeCheckEntity.conveniencePageAnswerEntity.id,
-                        emergencyPageAnswerId = selectedBridgeCheckEntity.emergencyPageAnswerEntity.id
                     )
-                )
-            }
+                }
 
+            }
         }
-    }
+
+    suspend fun updateBridgeCheck(bridgeCheck: BridgeCheck): Unit =
+        withContext(Dispatchers.Default) {
+            bridgeCheck.apply {
+                BridgeCheckMapper.apply {
+                    val selectedBridgeCheckEntity =
+                        bridgeCheckDao.getBridgeCheckAndAnswersByBridgeCheckId(id)
+
+                    listOf(
+                        launch {
+                            updateFirstPageAnswer(
+                                firstPageAnswer,
+                                selectedBridgeCheckEntity.firstPageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateSecurityPageAnswer(
+                                securityPageAnswer,
+                                selectedBridgeCheckEntity.securityPageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateSafetyPageAnswer(
+                                safetyPageAnswer,
+                                selectedBridgeCheckEntity.safetyPageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateMaintenancePageAnswer(
+                                maintenancePageAnswer,
+                                selectedBridgeCheckEntity.maintenancePageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateSocialPageAnswer(
+                                socialPageAnswer,
+                                selectedBridgeCheckEntity.socialPageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateConveniencePageAnswer(
+                                conveniencePageAnswer,
+                                selectedBridgeCheckEntity.conveniencePageAnswerEntity.id
+                            )
+                        },
+                        launch {
+                            updateEmergencyPageAnswer(
+                                emergencyPageAnswer,
+                                selectedBridgeCheckEntity.emergencyPageAnswerEntity.id
+                            )
+                        }
+                    ).joinAll()
+
+                    bridgeCheckDao.updateBridgeCheck(
+                        toBridgeCheckEntity(
+                            bridgeId = bridgeId,
+                            firstPageAnswerId = selectedBridgeCheckEntity.firstPageAnswerEntity.id,
+                            securityPageAnswerId = selectedBridgeCheckEntity.securityPageAnswerEntity.id,
+                            safetyPageAnswerId = selectedBridgeCheckEntity.safetyPageAnswerEntity.id,
+                            maintenancePageAnswerId = selectedBridgeCheckEntity.maintenancePageAnswerEntity.id,
+                            socialPageAnswerId = selectedBridgeCheckEntity.socialPageAnswerEntity.id,
+                            conveniencePageAnswerId = selectedBridgeCheckEntity.conveniencePageAnswerEntity.id,
+                            emergencyPageAnswerId = selectedBridgeCheckEntity.emergencyPageAnswerEntity.id
+                        )
+                    )
+                }
+
+            }
+        }
 
     private suspend fun insertFirstPageAnswer(firstPageAnswer: FirstPageAnswer): Long {
         return bridgeCheckDao.insertFirstPageAnswer(

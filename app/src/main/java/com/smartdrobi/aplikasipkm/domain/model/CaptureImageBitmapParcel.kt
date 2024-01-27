@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CaptureImageBitmapParcel(
     val imageBitmap: Bitmap
-):Parcelable
+) : Parcelable

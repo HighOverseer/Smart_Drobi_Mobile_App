@@ -35,7 +35,7 @@ import com.smartdrobi.aplikasipkm.data.typeconverter.ListStringImagePathTypeConv
         MaintenancePageAnswerEntity::class,
         SocialPageAnswerEntity::class,
         EmergencyPageAnswerEntity::class
-        ],
+    ],
     version = 1
 )
 @TypeConverters(
@@ -46,16 +46,17 @@ import com.smartdrobi.aplikasipkm.data.typeconverter.ListStringImagePathTypeConv
     ListOfListStringImagePathTypeConverter::class,
     DateStringConverter::class
 )
-abstract class BridgeDatabase: RoomDatabase(){
+abstract class BridgeDatabase : RoomDatabase() {
 
-    abstract fun bridgeDao():BridgeDao
-    abstract fun bridgeCheckDao():BridgeCheckDao
+    abstract fun bridgeDao(): BridgeDao
+    abstract fun bridgeCheckDao(): BridgeCheckDao
+
     companion object {
         @Volatile
-        private var INSTANCE: BridgeDatabase?=null
+        private var INSTANCE: BridgeDatabase? = null
 
         fun getDatabase(context: Context): BridgeDatabase {
-            return INSTANCE ?: synchronized(this){
+            return INSTANCE ?: synchronized(this) {
                 INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
                     BridgeDatabase::class.java,

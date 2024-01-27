@@ -1,7 +1,6 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form
 
 import android.app.DatePickerDialog
-import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import com.smartdrobi.aplikasipkm.R
@@ -13,7 +12,7 @@ import java.util.Calendar
 class AddBridgeCheckFragment
     : BaseFormFragment(FormPage.FIRST),
     BridgeCheckFormFieldsAdapter.OnTextDateCallback,
-    BridgeCheckFormFieldsAdapter.OnTextCallback{
+    BridgeCheckFormFieldsAdapter.OnTextCallback {
 
 
     override fun showDatePicker(fieldPosition: Int) {
@@ -22,7 +21,7 @@ class AddBridgeCheckFragment
                 val view = rvFields.getChildAt(fieldPosition)
                 val etDate = view.findViewById<AppCompatEditText>(R.id.et_date)
                 showDatePicker(fieldPosition, etDate)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 
@@ -38,27 +37,27 @@ class AddBridgeCheckFragment
         )
     }
 
-    private fun showDatePicker(fieldPosition: Int, clickedView: View){
+    private fun showDatePicker(fieldPosition: Int, clickedView: View) {
         val editText = clickedView as AppCompatEditText
         val currSelectedDate = editText.text.toString()
 
-        val year:Int
-        val month:Int
-        val day:Int
+        val year: Int
+        val month: Int
+        val day: Int
 
-        if (currSelectedDate.isBlank()){
+        if (currSelectedDate.isBlank()) {
             val c = Calendar.getInstance()
             year = c.get(Calendar.YEAR)
             month = c.get(Calendar.MONTH)
             day = c.get(Calendar.DAY_OF_MONTH)
-        }else{
+        } else {
             val splittedDate = currSelectedDate.split("/")
             day = splittedDate[0].toInt()
             month = splittedDate[1].toInt() - 1
             year = splittedDate[2].toInt()
         }
 
-        DatePickerDialog(requireActivity(), { _, yearr,monthOfTheYear, dayOfTheMonth ->
+        DatePickerDialog(requireActivity(), { _, yearr, monthOfTheYear, dayOfTheMonth ->
             val newDate = getString(
                 R.string.date,
                 dayOfTheMonth.toString(),
@@ -78,7 +77,7 @@ class AddBridgeCheckFragment
     }
 
 
-    enum class ViewId(val id:Int){
+    enum class ViewId(val id: Int) {
         INSPECTOR_NAME(0),
         CHECK_DATE(1),
         TRAFFIC_VAL(2),

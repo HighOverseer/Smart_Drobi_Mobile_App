@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.text.InputType
-import android.text.method.DigitsKeyListener
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
@@ -41,7 +40,6 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -53,7 +51,7 @@ const val AUTHORITY = "com.smartdrobi.aplikasipkm"
 
 const val DATE_FORMAT_PATTERN = "dd/MM/yyyy"
 
-fun <T> Flow<T>.toStateFlow(scope: CoroutineScope, initialValue:T):StateFlow<T>{
+fun <T> Flow<T>.toStateFlow(scope: CoroutineScope, initialValue: T): StateFlow<T> {
     return stateIn(
         scope,
         SharingStarted.WhileSubscribed(5000L),
@@ -61,47 +59,49 @@ fun <T> Flow<T>.toStateFlow(scope: CoroutineScope, initialValue:T):StateFlow<T>{
     )
 }
 
-inline fun <reified T:ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
+inline fun <reified T : ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
     applicationContext: Context
-):T{
+): T {
     val constructor = T::class.java.getConstructor(Repository::class.java)
 
     val factoryInstance = constructor.newInstance(Injection.provideRepository(applicationContext))
-    if (factoryInstance !is T){
+    if (factoryInstance !is T) {
         throw Exception("Error creating ViewModel Factory")
     }
 
     return factoryInstance
 }
 
-inline fun <reified T:ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
+inline fun <reified T : ViewModelProvider.NewInstanceFactory> obtainViewModelFactory(
     applicationContext: Context,
     arguments: Bundle
-):T{
+): T {
     val constructor = T::class.java.getConstructor(Repository::class.java, Bundle::class.java)
 
-    val factoryInstance = constructor.newInstance(Injection.provideRepository(applicationContext), arguments)
-    if (factoryInstance !is T){
+    val factoryInstance =
+        constructor.newInstance(Injection.provideRepository(applicationContext), arguments)
+    if (factoryInstance !is T) {
         throw Exception("Error creating ViewModel Factory")
     }
     return factoryInstance
 }
+
 inline fun <
-        reified U:ViewModelProvider.NewInstanceFactory,
-        reified T:ViewModel>  obtainViewModel(
+        reified U : ViewModelProvider.NewInstanceFactory,
+        reified T : ViewModel> obtainViewModel(
     owner: ViewModelStoreOwner,
     applicationContext: Context,
     arguments: Bundle? = null
-):T{
-    val factory = if(arguments == null){
+): T {
+    val factory = if (arguments == null) {
         obtainViewModelFactory<U>(applicationContext)
-    }else {
+    } else {
         obtainViewModelFactory<U>(applicationContext, arguments)
     }
     return ViewModelProvider(owner, factory)[T::class.java]
 }
 
-fun ImageView.loadImage(context: Context, imageUrl:String){
+fun ImageView.loadImage(context: Context, imageUrl: String) {
     Glide.with(context)
         .load(imageUrl)
         .into(this)
@@ -115,7 +115,7 @@ fun createCustomTempFile(context: Context): File {
     return File.createTempFile("$PHOTO${numOfPhotos + 1}", ".jpg", storageDir)
 }
 
-fun AppCompatSpinner.setInit(context: Context,listItems:List<String>){
+fun AppCompatSpinner.setInit(context: Context, listItems: List<String>) {
     val adapter = SpAdapter(context, listItems)
     setScrollable()
     this.adapter = adapter
@@ -131,15 +131,15 @@ fun Float.toDp(displayMetrics: DisplayMetrics): Float {
 
 fun showDialogIntentPhoto(
     context: Context,
-    openGallery:(Int, Int) -> Unit,
-    openCameraDrone:(Int, Int) -> Unit,
-    openCamera:(Int, Int) -> Unit,
-    fieldPosition:Int,
-    parentFieldPosition:Int = -1
-){
+    openGallery: (Int, Int) -> Unit,
+    openCameraDrone: (Int, Int) -> Unit,
+    openCamera: (Int, Int) -> Unit,
+    fieldPosition: Int,
+    parentFieldPosition: Int = -1
+) {
     AlertDialog.Builder(context)
         .setTitle("Pilih Metode")
-        .setItems(context.resources.getStringArray(R.array.intent_photo)){ dialog, which ->
+        .setItems(context.resources.getStringArray(R.array.intent_photo)) { dialog, which ->
             when (which) {
                 0 -> openGallery(fieldPosition, parentFieldPosition)
                 1 -> openCameraDrone(fieldPosition, parentFieldPosition)
@@ -151,7 +151,7 @@ fun showDialogIntentPhoto(
         .show()
 }
 
-private fun AppCompatSpinner.setScrollable(){
+private fun AppCompatSpinner.setScrollable() {
     val popupField = AppCompatSpinner::class.java.getDeclaredField("mPopup")
     popupField.isAccessible = true
 
@@ -161,76 +161,85 @@ private fun AppCompatSpinner.setScrollable(){
 
 }
 
-fun ImageView.loadImage(context: Context, imageRestId:Int){
+fun ImageView.loadImage(context: Context, imageRestId: Int) {
     Glide.with(context)
         .load(imageRestId)
         .into(this)
 }
 
-fun ImageView.loadImage(context:Context, imageBitmap: Bitmap){
+fun ImageView.loadImage(context: Context, imageBitmap: Bitmap) {
     Glide.with(context)
         .load(imageBitmap)
         .into(this)
 }
 
-fun ImageView.loadImage(context:Context, imageFile: File){
+fun ImageView.loadImage(context: Context, imageFile: File) {
     Glide.with(context)
         .load(imageFile)
         .into(this)
 }
 
 
-fun showToast(context: Context, message:String){
+fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-fun Int.toDp(displayMetrics: DisplayMetrics):Int{
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), displayMetrics).toInt()
+fun Int.toDp(displayMetrics: DisplayMetrics): Int {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), displayMetrics)
+        .toInt()
 }
 
 
-
 fun String.toDate(format: String): Date {
-    val simpleDateFormat = SimpleDateFormat(format, ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+    val simpleDateFormat = SimpleDateFormat(
+        format,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
+    )
     return try {
         simpleDateFormat.parse(this) as Date
-    }catch (e:Exception){
+    } catch (e: Exception) {
         getCurrentDate()
     }
 }
 
-fun Date.toString(format: String):String{
-    val simpleDateFormat = SimpleDateFormat(format, ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+fun Date.toString(format: String): String {
+    val simpleDateFormat = SimpleDateFormat(
+        format,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
+    )
     return try {
         simpleDateFormat.format(this)
-    }catch (e:Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
         getCurrentDateInString("yyyy-MM-dd")!!
     }
 }
 
-fun getCurrentDateInString(format:String):String?{
-    val simpleDateFormat = SimpleDateFormat(format, ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+fun getCurrentDateInString(format: String): String? {
+    val simpleDateFormat = SimpleDateFormat(
+        format,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0]
+    )
     val currentDate = getCurrentDate()
     return try {
         simpleDateFormat.format(currentDate)
-    }catch (e:Exception){
+    } catch (e: Exception) {
         null
     }
 }
 
-fun getCurrentDate():Date = Calendar.getInstance().time
+fun getCurrentDate(): Date = Calendar.getInstance().time
 
-fun countSpanImageCollection(imageCount:Int, columnCount:Int):Int{
-    return (imageCount/columnCount)+1
+fun countSpanImageCollection(imageCount: Int, columnCount: Int): Int {
+    return (imageCount / columnCount) + 1
 }
 
 fun View.setMargin(
-    marginTop:Int = -1,
-    marginBottom:Int = -1,
-    marginEnd:Int = -1,
+    marginTop: Int = -1,
+    marginBottom: Int = -1,
+    marginEnd: Int = -1,
     marginStart: Int = -1
-){
+) {
     val displayMetrics = this.resources.displayMetrics
     val margins = listOf(
         marginTop,
@@ -240,11 +249,11 @@ fun View.setMargin(
     )
 
     val params = this.layoutParams as ConstraintLayout.LayoutParams
-    for (i in margins.indices){
+    for (i in margins.indices) {
         val currMargin = margins[i]
-        if (currMargin != -1){
-            when(i){
-                0 ->  params.topMargin = marginTop.toDp(displayMetrics)
+        if (currMargin != -1) {
+            when (i) {
+                0 -> params.topMargin = marginTop.toDp(displayMetrics)
                 1 -> params.bottomMargin = marginBottom.toDp(displayMetrics)
                 2 -> params.marginEnd = marginEnd.toDp(displayMetrics)
                 3 -> params.marginStart = marginStart.toDp(displayMetrics)
@@ -255,15 +264,17 @@ fun View.setMargin(
 
 }
 
-fun AppCompatEditText.setInputType(inputType: BridgeCheckField.EditTextInputType){
-    when(inputType){
-        BridgeCheckField.EditTextInputType.TEXT ->{
+fun AppCompatEditText.setInputType(inputType: BridgeCheckField.EditTextInputType) {
+    when (inputType) {
+        BridgeCheckField.EditTextInputType.TEXT -> {
             setInputType(InputType.TYPE_CLASS_TEXT)
         }
-        BridgeCheckField.EditTextInputType.NUMBER ->{
+
+        BridgeCheckField.EditTextInputType.NUMBER -> {
             setInputType(InputType.TYPE_CLASS_NUMBER)
         }
-        BridgeCheckField.EditTextInputType.NUMBER_DECIMAL ->{
+
+        BridgeCheckField.EditTextInputType.NUMBER_DECIMAL -> {
             setInputType(
                 (InputType.TYPE_NUMBER_FLAG_DECIMAL.or(InputType.TYPE_CLASS_NUMBER))
             )
@@ -272,10 +283,10 @@ fun AppCompatEditText.setInputType(inputType: BridgeCheckField.EditTextInputType
     }
 }
 
-fun getDrawable(resources: Resources, drawableId:Int):Drawable?{
+fun getDrawable(resources: Resources, drawableId: Int): Drawable? {
     try {
         return ResourcesCompat.getDrawable(resources, drawableId, null)
-    }catch (e:Exception) {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
     return null
@@ -283,8 +294,8 @@ fun getDrawable(resources: Resources, drawableId:Int):Drawable?{
 
 suspend fun Bitmap.saveToFile(
     context: Context
-):File = withContext(Dispatchers.IO){
-    val file:File = createNewFileInFileDir(
+): File = withContext(Dispatchers.IO) {
+    val file: File = createNewFileInFileDir(
         context,
         "Smart_Drobi-(Drone_Cam)", ".png"
     )
@@ -298,7 +309,7 @@ suspend fun Bitmap.saveToFile(
         fos.write(bitmapData)
         fos.flush()
         fos.close()
-    }catch (e:Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
     }
     file
@@ -306,13 +317,13 @@ suspend fun Bitmap.saveToFile(
 
 fun createNewFileInDownloadDir(
     fileName: String,
-    suffix:String = "",
+    suffix: String = "",
 ): File {
 
     fun createFile(
-        fileNameWithSuffix:String
-    ):File{
-        return  File(
+        fileNameWithSuffix: String
+    ): File {
+        return File(
             Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS
             ),
@@ -321,20 +332,20 @@ fun createNewFileInDownloadDir(
     }
 
     var file = createFile("$fileName${suffix.trim()}")
-    if (!file.exists()){
+    if (!file.exists()) {
         return file
     }
-    if (suffix.isNotBlank()){
-        for(i in 1..Int.MAX_VALUE){
+    if (suffix.isNotBlank()) {
+        for (i in 1..Int.MAX_VALUE) {
             file = createFile("$fileName ($i)$suffix")
-            if (!file.exists()){
+            if (!file.exists()) {
                 return file
             }
         }
-    }else {
-        for(i in 1..Int.MAX_VALUE){
+    } else {
+        for (i in 1..Int.MAX_VALUE) {
             file = createFile("$fileName ($i)")
-            if (!file.exists()){
+            if (!file.exists()) {
                 return file
             }
         }
@@ -346,33 +357,33 @@ fun createNewFileInDownloadDir(
 fun createNewFileInFileDir(
     context: Context,
     fileName: String,
-    suffix:String = "",
+    suffix: String = "",
 ): File {
 
     fun createFile(
-        fileNameWithSuffix:String
-    ):File{
-        return  File(
+        fileNameWithSuffix: String
+    ): File {
+        return File(
             context.filesDir,
             fileNameWithSuffix
         )
     }
 
     var file = createFile("$fileName${suffix.trim()}")
-    if (!file.exists()){
+    if (!file.exists()) {
         return file
     }
-    if (suffix.isNotBlank()){
-        for(i in 1..Int.MAX_VALUE){
+    if (suffix.isNotBlank()) {
+        for (i in 1..Int.MAX_VALUE) {
             file = createFile("$fileName ($i)$suffix")
-            if (!file.exists()){
+            if (!file.exists()) {
                 return file
             }
         }
-    }else {
-        for(i in 1..Int.MAX_VALUE){
+    } else {
+        for (i in 1..Int.MAX_VALUE) {
             file = createFile("$fileName ($i)")
-            if (!file.exists()){
+            if (!file.exists()) {
                 return file
             }
         }
@@ -381,7 +392,7 @@ fun createNewFileInFileDir(
 }
 
 
-suspend fun uriToFile(selectedImg: Uri, context: Context): File? = withContext(Dispatchers.IO){
+suspend fun uriToFile(selectedImg: Uri, context: Context): File? = withContext(Dispatchers.IO) {
     val contentResolver: ContentResolver = context.contentResolver
     val myFile = createCustomTempFile(context)
     val outputStream = FileOutputStream(myFile)
@@ -395,11 +406,11 @@ suspend fun uriToFile(selectedImg: Uri, context: Context): File? = withContext(D
             outputStream.close()
             inputStream.close()
             return@withContext myFile
-        }else{
+        } else {
             outputStream.flush()
             outputStream.close()
         }
-    }catch (e:Exception) {
+    } catch (e: Exception) {
         if (myFile.exists()) myFile.delete()
 
         outputStream.flush()
@@ -411,19 +422,19 @@ suspend fun uriToFile(selectedImg: Uri, context: Context): File? = withContext(D
 
 inline fun showDialogConfirmation(
     context: Context,
-    message:String,
-    crossinline postiveBtnAction:()->Unit,
-    crossinline negativeBtnAction:()->Unit = {}
-){
+    message: String,
+    crossinline postiveBtnAction: () -> Unit,
+    crossinline negativeBtnAction: () -> Unit = {}
+) {
     AlertDialog.Builder(context)
         .setTitle("Konfirmasi")
         .setMessage(message)
-        .setPositiveButton("Iya"){ dialog, _ ->
+        .setPositiveButton("Iya") { dialog, _ ->
             dialog.dismiss()
             postiveBtnAction()
             /*dialog.dismiss()*/
         }
-        .setNegativeButton("Tidak"){ dialog, _ ->
+        .setNegativeButton("Tidak") { dialog, _ ->
             negativeBtnAction()
             dialog.cancel()
         }

@@ -1,9 +1,6 @@
 package com.smartdrobi.aplikasipkm.ui.adapter
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,44 +10,43 @@ import com.smartdrobi.aplikasipkm.domain.helper.getDrawable
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 
 class ImageCollectionAdapter(
-    images:List<String?>,
+    images: List<String?>,
     /*spanCount:Int,
     columnCount:Int,*/
     private val fieldPosition: Int,
     private val parentFieldPositionIfAny: Int = -1,
-    private val callback:OnImageCollectionCallback
-):RecyclerView.Adapter<ImageCollectionAdapter.ImageCollectionViewHolder>() {
+    private val callback: OnImageCollectionCallback
+) : RecyclerView.Adapter<ImageCollectionAdapter.ImageCollectionViewHolder>() {
 
-    private val listImages:List<String?> = images.toMutableList().also { it.add(null) }
+    private val listImages: List<String?> = images.toMutableList().also { it.add(null) }
     //private var plusSignPos:Int = -1
 
 
+    /*    init {
+            listImages = images.toMutableList().let {
+                it.add(null)
 
-/*    init {
-        listImages = images.toMutableList().let {
-            it.add(null)
-
-            val fixImages = MutableList<String?>(columnCount*spanCount){
-                null
-            }
-
-            for (pos in it.indices){
-
-                val startPos = (pos%columnCount)*spanCount
-                val row = pos.div(columnCount)
-                val finishPos = startPos+row
-                fixImages[finishPos] = it[pos]
-
-                if (pos == it.lastIndex){
-                    plusSignPos = finishPos
+                val fixImages = MutableList<String?>(columnCount*spanCount){
+                    null
                 }
+
+                for (pos in it.indices){
+
+                    val startPos = (pos%columnCount)*spanCount
+                    val row = pos.div(columnCount)
+                    val finishPos = startPos+row
+                    fixImages[finishPos] = it[pos]
+
+                    if (pos == it.lastIndex){
+                        plusSignPos = finishPos
+                    }
+                }
+                fixImages
             }
-            fixImages
-        }
-    }*/
+        }*/
     class ImageCollectionViewHolder(
-        val binding:ImageItemLayoutBinding,
-    ):RecyclerView.ViewHolder(binding.root)
+        val binding: ImageItemLayoutBinding,
+    ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageCollectionViewHolder {
         val binding = ImageItemLayoutBinding.inflate(
@@ -68,12 +64,12 @@ class ImageCollectionAdapter(
         try {
             val currImage = listImages[position]
             val context = holder.itemView.context
-            if (currImage != null){
+            if (currImage != null) {
                 holder.binding.ivImage.loadImage(
                     context,
                     currImage
                 )
-            }else{
+            } else {
                 holder.binding.ivImage.apply {
                     val addSignDrawable = getDrawable(
                         resources,
@@ -99,33 +95,34 @@ class ImageCollectionAdapter(
                                 }
 
                             }*/
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private val onImageChooserClickListener = OnClickListener { showImageChooser() }
 
-    private fun showImageChooser(){
+    private fun showImageChooser() {
         val isParentAChild = parentFieldPositionIfAny != -1
-        if (isParentAChild){
+        if (isParentAChild) {
             callback.showDialogImageChooserInChild(
                 parentFieldPositionIfAny,
                 fieldPosition
             )
-        }else callback.showDialogImageChooser(fieldPosition)
+        } else callback.showDialogImageChooser(fieldPosition)
     }
 
 
     override fun getItemCount() = listImages.size
 
-    interface OnImageCollectionCallback{
+    interface OnImageCollectionCallback {
         fun showDialogImageChooserInChild(
-            parentFieldPosition:Int,
-            fieldPosition:Int
+            parentFieldPosition: Int,
+            fieldPosition: Int
         )
+
         fun showDialogImageChooser(
-            fieldPosition:Int
+            fieldPosition: Int
         )
     }
 }

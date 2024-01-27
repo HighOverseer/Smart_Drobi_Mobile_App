@@ -8,7 +8,7 @@ import com.smartdrobi.aplikasipkm.domain.helper.toDp
 
 class ImageCollectionDecoration(
     private val displayMetrics: DisplayMetrics,
-    private val padding:Int,
+    private val padding: Int,
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(

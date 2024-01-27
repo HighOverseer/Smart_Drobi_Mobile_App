@@ -1,27 +1,23 @@
 package com.smartdrobi.aplikasipkm.ui.adapter
 
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.ConfigurationCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.DetailCheckHistoryItemLayoutBinding
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckPreview
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 class DetailBridgeCheckPreviewAdapter(
-    private val items:List<BridgeCheckPreview>,
-    private val clickAction:(clickedItemId:Int) -> Unit
-):RecyclerView.Adapter<DetailBridgeCheckPreviewAdapter.DetailBridgeCheckPreviewViewHolder>() {
+    private val items: List<BridgeCheckPreview>,
+    private val clickAction: (clickedItemId: Int) -> Unit
+) : RecyclerView.Adapter<DetailBridgeCheckPreviewAdapter.DetailBridgeCheckPreviewViewHolder>() {
 
     class DetailBridgeCheckPreviewViewHolder(
-        val binding:DetailCheckHistoryItemLayoutBinding,
-        clickedItemPosition : (Int) -> Unit
-    ):RecyclerView.ViewHolder(binding.root){
+        val binding: DetailCheckHistoryItemLayoutBinding,
+        clickedItemPosition: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
                 clickedItemPosition(adapterPosition)
@@ -39,7 +35,7 @@ class DetailBridgeCheckPreviewAdapter(
             parent,
             false
         )
-        return DetailBridgeCheckPreviewViewHolder(binding){itemPosition ->
+        return DetailBridgeCheckPreviewViewHolder(binding) { itemPosition ->
             clickAction(
                 items[itemPosition].checkId
             )
@@ -66,12 +62,12 @@ class DetailBridgeCheckPreviewAdapter(
 
     private fun getMonthsFromDate(
         context: Context,
-        stringDate:String
-    ):String{
-        var monthsPosition= 1
+        stringDate: String
+    ): String {
+        var monthsPosition = 1
         try {
             monthsPosition = stringDate.split("/")[1].toInt()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         val months = context.resources.getStringArray(R.array.months_list)

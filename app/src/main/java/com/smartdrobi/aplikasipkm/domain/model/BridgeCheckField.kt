@@ -4,25 +4,25 @@ import com.smartdrobi.aplikasipkm.domain.StringRes
 
 
 sealed class BridgeCheckField private constructor(
-    val typeId:Int,
-    open val fieldId:Int,
-    inline val saveToBridgeCheck:(BridgeCheck, Field) -> Unit = {_, _-> }
-){
+    val typeId: Int,
+    open val fieldId: Int,
+    inline val saveToBridgeCheck: (BridgeCheck, Field) -> Unit = { _, _ -> }
+) {
     data class Header(
         val tvInfoText: StringRes
-    ):BridgeCheckField(HEADER_TYPE, HEADER_ID)
+    ) : BridgeCheckField(HEADER_TYPE, HEADER_ID)
 
     data class RegularText(
-        val id:Int,
+        val id: Int,
         val tvInfoText: StringRes,
         val marginStart: Int,
-        val marginTop:Int,
-        val maxLength:Int,
+        val marginTop: Int,
+        val maxLength: Int,
         val inputType: EditTextInputType = EditTextInputType.TEXT,
-        var lastEtText:String = "",
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(TEXT_TYPE, id, save), Text{
-        override fun saveNewText(newText:String) {
+        var lastEtText: String = "",
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(TEXT_TYPE, id, save), Text {
+        override fun saveNewText(newText: String) {
             lastEtText = newText
         }
 
@@ -33,14 +33,14 @@ sealed class BridgeCheckField private constructor(
     }
 
     data class DateText(
-        val id:Int,
+        val id: Int,
         val tvInfoText: StringRes,
-        val marginStart:Int,
+        val marginStart: Int,
         val marginTop: Int,
-        var lastEtText:String = "",
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(DATE_TYPE, id, save), Text{
-        override fun saveNewText(newText:String) {
+        var lastEtText: String = "",
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(DATE_TYPE, id, save), Text {
+        override fun saveNewText(newText: String) {
             lastEtText = newText
         }
 
@@ -50,20 +50,20 @@ sealed class BridgeCheckField private constructor(
         }
     }
 
-/*    data class AddImage(
-        val id:Int,
-        val listImages:MutableList<Bitmap> //for temporary
-    ):BridgeCheckField(ADD_IMAGE_TYPE)*/
+    /*    data class AddImage(
+            val id:Int,
+            val listImages:MutableList<Bitmap> //for temporary
+        ):BridgeCheckField(ADD_IMAGE_TYPE)*/
 
     data class MultilineText(
-        val id:Int,
+        val id: Int,
         val tvInfoText: StringRes,
         val marginStart: Int,
         val marginTop: Int,
         var lastEtText: String = "",
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(MULTILINE_TEXT_TYPE, id, save), Text{
-        override fun saveNewText(newText:String) {
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(MULTILINE_TEXT_TYPE, id, save), Text {
+        override fun saveNewText(newText: String) {
             lastEtText = newText
         }
 
@@ -74,20 +74,20 @@ sealed class BridgeCheckField private constructor(
     }
 
     data class ContainerBooleans(
-        val id:Int,
+        val id: Int,
         val tvInfoText: StringRes,
-        val booleanQuestions:List<BooleanQuestion>,
-    ):BridgeCheckField(CONTAINER_BOOLEANS_TYPE, id)
+        val booleanQuestions: List<BooleanQuestion>,
+    ) : BridgeCheckField(CONTAINER_BOOLEANS_TYPE, id)
 
     @Suppress("UNCHECKED_CAST")
     data class BooleanQuestion(
-        val questionId:Int,
-        val tvInfoText:StringRes,
-        var answer:BooleanQuestionAnswer = BooleanQuestionAnswer.NONE,
-        val listImagePath:MutableList<String> = mutableListOf(),
-        var isImageCollectionsVisible:Boolean = false,
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(BOOLEAN_QUESTION_TYPE, questionId, save), BooleanField{
+        val questionId: Int,
+        val tvInfoText: StringRes,
+        var answer: BooleanQuestionAnswer = BooleanQuestionAnswer.NONE,
+        val listImagePath: MutableList<String> = mutableListOf(),
+        var isImageCollectionsVisible: Boolean = false,
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(BOOLEAN_QUESTION_TYPE, questionId, save), BooleanField {
         override fun saveNewAnswer(newAnswer: BooleanQuestionAnswer) {
             answer = newAnswer
         }
@@ -101,18 +101,18 @@ sealed class BridgeCheckField private constructor(
     }
 
     data class BooleanQuestionWithoutImages(
-        val id:Int,
-        val tvInfoText:StringRes,
-        var answer:BooleanQuestionAnswer = BooleanQuestionAnswer.NONE,
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(BOOLEAN_QUESTION_WITHOUT_IMAGES_TYPE, id, save), BooleanField{
+        val id: Int,
+        val tvInfoText: StringRes,
+        var answer: BooleanQuestionAnswer = BooleanQuestionAnswer.NONE,
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(BOOLEAN_QUESTION_WITHOUT_IMAGES_TYPE, id, save), BooleanField {
         override fun saveNewAnswer(newAnswer: BooleanQuestionAnswer) {
             answer = newAnswer
         }
 
         @Suppress("UNCHECKED_CAST")
         override fun <T> getValue(): T {
-           return answer as T
+            return answer as T
         }
     }
 
@@ -122,16 +122,16 @@ sealed class BridgeCheckField private constructor(
     )
 
     data class MultifieldText(
-        val id:Int,
-        var code:String = "",
-        var desc:String = "",
-        var apb:String = "",
-        var x:String = "",
-        var y:String = "",
-        var z:String = "",
-        var reason:String = "",
-        inline val save:(BridgeCheck, Field) -> Unit
-    ):BridgeCheckField(MULTIFIELD_TEXT_TYPE, id, save), Field{
+        val id: Int,
+        var code: String = "",
+        var desc: String = "",
+        var apb: String = "",
+        var x: String = "",
+        var y: String = "",
+        var z: String = "",
+        var reason: String = "",
+        inline val save: (BridgeCheck, Field) -> Unit
+    ) : BridgeCheckField(MULTIFIELD_TEXT_TYPE, id, save), Field {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T> getValue(): T {
@@ -142,45 +142,45 @@ sealed class BridgeCheckField private constructor(
     }
 
     data class MultifieldContent(
-        val code:String = "",
-        val desc:String = "",
-        val apb:String = "",
-        val x:String = "",
-        val y:String = "",
-        val z:String = "",
-        val reason:String = "",
+        val code: String = "",
+        val desc: String = "",
+        val apb: String = "",
+        val x: String = "",
+        val y: String = "",
+        val z: String = "",
+        val reason: String = "",
     )
 
-    enum class EditTextInputType{
+    enum class EditTextInputType {
         TEXT,
         NUMBER_DECIMAL,
         NUMBER
     }
 
-    enum class BooleanQuestionAnswer{
+    enum class BooleanQuestionAnswer {
         NONE,
         YES,
         NO
     }
 
-    interface Field{
-        fun<T> getValue():T
+    interface Field {
+        fun <T> getValue(): T
     }
 
-    interface BooleanField:Field{
+    interface BooleanField : Field {
         fun saveNewAnswer(newAnswer: BooleanQuestionAnswer)
     }
 
-    interface Text:Field{
-        fun saveNewText(newText:String)
+    interface Text : Field {
+        fun saveNewText(newText: String)
     }
 
 
-
-    companion object{
+    companion object {
         const val HEADER_ID = -1
-        
+
         const val HEADER_TYPE = 1
+
         //const val ADD_IMAGE_TYPE = 2
         const val TEXT_TYPE = 3
         const val DATE_TYPE = 4

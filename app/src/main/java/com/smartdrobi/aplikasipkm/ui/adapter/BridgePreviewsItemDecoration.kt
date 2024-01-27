@@ -9,19 +9,19 @@ import com.smartdrobi.aplikasipkm.domain.helper.toDp
 
 class BridgePreviewsItemDecoration(
     private val displayMetrics: DisplayMetrics,
-    private val includeLastOne:Boolean = false,
-    private val paddingTop:Int = -1,
-    private val paddingBottom:Int = -1,
-    private val paddingStart:Int = -1,
-    private val paddingEnd:Int = -1,
-):ItemDecoration() {
+    private val includeLastOne: Boolean = false,
+    private val paddingTop: Int = -1,
+    private val paddingBottom: Int = -1,
+    private val paddingStart: Int = -1,
+    private val paddingEnd: Int = -1,
+) : ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        if (includeLastOne){
+        if (includeLastOne) {
             outRect.apply {
                 val paddings = listOf(
                     paddingTop,
@@ -29,10 +29,10 @@ class BridgePreviewsItemDecoration(
                     paddingEnd,
                     paddingStart
                 )
-                for (i in paddings.indices){
+                for (i in paddings.indices) {
                     val currPadding = paddings[i]
-                    if (currPadding != -1){
-                        when(i){
+                    if (currPadding != -1) {
+                        when (i) {
                             0 -> top = paddingTop.toDp(displayMetrics)
                             1 -> bottom = paddingBottom.toDp(displayMetrics)
                             2 -> right = paddingEnd.toDp(displayMetrics)
@@ -41,7 +41,7 @@ class BridgePreviewsItemDecoration(
                     }
                 }
             }
-        }else if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)){
+        } else if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)) {
             outRect.apply {
                 val paddings = listOf(
                     paddingTop,
@@ -49,10 +49,10 @@ class BridgePreviewsItemDecoration(
                     paddingEnd,
                     paddingStart
                 )
-                for (i in paddings.indices){
+                for (i in paddings.indices) {
                     val currPadding = paddings[i]
-                    if (currPadding != -1){
-                        when(i){
+                    if (currPadding != -1) {
+                        when (i) {
                             0 -> top = paddingTop.toDp(displayMetrics)
                             1 -> bottom = paddingBottom.toDp(displayMetrics)
                             2 -> right = paddingEnd.toDp(displayMetrics)

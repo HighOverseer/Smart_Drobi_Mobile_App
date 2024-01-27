@@ -1,17 +1,16 @@
 package com.smartdrobi.aplikasipkm.ui.home.toplevelview
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.smartdrobi.aplikasipkm.R
+import androidx.fragment.app.Fragment
 import com.smartdrobi.aplikasipkm.databinding.FragmentGuideBinding
 
 
 class GuideFragment : Fragment() {
 
-    private var binding:FragmentGuideBinding?=null
+    private var binding: FragmentGuideBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

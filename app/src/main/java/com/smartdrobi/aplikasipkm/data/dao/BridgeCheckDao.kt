@@ -22,44 +22,46 @@ import kotlinx.coroutines.flow.Flow
 interface BridgeCheckDao {
     @Query("SELECT * FROM bridge_check WHERE id = :bridgeCheckId")
     suspend fun getBridgeCheckAndAnswersByBridgeCheckId(
-        bridgeCheckId:Int
-    ):BridgeCheckAndAnswers
+        bridgeCheckId: Int
+    ): BridgeCheckAndAnswers
 
     /*@Query("SELECT * FROM bridge_check WHERE bridgeId = :bridgeId")
     fun getBridgeCheckPreviewLiveData(bridgeId: Int):LiveData<List<BridgeCheckBridgeAndFirstPage>>*/
 
     @Transaction
     @Query("SELECT * FROM bridge_check WHERE bridgeId = :bridgeId")
-    fun getBridgeCheckPreviewInFlow(bridgeId: Int):Flow<List<BridgeCheckBridgeAndFirstPage>>
+    fun getBridgeCheckPreviewInFlow(bridgeId: Int): Flow<List<BridgeCheckBridgeAndFirstPage>>
 
     @Query("SELECT * FROM bridge_check WHERE bridgeId = :bridgeId")
-    suspend fun getBridgeCheckPreview(bridgeId: Int):List<BridgeCheckBridgeAndFirstPage>
+    suspend fun getBridgeCheckPreview(bridgeId: Int): List<BridgeCheckBridgeAndFirstPage>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBridgeCheck(bridgeCheckEntity: BridgeCheckEntity)
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFirstPageAnswer(firstPageAnswerEntity: FirstPageAnswerEntity):Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSecurityPageAnswer(securityPageAnswerEntity: SecurityPageAnswerEntity):Long
+    suspend fun insertFirstPageAnswer(firstPageAnswerEntity: FirstPageAnswerEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSafetyPageAnswer(safetyPageAnswerEntity: SafetyPageAnswerEntity):Long
+    suspend fun insertSecurityPageAnswer(securityPageAnswerEntity: SecurityPageAnswerEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMaintenancePageAnswer(maintenancePageAnswerEntity: MaintenancePageAnswerEntity):Long
+    suspend fun insertSafetyPageAnswer(safetyPageAnswerEntity: SafetyPageAnswerEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSocialPageAnswer(socialPageAnswerEntity: SocialPageAnswerEntity):Long
+    suspend fun insertMaintenancePageAnswer(maintenancePageAnswerEntity: MaintenancePageAnswerEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertConveniencePageAnswer(conveniencePageAnswerEntity: ConveniencePageAnswerEntity):Long
+    suspend fun insertSocialPageAnswer(socialPageAnswerEntity: SocialPageAnswerEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmergencyPageAnswer(emergencyPageAnswerEntity: EmergencyPageAnswerEntity):Long
+    suspend fun insertConveniencePageAnswer(conveniencePageAnswerEntity: ConveniencePageAnswerEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEmergencyPageAnswer(emergencyPageAnswerEntity: EmergencyPageAnswerEntity): Long
 
     @Update
     suspend fun updateBridgeCheck(bridgeCheckEntity: BridgeCheckEntity)
+
     @Update
     suspend fun updateFirstPageAnswer(firstPageAnswerEntity: FirstPageAnswerEntity)
 

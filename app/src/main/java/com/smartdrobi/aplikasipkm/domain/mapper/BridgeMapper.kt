@@ -10,7 +10,7 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 object BridgeMapper {
     fun toBridge(
         bridgeAndLastInspectionDate: BridgeAndLastInspectionDate
-    ):Bridge{
+    ): Bridge {
         return bridgeAndLastInspectionDate.run {
             Bridge(
                 id,
@@ -33,7 +33,7 @@ object BridgeMapper {
         }
     }
 
-    fun toBridgeEntity(bridge: Bridge):BridgeEntity{
+    fun toBridgeEntity(bridge: Bridge): BridgeEntity {
         return bridge.run {
             BridgeEntity(
                 id,
@@ -55,13 +55,13 @@ object BridgeMapper {
         }
     }
 
-    fun toBridgePreview(bridgeAndLastInspectionDate: BridgeAndLastInspectionDate):BridgePreview{
+    fun toBridgePreview(bridgeAndLastInspectionDate: BridgeAndLastInspectionDate): BridgePreview {
         return bridgeAndLastInspectionDate.run {
             BridgePreview(
                 id,
                 imagePath,
                 name,
-                lastInspectionDate?.toString(DATE_FORMAT_PATTERN)?:"-",
+                lastInspectionDate?.toString(DATE_FORMAT_PATTERN) ?: "-",
                 inspectionPlanDate,
                 mapLocName
             )

@@ -14,23 +14,30 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.smartdrobi.aplikasipkm.R
 
-class MySearchView:SearchView{
+class MySearchView : SearchView {
     private val mPaint = Paint()
-    private lateinit var hintText:String
+    private lateinit var hintText: String
     private val colorGrey = ResourcesCompat.getColor(resources, R.color.grey_10, null)
-    constructor(context: Context):super(context){
-        init(context)
-    }
-    constructor(context: Context, attrs: AttributeSet):super(context, attrs){
-        init(context)
-    }
-    constructor(context: Context, attrs: AttributeSet, defStyleInt:Int):super(context, attrs, defStyleInt){
+
+    constructor(context: Context) : super(context) {
         init(context)
     }
 
-    val editText:SearchAutoComplete = findViewById(androidx.appcompat.R.id.search_src_text)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(context)
+    }
 
-    private fun init(context: Context){
+    constructor(context: Context, attrs: AttributeSet, defStyleInt: Int) : super(
+        context,
+        attrs,
+        defStyleInt
+    ) {
+        init(context)
+    }
+
+    val editText: SearchAutoComplete = findViewById(androidx.appcompat.R.id.search_src_text)
+
+    private fun init(context: Context) {
         setIconifiedByDefault(false)
         background = ResourcesCompat.getDrawable(resources, R.drawable.search_view_bg, null)
         hintText = context.getString(R.string.search_view_hint)
@@ -51,17 +58,17 @@ class MySearchView:SearchView{
         }
     }
 
-    fun clearEditTextFocus(){
+    fun clearEditTextFocus() {
         editText.clearFocus()
     }
 
-    fun setEditTextFocusChangeListener(listener:OnFocusChangeListener){
+    fun setEditTextFocusChangeListener(listener: OnFocusChangeListener) {
         editText.onFocusChangeListener = listener
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (!hasFocus() && query.isEmpty()){
+        if (!hasFocus() && query.isEmpty()) {
             isActivated = false
             mPaint.color = colorGrey
             canvas.drawText(hintText, 11f.toDp(), 18.5f.toDp(), mPaint)
@@ -74,9 +81,9 @@ class MySearchView:SearchView{
                 8f.toDp(),
                 mPaint
             )
-        }else if(hasFocus()){
+        } else if (hasFocus()) {
             isActivated = true
-            if (query.isEmpty()){
+            if (query.isEmpty()) {
                 mPaint.color = colorGrey
                 canvas.drawText(hintText, 26f.toDp(), 18.5f.toDp(), mPaint)
             }
@@ -84,7 +91,7 @@ class MySearchView:SearchView{
     }
 
 
-    private fun vectorToBitmap(@DrawableRes id:Int, @ColorInt color:Int): Bitmap?{
+    private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): Bitmap? {
         val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null) ?: return null
         val bitmap = Bitmap.createBitmap(
             vectorDrawable.intrinsicWidth,
@@ -98,7 +105,7 @@ class MySearchView:SearchView{
         return bitmap
     }
 
-    private fun Float.toDp():Float{
+    private fun Float.toDp(): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             this,

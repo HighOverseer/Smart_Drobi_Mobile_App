@@ -3,14 +3,13 @@ package com.smartdrobi.aplikasipkm.ui.dronecam
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.drawToBitmap
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-
 import com.longdo.mjpegviewer.MjpegView
 import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
@@ -21,7 +20,7 @@ import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewM
 
 class DroneCamFragment : Fragment() {
 
-    private var binding:FragmentDroneCamBinding?=null
+    private var binding: FragmentDroneCamBinding? = null
     private val viewModel by activityViewModels<AddBridgeCheckFormViewModel>()
 
     override fun onCreateView(
@@ -49,12 +48,12 @@ class DroneCamFragment : Fragment() {
                         R.id.action_droneCamFragment_to_capturedImageFragment2,
                         args
                     )
-                }?:requireActivity().finish()
+                } ?: requireActivity().finish()
             }
         }
     }
 
-    private fun parcelBitmap(bitmap:Bitmap):Bundle?{
+    private fun parcelBitmap(bitmap: Bitmap): Bundle? {
         binding?.apply {
             return Bundle().also {
                 val data = CaptureImageBitmapParcel(
@@ -85,12 +84,12 @@ class DroneCamFragment : Fragment() {
         super.onStop()
     }
 
-    private fun initViewDroneCam(){
+    private fun initViewDroneCam() {
         binding?.apply {
             viewDroneCam.apply {
-                mode = if (isInPortraitMode()){
+                mode = if (isInPortraitMode()) {
                     MjpegView.MODE_FIT_HEIGHT
-                }else MjpegView.MODE_FIT_WIDTH
+                } else MjpegView.MODE_FIT_WIDTH
 
                 isAdjustHeight = true
                 setUrl(BuildConfig.DRONE_CAM_URL)
@@ -103,7 +102,7 @@ class DroneCamFragment : Fragment() {
         binding = null
     }
 
-    private fun isInPortraitMode():Boolean{
+    private fun isInPortraitMode(): Boolean {
         return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     }
 

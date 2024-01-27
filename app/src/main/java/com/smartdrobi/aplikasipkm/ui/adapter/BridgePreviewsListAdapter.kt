@@ -14,41 +14,42 @@ import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemLayoutBinding
-import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
+import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.SearchState
 
 //used in home fragment, more suitable with search bar
 class BridgePreviewsListAdapter(
     private val onItemClickedEvent: OnItemClickedEvent,
-    private val isHeaderWithSearchBar:Boolean,
-    private val initialDroneStatus:DroneCamConnectivityStatus
+    private val isHeaderWithSearchBar: Boolean,
+    private val initialDroneStatus: DroneCamConnectivityStatus
 ) : ListAdapter<BridgePreview, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     init {
         setHasStableIds(true)
     }
+
     enum class ViewType {
         HEADER, ITEM_LAYOUT
     }
 
-    sealed class ItemCallbackAction private constructor(){
-        data object ClearFocus:ItemCallbackAction()
+    sealed class ItemCallbackAction private constructor() {
+        data object ClearFocus : ItemCallbackAction()
 
-        data class Search(val searchState: SearchState):ItemCallbackAction()
+        data class Search(val searchState: SearchState) : ItemCallbackAction()
 
-        data class ClickItem(val itemPosition:Int):ItemCallbackAction()
+        data class ClickItem(val itemPosition: Int) : ItemCallbackAction()
 
-        data object ShowDroneCamSettingDialog:ItemCallbackAction()
+        data object ShowDroneCamSettingDialog : ItemCallbackAction()
 
     }
 
 
     class ItemViewHolder(
         val binding: HomeCheckScheduleItemLayoutBinding,
-        sendAction:(ItemCallbackAction) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root){
+        sendAction: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private val clickListener = OnClickListener {
             sendAction(
@@ -68,8 +69,8 @@ class BridgePreviewsListAdapter(
             binding.apply {
 
                 tvName.setOnClickListener(clickListener)
-                tvLastInspectionDate.setOnClickListener (clickListener)
-                tvNextInspectionDate.setOnClickListener (clickListener)
+                tvLastInspectionDate.setOnClickListener(clickListener)
+                tvNextInspectionDate.setOnClickListener(clickListener)
                 tvLocation.setOnClickListener(clickListener)
 
             }
@@ -78,9 +79,9 @@ class BridgePreviewsListAdapter(
     }
 
     class HeaderWithoutSearchBarVH(
-        val binding:HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding,
+        val binding: HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding,
         sendAction: (ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
                 sendAction(
@@ -93,18 +94,20 @@ class BridgePreviewsListAdapter(
     class HeaderViewHolder(
         val binding: HomeCheckScheduleItemHeaderLayoutBinding,
         private val initialDroneStatus: DroneCamConnectivityStatus,
-        sendAction:(ItemCallbackAction) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root){
+        sendAction: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
 
-        fun setStatusDroneText(status:DroneCamConnectivityStatus){
-            val statusColorResId = when(status){
+        fun setStatusDroneText(status: DroneCamConnectivityStatus) {
+            val statusColorResId = when (status) {
                 DroneCamConnectivityStatus.CONNECTED -> {
                     R.color.green
                 }
+
                 DroneCamConnectivityStatus.CONNECTING -> {
                     R.color.gold
                 }
+
                 DroneCamConnectivityStatus.DISCONNECTED -> {
                     R.color.red
                 }
@@ -112,7 +115,12 @@ class BridgePreviewsListAdapter(
 
             val statusColor = itemView.resources.getColor(statusColorResId, null)
             val spannableWord = SpannableString("Status Drone: ${status.string}")
-            spannableWord.setSpan(ForegroundColorSpan(statusColor), 14, spannableWord.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannableWord.setSpan(
+                ForegroundColorSpan(statusColor),
+                14,
+                spannableWord.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             binding.tvInfoStatusDrone.text = spannableWord
         }
 
@@ -129,7 +137,7 @@ class BridgePreviewsListAdapter(
                 }
 
 
-                searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         sendAction(
                             ItemCallbackAction.ClearFocus
@@ -148,7 +156,7 @@ class BridgePreviewsListAdapter(
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        val q = newText ?:""
+                        val q = newText ?: ""
                         sendAction(
                             ItemCallbackAction.Search(
                                 SearchState(
@@ -170,7 +178,7 @@ class BridgePreviewsListAdapter(
     ): RecyclerView.ViewHolder {
         when (viewType) {
             ViewType.HEADER.ordinal -> {
-                if (isHeaderWithSearchBar){
+                if (isHeaderWithSearchBar) {
                     val binding = HomeCheckScheduleItemHeaderLayoutBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
@@ -203,15 +211,13 @@ class BridgePreviewsListAdapter(
     }
 
 
-
-
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
         val currItem = getItem(position)
 
-        if (getItemViewType(holder.adapterPosition) == ViewType.HEADER.ordinal){
+        if (getItemViewType(holder.adapterPosition) == ViewType.HEADER.ordinal) {
             /*(holder as HeaderViewHolder).apply {
                 val status = DroneCamConnectivityStatus.values().first{ it.string == currItem.name }
                 setStatusDroneText(status)
@@ -246,8 +252,8 @@ class BridgePreviewsListAdapter(
         return getItem(position).id.toLong()
     }
 
-    private fun onAction(action:ItemCallbackAction){
-        when(action){
+    private fun onAction(action: ItemCallbackAction) {
+        when (action) {
             ItemCallbackAction.ClearFocus -> onItemClickedEvent.clearFocus()
             is ItemCallbackAction.Search -> onItemClickedEvent.searchBridge(action.searchState)
             is ItemCallbackAction.ClickItem -> onItemClickedEvent.onItemClicked(getItem(action.itemPosition).id)
@@ -265,7 +271,7 @@ class BridgePreviewsListAdapter(
 
         fun searchBridge(searchState: SearchState)
 
-        fun onItemClicked(itemClickedId:Int)
+        fun onItemClicked(itemClickedId: Int)
 
         fun clearFocus()
 
@@ -274,8 +280,8 @@ class BridgePreviewsListAdapter(
     }
 
 
-    companion object{
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BridgePreview>(){
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BridgePreview>() {
             override fun areItemsTheSame(oldItem: BridgePreview, newItem: BridgePreview): Boolean {
                 return oldItem.id == newItem.id
             }

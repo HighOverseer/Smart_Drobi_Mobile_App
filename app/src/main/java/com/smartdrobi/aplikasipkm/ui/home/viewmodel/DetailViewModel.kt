@@ -20,19 +20,19 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val repository: Repository,
-    arguments:Bundle
-):ViewModel() {
+    arguments: Bundle
+) : ViewModel() {
 
 
-    lateinit var selectedBridge:StateFlow<Bridge?>
-    lateinit var selectedBridgeCheckPreviews:StateFlow<List<BridgeCheckPreview>>
+    lateinit var selectedBridge: StateFlow<Bridge?>
+    lateinit var selectedBridgeCheckPreviews: StateFlow<List<BridgeCheckPreview>>
 
     private val _toastEvent = MutableLiveData<SingleEvent<StringRes>>()
-    val toastEvent:LiveData<SingleEvent<StringRes>> = _toastEvent
+    val toastEvent: LiveData<SingleEvent<StringRes>> = _toastEvent
 
 
-    fun updateBridge(bridge: Bridge){
-        viewModelScope.launch{
+    fun updateBridge(bridge: Bridge) {
+        viewModelScope.launch {
             repository.updateBridge(bridge)
             _toastEvent.value = SingleEvent(StaticString(R.string.berhasil_disimpan))
         }
@@ -42,7 +42,7 @@ class DetailViewModel(
     init {
         val selectedBridgeId = arguments.getInt(SELECTED_BRIDGE_ID_KEY, -1)
 
-        if (selectedBridgeId != -1){
+        if (selectedBridgeId != -1) {
             selectedBridge = repository
                 .getSelectedBridgeById(selectedBridgeId)
                 .toStateFlow(viewModelScope, null)
@@ -57,14 +57,15 @@ class DetailViewModel(
     class ViewModelFactory(
         private val repository: Repository,
         private val arguments: Bundle
-    ): ViewModelProvider.NewInstanceFactory() {
+    ) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            modelClass.let out@ {
+            modelClass.let out@{
                 when {
                     it.isAssignableFrom(DetailViewModel::class.java) -> {
                         return DetailViewModel(repository, arguments) as T
                     }
+
                     else -> return@out
                 }
             }

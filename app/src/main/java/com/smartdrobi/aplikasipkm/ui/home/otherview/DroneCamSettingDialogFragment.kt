@@ -11,16 +11,16 @@ import androidx.fragment.app.DialogFragment
 import com.smartdrobi.aplikasipkm.databinding.FragmentDialogDroneCamSettingBinding
 import com.smartdrobi.aplikasipkm.ui.home.OnSettingDroneCamListener
 
-class DroneCamSettingDialogFragment:DialogFragment() {
+class DroneCamSettingDialogFragment : DialogFragment() {
 
-    private var binding:FragmentDialogDroneCamSettingBinding?=null
+    private var binding: FragmentDialogDroneCamSettingBinding? = null
 
     private lateinit var listener: OnSettingDroneCamListener
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val mFragment = parentFragment
-        if (mFragment !is OnSettingDroneCamListener ) return
+        if (mFragment !is OnSettingDroneCamListener) return
 
         listener = mFragment
     }
@@ -34,12 +34,13 @@ class DroneCamSettingDialogFragment:DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog =  super.onCreateDialog(savedInstanceState)
+        val dialog = super.onCreateDialog(savedInstanceState)
         dialog.window?.setBackgroundDrawable(
             ColorDrawable(android.graphics.Color.TRANSPARENT)
         )
         return dialog
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

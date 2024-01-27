@@ -1,6 +1,5 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel
 
-import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,10 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.smartdrobi.aplikasipkm.data.Repository
-import com.smartdrobi.aplikasipkm.di.Injection
-import com.smartdrobi.aplikasipkm.domain.helper.DATE_FORMAT_PATTERN
-import com.smartdrobi.aplikasipkm.domain.helper.Dummy
-import com.smartdrobi.aplikasipkm.domain.helper.toString
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheck
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity
@@ -22,35 +17,32 @@ import com.smartdrobi.aplikasipkm.ui.addbridge.domain.getMaintenanceFormFields
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.getSafetyFormFields
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.getSecurityFormFields
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.getSocialFormFields
-import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
-import com.smartdrobi.aplikasipkm.ui.addbridge.uievent.CheckFormUiEvent
 import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BaseFormFragment
 import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeEmergencyFormFragment
+import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
+import com.smartdrobi.aplikasipkm.ui.addbridge.uievent.CheckFormUiEvent
 import com.smartdrobi.aplikasipkm.ui.addbridge.uistate.CheckFormUiState
 import com.smartdrobi.aplikasipkm.ui.home.HomeActivity
-import com.smartdrobi.aplikasipkm.ui.home.viewmodel.DetailViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 
 class AddBridgeCheckFormViewModel(
     private val repository: Repository,
     args: Bundle
 ) : ViewModel() {
 
-    enum class Session{
+    enum class Session {
         ADD,
         EDIT
     }
 
-    private lateinit var currentSession:Session
+    private lateinit var currentSession: Session
 
-    private lateinit var currentBridgeCheck:BridgeCheck
+    private lateinit var currentBridgeCheck: BridgeCheck
 
     private val _uiState = MutableLiveData(CheckFormUiState())
-    val uiState:LiveData<CheckFormUiState> = _uiState
+    val uiState: LiveData<CheckFormUiState> = _uiState
 
     private val _uiEvent = MutableLiveData<CheckFormUiEvent>()
     val uiEvent: LiveData<CheckFormUiEvent> = _uiEvent
@@ -58,25 +50,25 @@ class AddBridgeCheckFormViewModel(
     private fun sendEvent(event: CheckFormUiEvent) {
         try {
             _uiEvent.value = event
-        }catch (e:IllegalStateException){
+        } catch (e: IllegalStateException) {
             _uiEvent.postValue(event)
         }
     }
 
-    private var job: Job?=null
+    private var job: Job? = null
 
-    private var saveTextJob:Job?=null
+    private var saveTextJob: Job? = null
 
     fun setFieldsForNextFormPage(
         nextDestFormPage: BaseFormFragment.FormPage,
-    ){
+    ) {
         //case when config changes
         val currFormPage = uiState.value?.currentFormPage ?: return
 
         try {
             //check if currentBridgeCheck Has been initialized
             currentBridgeCheck.id
-        }catch (e:UninitializedPropertyAccessException){
+        } catch (e: UninitializedPropertyAccessException) {
             return
         }
 
@@ -86,7 +78,7 @@ class AddBridgeCheckFormViewModel(
         _uiState.value = CheckFormUiState()
 
         job = viewModelScope.launch {
-            val nextDestFields = when(nextDestFormPage){
+            val nextDestFields = when (nextDestFormPage) {
                 BaseFormFragment.FormPage.FIRST -> getFirstFormFields(currentBridgeCheck)
                 BaseFormFragment.FormPage.SECURITY -> getSecurityFormFields(currentBridgeCheck)
                 BaseFormFragment.FormPage.CONVENIENCE -> getConvenienceFormFields(currentBridgeCheck)
@@ -107,7 +99,7 @@ class AddBridgeCheckFormViewModel(
     fun sendAction(
         action: CheckFormUiAction
     ) {
-        uiState.value?.let { (_, currentListFields)  ->
+        uiState.value?.let { (_, currentListFields) ->
             when (action) {
                 is CheckFormUiAction.SaveLastText -> {
                     saveTextJob?.cancel()
@@ -123,33 +115,49 @@ class AddBridgeCheckFormViewModel(
                         selectedField.saveToBridgeCheck(currentBridgeCheck, selectedField)
                     }
                 }
+
                 is CheckFormUiAction.SaveMultifieldText -> {
                     saveTextJob?.cancel()
-                    saveTextJob= viewModelScope.launch {
+                    saveTextJob = viewModelScope.launch {
                         delay(250L)
                         val selectedField = currentListFields[2]
 
                         if (selectedField !is BridgeCheckField.MultifieldText) return@launch
 
 
-                        when(action.viewId){
-                            BridgeEmergencyFormFragment.ElementFieldViewId.CODE -> { selectedField.code = action.newText }
-                            BridgeEmergencyFormFragment.ElementFieldViewId.APB -> selectedField.apb = action.newText
-                            BridgeEmergencyFormFragment.ElementFieldViewId.X -> selectedField.x = action.newText
-                            BridgeEmergencyFormFragment.ElementFieldViewId.Y -> selectedField.y = action.newText
-                            BridgeEmergencyFormFragment.ElementFieldViewId.Z -> selectedField.z = action.newText
-                            BridgeEmergencyFormFragment.ElementFieldViewId.DESC -> selectedField.desc = action.newText
-                            BridgeEmergencyFormFragment.ElementFieldViewId.REASON -> selectedField.reason = action.newText
+                        when (action.viewId) {
+                            BridgeEmergencyFormFragment.ElementFieldViewId.CODE -> {
+                                selectedField.code = action.newText
+                            }
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.APB -> selectedField.apb =
+                                action.newText
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.X -> selectedField.x =
+                                action.newText
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.Y -> selectedField.y =
+                                action.newText
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.Z -> selectedField.z =
+                                action.newText
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.DESC -> selectedField.desc =
+                                action.newText
+
+                            BridgeEmergencyFormFragment.ElementFieldViewId.REASON -> selectedField.reason =
+                                action.newText
                         }
 
                         selectedField.saveToBridgeCheck(currentBridgeCheck, selectedField)
 
                     }
                 }
+
                 is CheckFormUiAction.SaveBooleanAnswer -> {
                     val isFieldAChild = action.parentFieldPosition != -1
 
-                    if (isFieldAChild){
+                    if (isFieldAChild) {
                         val parentField = currentListFields[action.parentFieldPosition]
 
                         if (parentField !is BridgeCheckField.ContainerBooleans) return
@@ -159,7 +167,7 @@ class AddBridgeCheckFormViewModel(
 
                         selectedField.saveToBridgeCheck(currentBridgeCheck, selectedField)
 
-                    }else{
+                    } else {
                         val selectedField = currentListFields[action.fieldPosition]
 
                         if (selectedField !is BridgeCheckField.BooleanField) return
@@ -169,10 +177,11 @@ class AddBridgeCheckFormViewModel(
                         selectedField.saveToBridgeCheck(currentBridgeCheck, selectedField)
                     }
                 }
+
                 is CheckFormUiAction.SaveCapturedImage -> {
                     val isFieldAChild = action.parentFieldPosition != -1
 
-                    if (isFieldAChild){
+                    if (isFieldAChild) {
                         val parentField = currentListFields[action.parentFieldPosition]
 
                         if (parentField !is BridgeCheckField.ContainerBooleans) return
@@ -189,8 +198,9 @@ class AddBridgeCheckFormViewModel(
 
                         selectedField.saveToBridgeCheck(currentBridgeCheck, selectedField)
 
-                    }else{
-                        val selectedField = currentListFields[action.fieldPosition] as BridgeCheckField.BooleanQuestion
+                    } else {
+                        val selectedField =
+                            currentListFields[action.fieldPosition] as BridgeCheckField.BooleanQuestion
                         selectedField.listImagePath.add(action.imagePath)
                         sendEvent(
                             CheckFormUiEvent.NotifyAddedImage(
@@ -211,6 +221,7 @@ class AddBridgeCheckFormViewModel(
                     currQuestion.isImageCollectionsVisible = action.newVisibility
 
                 }
+
                 is CheckFormUiAction.SaveHeaderImageCollectionsVisibility -> {
                     val selectedField = currentListFields[action.fieldPosition]
 
@@ -218,8 +229,9 @@ class AddBridgeCheckFormViewModel(
 
                     selectedField.isImageCollectionsVisible = action.newVisibility
                 }
+
                 is CheckFormUiAction.FinishSession -> {
-                    when(currentSession){
+                    when (currentSession) {
                         Session.ADD -> {
 
                             /* handled by bridgeDao
@@ -260,6 +272,7 @@ class AddBridgeCheckFormViewModel(
 
 
                         }
+
                         Session.EDIT -> {
 
                             /*//assign clone to fake repo
@@ -304,15 +317,15 @@ class AddBridgeCheckFormViewModel(
         sendEvent(
             CheckFormUiEvent.StartingSession()
         )
-        viewModelScope.launch{
+        viewModelScope.launch {
             args.let {
 
                 val isInAddMode = it.getBoolean(AddBridgeCheckFormActivity.ADD_MODE_KEY)
-                if (isInAddMode){
+                if (isInAddMode) {
                     val selectedBridgeId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
                     currentSession = Session.ADD
                     currentBridgeCheck = BridgeCheck(bridgeId = selectedBridgeId)
-                }else{
+                } else {
                     currentSession = Session.EDIT
                     val selectedBridgeCheckId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
                     /*currentBridgeCheck = Dummy
@@ -332,16 +345,17 @@ class AddBridgeCheckFormViewModel(
 
     class ViewModelFactory(
         private val repository: Repository,
-        private val arguments:Bundle
-    ): ViewModelProvider.NewInstanceFactory() {
+        private val arguments: Bundle
+    ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            modelClass.let out@ {
+            modelClass.let out@{
                 when {
                     it.isAssignableFrom(AddBridgeCheckFormViewModel::class.java) -> {
                         return AddBridgeCheckFormViewModel(repository, arguments) as T
                     }
+
                     else -> return@out
                 }
             }

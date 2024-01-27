@@ -4,12 +4,12 @@ import androidx.room.TypeConverter
 
 class ListStringImagePathTypeConverter {
     @TypeConverter
-    fun toListString(value:String):List<String>{
+    fun toListString(value: String): List<String> {
         return value.split(", ").filter { it.isNotEmpty() }
     }
 
     @TypeConverter
-    fun fromListString(list:List<String>):String{
+    fun fromListString(list: List<String>): String {
         return list.joinToString(", ")
     }
 }

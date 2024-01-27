@@ -7,14 +7,14 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 @Entity(tableName = "social_page_answer")
 data class SocialPageAnswerEntity(
     @PrimaryKey(autoGenerate = true)
-    val id:Long = 0,
+    val id: Long = 0,
 
     val uncleanlinessAnswer: BridgeCheckField.BooleanQuestionAnswer,
-    val uncleanlinessImagePaths:List<String>,
+    val uncleanlinessImagePaths: List<String>,
 
     val incompatibilityAnswer: BridgeCheckField.BooleanQuestionAnswer,
-    val incompatibilityImagePaths:List<String>,
+    val incompatibilityImagePaths: List<String>,
 
     val activityAnswer: BridgeCheckField.BooleanQuestionAnswer,
-    val activityImagePaths:List<String>,
+    val activityImagePaths: List<String>,
 )

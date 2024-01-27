@@ -27,7 +27,7 @@ object BridgeCheckMapper {
 
     fun toBridgeCheckPreview(
         bridgeCheckBridgeAndFirstPage: BridgeCheckBridgeAndFirstPage
-    ):BridgeCheckPreview{
+    ): BridgeCheckPreview {
         return bridgeCheckBridgeAndFirstPage.run {
             BridgeCheckPreview(
                 bridgeCheckEntity.id.toInt(),
@@ -37,8 +37,9 @@ object BridgeCheckMapper {
             )
         }
     }
+
     fun toBridgeCheckEntity(
-        bridgeId:Int,
+        bridgeId: Int,
         firstPageAnswerId: Long,
         safetyPageAnswerId: Long,
         securityPageAnswerId: Long,
@@ -46,7 +47,7 @@ object BridgeCheckMapper {
         conveniencePageAnswerId: Long,
         socialPageAnswerId: Long,
         emergencyPageAnswerId: Long
-    ):BridgeCheckEntity{
+    ): BridgeCheckEntity {
         return BridgeCheckEntity(
             bridgeId = bridgeId,
             firstPageAnswerId = firstPageAnswerId,
@@ -61,7 +62,7 @@ object BridgeCheckMapper {
 
     fun toBridgeCheck(
         bridgeCheckAndAnswers: BridgeCheckAndAnswers
-    ):BridgeCheck{
+    ): BridgeCheck {
         return bridgeCheckAndAnswers.run {
             BridgeCheck(
                 id = bridgeCheckEntity.id.toInt(),
@@ -78,12 +79,12 @@ object BridgeCheckMapper {
         }
     }
 
-    private fun toFirstPageAnswer(firstPageAnswerEntity: FirstPageAnswerEntity):FirstPageAnswer{
+    private fun toFirstPageAnswer(firstPageAnswerEntity: FirstPageAnswerEntity): FirstPageAnswer {
 
         return firstPageAnswerEntity.run {
             val fixTrafficValue = if (trafficValue.isBlank()) null else trafficValue.toDouble()
             val fixLhr = if (lhr.isBlank()) null else lhr.toDouble()
-            val fixYear = if (year.isBlank())null else year.toInt()
+            val fixYear = if (year.isBlank()) null else year.toInt()
 
             FirstPageAnswer(
                 inspectorName,
@@ -97,9 +98,9 @@ object BridgeCheckMapper {
     }
 
     fun toFirstPageAnswerEntity(
-        firstPageAnswerId:Long = 0,
+        firstPageAnswerId: Long = 0,
         firstPageAnswer: FirstPageAnswer
-    ):FirstPageAnswerEntity{
+    ): FirstPageAnswerEntity {
         return firstPageAnswer.run {
             val fixTrafficValue = trafficValue?.toString() ?: ""
             val fixLhr = lhr?.toString() ?: ""
@@ -118,7 +119,7 @@ object BridgeCheckMapper {
 
     private fun toSecurityPageAnswer(
         securityPageAnswerEntity: SecurityPageAnswerEntity
-    ):SecurityPageAnswer{
+    ): SecurityPageAnswer {
         return securityPageAnswerEntity.run {
             SecurityPageAnswer(
                 landfillAnswer,
@@ -140,9 +141,9 @@ object BridgeCheckMapper {
     }
 
     fun toSecurityPageAnswerEntity(
-        securityPageAnswerId:Long = 0,
+        securityPageAnswerId: Long = 0,
         securityPageAnswer: SecurityPageAnswer
-    ):SecurityPageAnswerEntity{
+    ): SecurityPageAnswerEntity {
         return securityPageAnswer.run {
             SecurityPageAnswerEntity(
                 id = securityPageAnswerId,
@@ -167,7 +168,7 @@ object BridgeCheckMapper {
 
     private fun toSafetyPageAnswer(
         safetyPageAnswerEntity: SafetyPageAnswerEntity
-    ):SafetyPageAnswer{
+    ): SafetyPageAnswer {
         return safetyPageAnswerEntity.run {
             SafetyPageAnswer(
                 backRestAnswer.toMutableList(),
@@ -184,9 +185,9 @@ object BridgeCheckMapper {
 
 
     fun toSafetyPageAnswerEntity(
-        safetyPageAnswerId:Long = 0,
+        safetyPageAnswerId: Long = 0,
         safetyPageAnswer: SafetyPageAnswer
-    ):SafetyPageAnswerEntity{
+    ): SafetyPageAnswerEntity {
         return safetyPageAnswer.run {
             SafetyPageAnswerEntity(
                 id = safetyPageAnswerId,
@@ -205,7 +206,7 @@ object BridgeCheckMapper {
 
     private fun toConveniencePageAnswer(
         conveniencePageAnswerEntity: ConveniencePageAnswerEntity
-    ):ConveniencePageAnswer{
+    ): ConveniencePageAnswer {
         return conveniencePageAnswerEntity.run {
             ConveniencePageAnswer(
                 floorSystemAnswer,
@@ -220,9 +221,9 @@ object BridgeCheckMapper {
 
 
     fun toConveniencePageAnswerEntity(
-        conveniencePageAnswerId: Long= 0,
+        conveniencePageAnswerId: Long = 0,
         conveniencePageAnswer: ConveniencePageAnswer
-    ):ConveniencePageAnswerEntity{
+    ): ConveniencePageAnswerEntity {
         return conveniencePageAnswer.run {
             ConveniencePageAnswerEntity(
                 conveniencePageAnswerId,
@@ -239,7 +240,7 @@ object BridgeCheckMapper {
 
     private fun toMaintenancePageAnswer(
         maintenancePageAnswerEntity: MaintenancePageAnswerEntity
-    ):MaintenancePageAnswer{
+    ): MaintenancePageAnswer {
         return maintenancePageAnswerEntity.run {
             MaintenancePageAnswer(
                 routineAnswer.toMutableList(),
@@ -258,9 +259,9 @@ object BridgeCheckMapper {
 
 
     fun toMaintenancePageAnswerEntity(
-        maintenancePageAnswerId: Long= 0,
+        maintenancePageAnswerId: Long = 0,
         maintenancePageAnswer: MaintenancePageAnswer
-    ):MaintenancePageAnswerEntity{
+    ): MaintenancePageAnswerEntity {
         return maintenancePageAnswer.run {
             MaintenancePageAnswerEntity(
                 maintenancePageAnswerId,
@@ -281,7 +282,7 @@ object BridgeCheckMapper {
 
     private fun toSocialPageAnswer(
         socialPageAnswerEntity: SocialPageAnswerEntity
-    ):SocialPageAnswer{
+    ): SocialPageAnswer {
         return socialPageAnswerEntity.run {
             SocialPageAnswer(
                 uncleanlinessAnswer,
@@ -295,9 +296,9 @@ object BridgeCheckMapper {
 
 
     fun toSocialPageAnswerEntity(
-        socialPageAnswerId: Long= 0,
+        socialPageAnswerId: Long = 0,
         socialPageAnswer: SocialPageAnswer
-    ):SocialPageAnswerEntity{
+    ): SocialPageAnswerEntity {
         return socialPageAnswer.run {
             SocialPageAnswerEntity(
                 socialPageAnswerId,
@@ -313,7 +314,7 @@ object BridgeCheckMapper {
 
     private fun toEmergencyPageAnswer(
         emergencyPageAnswerEntity: EmergencyPageAnswerEntity
-    ):EmergencyPageAnswer{
+    ): EmergencyPageAnswer {
         return emergencyPageAnswerEntity.run {
             EmergencyPageAnswer(
                 actAnswer,
@@ -333,7 +334,7 @@ object BridgeCheckMapper {
     fun toEmergencyPageAnswerEntity(
         emergencyPageAnswerId: Long = 0,
         emergencyPageAnswer: EmergencyPageAnswer
-    ):EmergencyPageAnswerEntity{
+    ): EmergencyPageAnswerEntity {
         return emergencyPageAnswer.run {
             EmergencyPageAnswerEntity(
                 emergencyPageAnswerId,

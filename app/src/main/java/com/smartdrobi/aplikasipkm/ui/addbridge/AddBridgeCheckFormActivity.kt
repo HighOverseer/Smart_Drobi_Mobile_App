@@ -48,7 +48,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
     private var fieldPositionIntentPhoto: FieldPositionIntentPhoto? = null
 
     //for saving state when vm just init for first time, so navigation is in sync
-    private var isViewModelStartingSession:Boolean = false
+    private var isViewModelStartingSession: Boolean = false
 
     private var uriToFileJob: Job? = null
 
@@ -94,29 +94,32 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
     }
 
     private fun observeUiEvents() {
-        viewModel.uiEvent.observe(this){ event ->
-            when(event){
+        viewModel.uiEvent.observe(this) { event ->
+            when (event) {
                 is CheckFormUiEvent.StartingSession -> {
-                    event{
+                    event {
                         binding.progressBar.isVisible = true
                         isViewModelStartingSession = true
                     }
                 }
+
                 is CheckFormUiEvent.NotifyWhenFragmentReadyToInit -> {
-                    event{
-                        if(isViewModelStartingSession){
+                    event {
+                        if (isViewModelStartingSession) {
                             binding.progressBar.isVisible = false
                             isViewModelStartingSession = false
                             setUpNavigation()
                         }
                     }
                 }
+
                 is CheckFormUiEvent.EndingSession -> {
-                    event{
+                    event {
                         setResult(event.resultCode)
                         finish()
                     }
                 }
+
                 else -> return@observe
             }
         }
@@ -141,7 +144,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
     }
 
     private fun setUpNavigation() {
-        if(!isViewModelStartingSession){
+        if (!isViewModelStartingSession) {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_framgent) as NavHostFragment
             navController = navHostFragment.navController

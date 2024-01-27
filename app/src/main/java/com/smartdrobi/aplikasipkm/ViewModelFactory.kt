@@ -1,15 +1,5 @@
 package com.smartdrobi.aplikasipkm
 
-import android.content.Context
-import android.os.Bundle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.smartdrobi.aplikasipkm.data.Repository
-import com.smartdrobi.aplikasipkm.di.Injection
-import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
-import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeFormViewModel
-import com.smartdrobi.aplikasipkm.ui.home.viewmodel.DetailViewModel
-
 /*
 class ViewModelFactory private constructor(
     private val repository: Repository

@@ -2,13 +2,12 @@ package com.smartdrobi.aplikasipkm.ui.home.toplevelview
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.smartdrobi.aplikasipkm.databinding.FragmentHistoryBinding
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
@@ -19,10 +18,10 @@ import com.smartdrobi.aplikasipkm.ui.home.viewmodel.HistoryViewModel
 
 class HistoryFragment : Fragment() {
 
-    private var binding:FragmentHistoryBinding?=null
+    private var binding: FragmentHistoryBinding? = null
     private lateinit var viewModel: HistoryViewModel
 
-    private lateinit var adapter:BridgePreviewsAdapter
+    private lateinit var adapter: BridgePreviewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,31 +36,31 @@ class HistoryFragment : Fragment() {
         init()
         //initSp()
 
-     /*   binding?.apply {
-            val data = Dummy.getBridgePreviewsByHistory()
+        /*   binding?.apply {
+               val data = Dummy.getBridgePreviewsByHistory()
 
-            adapter = BridgePreviewsAdapter(
-                data,
-                onItemAdapterClickedEvent,
-                false
-            )
-            recyclerView.apply {
-                addItemDecoration(
-                    BridgePreviewsItemDecoration(
-                        resources.displayMetrics,
-                        paddingBottom = 15
-                    )
-                )
-                this.adapter = this@HistoryFragment.adapter
-                layoutManager = LinearLayoutManager(requireActivity())
-            }
+               adapter = BridgePreviewsAdapter(
+                   data,
+                   onItemAdapterClickedEvent,
+                   false
+               )
+               recyclerView.apply {
+                   addItemDecoration(
+                       BridgePreviewsItemDecoration(
+                           resources.displayMetrics,
+                           paddingBottom = 15
+                       )
+                   )
+                   this.adapter = this@HistoryFragment.adapter
+                   layoutManager = LinearLayoutManager(requireActivity())
+               }
 
-            //if only header
-            tvEmptyInfo.isVisible = data.size == 1
-        }*/
+               //if only header
+               tvEmptyInfo.isVisible = data.size == 1
+           }*/
 
         binding?.apply {
-            viewModel.uiState.observe(viewLifecycleOwner){ uiState ->
+            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 progressBar.isVisible = uiState.isLoading
 
                 uiState.bridgeCheckIdForSelectedBridgeEvent
@@ -77,7 +76,7 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun setAdapter(listBridgePreviewsByHistory:List<BridgePreview>){
+    private fun setAdapter(listBridgePreviewsByHistory: List<BridgePreview>) {
         adapter = BridgePreviewsAdapter(
             listBridgePreviewsByHistory,
             onItemAdapterClickedEvent,
@@ -86,14 +85,14 @@ class HistoryFragment : Fragment() {
         binding?.recyclerView?.adapter = adapter
     }
 
-    private fun goToBridgeCheckForm(selectedBridgeCheckId:Int){
+    private fun goToBridgeCheckForm(selectedBridgeCheckId: Int) {
         val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
         intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)
         intent.putExtra(AddBridgeCheckFormActivity.MODE_ID_KEY, selectedBridgeCheckId)
         requireActivity().startActivity(intent)
     }
 
-    private fun init(){
+    private fun init() {
         viewModel = obtainViewModel<
                 HistoryViewModel.ViewModelFactory,
                 HistoryViewModel>(this, requireActivity())
@@ -114,10 +113,10 @@ class HistoryFragment : Fragment() {
     }
 
     private val onItemAdapterClickedEvent by lazy {
-        object:BridgePreviewsAdapter.OnItemClickedEvent{
+        object : BridgePreviewsAdapter.OnItemClickedEvent {
             override fun clearFocus() {}
             override fun searchBridge(searchState: SearchState) {}
-            override fun onItemClicked(itemClickedId:Int) {
+            override fun onItemClicked(itemClickedId: Int) {
                 /*val sortedBridgeCheck = Dummy.listBridgeCheck.sortedByDescending { it.inspectionDate }
                 val latestBridgeCheck = sortedBridgeCheck.find { it.bridgeId == itemClickedId } ?: return
 

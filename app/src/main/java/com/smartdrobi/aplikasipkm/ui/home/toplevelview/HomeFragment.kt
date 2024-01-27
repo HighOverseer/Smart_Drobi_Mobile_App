@@ -3,20 +3,17 @@ package com.smartdrobi.aplikasipkm.ui.home.toplevelview
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.util.query
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentHomeBinding
 import com.smartdrobi.aplikasipkm.domain.helper.Dummy
@@ -41,19 +38,20 @@ import kotlinx.coroutines.launch
 class HomeFragment :
     Fragment(),
     OnAddBridgeSuccessListener,
-    OnSettingDroneCamListener{
+    OnSettingDroneCamListener {
 
-    private var binding:FragmentHomeBinding?=null
+    private var binding: FragmentHomeBinding? = null
     private lateinit var viewModel: HomeViewModel
+
     //private lateinit var adapter: BridgePreviewsAdapter
-    private lateinit var adapter:BridgePreviewsListAdapter
+    private lateinit var adapter: BridgePreviewsListAdapter
 
-    private var searchJob:Job? = null
+    private var searchJob: Job? = null
 
-    private var connectDroneJob:Job?=null
+    private var connectDroneJob: Job? = null
 
-    private var lastQuery:String?=null
-    private var searchBarEditTextFocusState:Boolean = false
+    private var lastQuery: String? = null
+    private var searchBarEditTextFocusState: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,27 +78,27 @@ class HomeFragment :
                 onItemAdapterClickedEvent,
                 true
             )*/
-     /*       adapter = BridgePreviewsListAdapter(
-                onItemAdapterClickedEvent,
-                true,
-                DroneCamConnectivityStatus.entries.first{ it.string == Dummy.droneCamStatus }
-            ).also {
-                it.submitList(data)
+            /*       adapter = BridgePreviewsListAdapter(
+                       onItemAdapterClickedEvent,
+                       true,
+                       DroneCamConnectivityStatus.entries.first{ it.string == Dummy.droneCamStatus }
+                   ).also {
+                       it.submitList(data)
 
-                //sus
-                it.setHasStableIds(true)
-            }
-            recyclerView.apply {
-                addItemDecoration(
-                    BridgePreviewsItemDecoration(
-                        resources.displayMetrics,
-                        paddingBottom = 15
-                    )
-                )
-                this.adapter = this@HomeFragment.adapter
-            }
+                       //sus
+                       it.setHasStableIds(true)
+                   }
+                   recyclerView.apply {
+                       addItemDecoration(
+                           BridgePreviewsItemDecoration(
+                               resources.displayMetrics,
+                               paddingBottom = 15
+                           )
+                       )
+                       this.adapter = this@HomeFragment.adapter
+                   }
 
-            tvEmptyInfo.isVisible = data.size == 1*/
+                   tvEmptyInfo.isVisible = data.size == 1*/
 
 
             /*viewModel.bridgePreviews.observe(viewLifecycleOwner){
@@ -129,8 +127,8 @@ class HomeFragment :
 
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.bridgePreviews.collectLatest{
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.bridgePreviews.collectLatest {
                     adapter.submitList(it)
                     //adapter.setHasStableIds(true)
                     binding?.tvEmptyInfo?.isVisible = it.size == 1
@@ -144,7 +142,7 @@ class HomeFragment :
         fragment.show(childFragmentManager, null)
     }
 
-    private fun init(savedInstanceState: Bundle?){
+    private fun init(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             lastQuery = it.getString(QUERY_KEY)
             searchBarEditTextFocusState = it.getBoolean(FOCUS_KEY)
@@ -157,7 +155,7 @@ class HomeFragment :
         adapter = BridgePreviewsListAdapter(
             onItemAdapterClickedEvent,
             true,
-            DroneCamConnectivityStatus.entries.first{ it.string == Dummy.droneCamStatus }
+            DroneCamConnectivityStatus.entries.first { it.string == Dummy.droneCamStatus }
         )
         binding?.apply {
             recyclerView.apply {
@@ -175,8 +173,8 @@ class HomeFragment :
         }
     }
 
-    private val onItemAdapterClickedEvent:BridgePreviewsListAdapter.OnItemClickedEvent by lazy {
-        object:BridgePreviewsListAdapter.OnItemClickedEvent{
+    private val onItemAdapterClickedEvent: BridgePreviewsListAdapter.OnItemClickedEvent by lazy {
+        object : BridgePreviewsListAdapter.OnItemClickedEvent {
             override fun clearFocus() {
                 searchBarEditTextFocusState = false
                 clearAllViewFocus()
@@ -225,7 +223,7 @@ class HomeFragment :
                 }*/
             }
 
-            override fun onItemClicked(itemClickedId:Int) {
+            override fun onItemClicked(itemClickedId: Int) {
                 val args = Bundle().also {
                     it.putInt(DetailFragment.SELECTED_BRIDGE_ID_KEY, itemClickedId)
                 }
@@ -318,10 +316,10 @@ class HomeFragment :
         }
     }
 
-   /* private fun getRefDroneStatus():AppCompatTextView?{
-        binding?.apply {
-            val headerView = binding?.recyclerView
-                *//*?.layoutManager
+    /* private fun getRefDroneStatus():AppCompatTextView?{
+         binding?.apply {
+             val headerView = binding?.recyclerView
+                 *//*?.layoutManager
                 ?.findViewByPosition(0)*//*
                 ?.getChildAt(0)
             return headerView?.findViewById(R.id.tv_info_status_drone)
@@ -334,11 +332,10 @@ class HomeFragment :
         binding = null
     }
 
-    companion object{
+    companion object {
         const val QUERY_KEY = "query"
         const val FOCUS_KEY = "focus"
     }
-
 
 
 }

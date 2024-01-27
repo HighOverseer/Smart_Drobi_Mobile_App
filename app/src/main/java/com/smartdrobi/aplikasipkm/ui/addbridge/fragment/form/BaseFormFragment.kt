@@ -87,15 +87,18 @@ abstract class BaseFormFragment(
                             )
                         }
                     }
-                    is CheckFormUiEvent.NotifyAddedImageOnNestedRv ->{
-                        event{
+
+                    is CheckFormUiEvent.NotifyAddedImageOnNestedRv -> {
+                        event {
                             try {
                                 binding?.apply {
-                                    val childView = rvFields.layoutManager?.findViewByPosition(event.parentFieldPosition)
-                                    val rvChild = childView?.findViewById<RecyclerView>(R.id.rv_questions)
+                                    val childView =
+                                        rvFields.layoutManager?.findViewByPosition(event.parentFieldPosition)
+                                    val rvChild =
+                                        childView?.findViewById<RecyclerView>(R.id.rv_questions)
                                     rvChild?.adapter?.notifyItemChanged(event.fieldPosition)
                                 }
-                            }catch (e:Exception){
+                            } catch (e: Exception) {
                                 e.printStackTrace()
                             }
                         }
@@ -113,7 +116,7 @@ abstract class BaseFormFragment(
         }
     }
 
-    private fun setCallbacksIfAny(adapter:BridgeCheckFormFieldsAdapter){
+    private fun setCallbacksIfAny(adapter: BridgeCheckFormFieldsAdapter) {
         if (this@BaseFormFragment is BooleanQuestionsAdapter.OnItemCallback) {
             adapter.setBooleansQuestionItemCallback(this@BaseFormFragment)
         }
@@ -122,23 +125,23 @@ abstract class BaseFormFragment(
             adapter.setHeaderBooleanQuestionWithImagesCallback(this@BaseFormFragment)
         }
 
-        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnTextDateCallback){
+        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnTextDateCallback) {
             adapter.setTextDateCallback(this@BaseFormFragment)
         }
 
-        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnTextCallback){
+        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnTextCallback) {
             adapter.setTextCallback(this@BaseFormFragment)
         }
 
-        if (this@BaseFormFragment is ImageCollectionAdapter.OnImageCollectionCallback){
+        if (this@BaseFormFragment is ImageCollectionAdapter.OnImageCollectionCallback) {
             adapter.setImageCollectionCallback(this)
         }
 
-        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnHeaderBooleanQuestionCallback){
+        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnHeaderBooleanQuestionCallback) {
             adapter.setHeaderBooleanQuestionImagesCallback(this)
         }
 
-        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnMultiFieldCallback){
+        if (this@BaseFormFragment is BridgeCheckFormFieldsAdapter.OnMultiFieldCallback) {
             adapter.setMultiFieldCallback(this)
         }
     }

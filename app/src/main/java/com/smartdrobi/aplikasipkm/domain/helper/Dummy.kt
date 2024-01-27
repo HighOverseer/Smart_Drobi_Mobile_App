@@ -11,14 +11,17 @@ import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-val a = "/storage/emulated/0/Android/data/com.smartdrobi.aplikasipkm/files/Pictures/photo_18305932342310678567.jpg"
+val a =
+    "/storage/emulated/0/Android/data/com.smartdrobi.aplikasipkm/files/Pictures/photo_18305932342310678567.jpg"
+
 object Dummy {
 
     //fake data for temporal
     val listBridges = mutableListOf(
         Bridge(
             id = 0,
-            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.jembatan_siti_nurbaya}").toString(),
+            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.jembatan_siti_nurbaya}")
+                .toString(),
             name = "Jembatan Siti Nurbaya",
             nationalNumber = 11,
             cityNumber = 122,
@@ -35,7 +38,8 @@ object Dummy {
         ),
         Bridge(
             id = 1,
-            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.ampera}").toString(),
+            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.ampera}")
+                .toString(),
             name = "Jembatan Ampera",
             nationalNumber = 11,
             cityNumber = 122,
@@ -52,7 +56,8 @@ object Dummy {
         ),
         Bridge(
             id = 2,
-            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.asura}").toString(),
+            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.asura}")
+                .toString(),
             name = "Jembatan Suramadu",
             nationalNumber = 11,
             cityNumber = 122,
@@ -66,9 +71,11 @@ object Dummy {
             wide = 11.4,
             inspectionPlanDate = "15/10/2023",
             bridgeMaterial = BridgeMaterial.Iron
-        ),Bridge(
+        ),
+        Bridge(
             id = 3,
-            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.jembatan_pik}").toString(),
+            imagePath = Uri.parse("android.resource://${R::class.java.`package`?.name}/${R.drawable.jembatan_pik}")
+                .toString(),
             name = "Jembatan PIK",
             nationalNumber = 11,
             cityNumber = 122,
@@ -84,7 +91,7 @@ object Dummy {
             bridgeMaterial = BridgeMaterial.Iron
         ),
 
-    )
+        )
     val listBridgeCheck = mutableListOf<BridgeCheck>(
         BridgeCheck(bridgeId = 1),
         BridgeCheck(bridgeId = 1),
@@ -96,10 +103,8 @@ object Dummy {
     )
 
 
-
-
     var droneCamStatus = DroneCamConnectivityStatus.DISCONNECTED.string
-        set(value){
+        set(value) {
             field = value
             updateBridgePreviews()
         }
@@ -107,16 +112,17 @@ object Dummy {
 
     private val bridgePreviews = generateBridgePreviews().toMutableList()
 
-    fun getBridgePreviews():List<BridgePreview>{
+    fun getBridgePreviews(): List<BridgePreview> {
         updateBridgePreviews()
         return bridgePreviews
     }
+
     private fun updateBridgePreviews() {
         bridgePreviews.clear()
         bridgePreviews.addAll(generateBridgePreviews())
     }
 
-    private fun generateBridgePreviews():List<BridgePreview>{
+    private fun generateBridgePreviews(): List<BridgePreview> {
         val bridgePreviews = mutableListOf(
             BridgePreview(
                 -1,
@@ -124,7 +130,8 @@ object Dummy {
                 droneCamStatus,
                 "",
                 "",
-                "")
+                ""
+            )
         )
         listBridges.forEach { bridgePreviews.add(it.toBridgePreview()) }
         return bridgePreviews
@@ -148,32 +155,34 @@ object Dummy {
         return list*/
     }
 
-    suspend fun getBridgePreviewsByQuery(query:String):List<BridgePreview> = withContext(Dispatchers.Default){
-        if (query.isBlank()) return@withContext getBridgePreviews()
+    suspend fun getBridgePreviewsByQuery(query: String): List<BridgePreview> =
+        withContext(Dispatchers.Default) {
+            if (query.isBlank()) return@withContext getBridgePreviews()
 
-        val bridgePreviews = mutableListOf(
-            BridgePreview(
-                -1,
-                "",
-                droneCamStatus,
-                "",
-                "",
-                "")
-        )
-        listBridges
-            .filter { it.name.lowercase().contains(query.lowercase()) }
-            .forEach { bridgePreviews.add(it.toBridgePreview()) }
-        bridgePreviews
-       /* bridgePreviews.apply {
-            removeAll { it.id != -1 }
-            addAll(
-                listBridges.filter { it.name.lowercase().contains(query.lowercase()) }
-                .map { it.toBridgePreview() }
+            val bridgePreviews = mutableListOf(
+                BridgePreview(
+                    -1,
+                    "",
+                    droneCamStatus,
+                    "",
+                    "",
+                    ""
+                )
             )
-        }*/
-    }
+            listBridges
+                .filter { it.name.lowercase().contains(query.lowercase()) }
+                .forEach { bridgePreviews.add(it.toBridgePreview()) }
+            bridgePreviews
+            /* bridgePreviews.apply {
+                 removeAll { it.id != -1 }
+                 addAll(
+                     listBridges.filter { it.name.lowercase().contains(query.lowercase()) }
+                     .map { it.toBridgePreview() }
+                 )
+             }*/
+        }
 
-    fun getBridgePreviewsByHistory():List<BridgePreview>{
+    fun getBridgePreviewsByHistory(): List<BridgePreview> {
 
         val listBridgePreviewByHistory = mutableListOf(
             BridgePreview(-1, "", "", "", "", "")
@@ -189,7 +198,7 @@ object Dummy {
 
 
         filteredBridgeCheck.forEach { check ->
-            val bridgeWithAssociatedId = listBridges.find { it.id == check.bridgeId  }
+            val bridgeWithAssociatedId = listBridges.find { it.id == check.bridgeId }
             bridgeWithAssociatedId?.let {
                 listBridgePreviewByHistory.add(it.toBridgePreview())
             }
@@ -197,10 +206,10 @@ object Dummy {
         return listBridgePreviewByHistory
     }
 
-    fun getBridgeCheckPreview(selectedBridge:Bridge):List<BridgeCheckPreview>{
+    fun getBridgeCheckPreview(selectedBridge: Bridge): List<BridgeCheckPreview> {
         val list = mutableListOf<BridgeCheckPreview>()
 
-        val bridgeChecks = listBridgeCheck.filter{ it.bridgeId == selectedBridge.id }
+        val bridgeChecks = listBridgeCheck.filter { it.bridgeId == selectedBridge.id }
 
         bridgeChecks.forEach {
             val date = it.inspectionDate.toString(DATE_FORMAT_PATTERN)

@@ -1,8 +1,8 @@
 package com.smartdrobi.aplikasipkm.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.ui.home.HomeActivity

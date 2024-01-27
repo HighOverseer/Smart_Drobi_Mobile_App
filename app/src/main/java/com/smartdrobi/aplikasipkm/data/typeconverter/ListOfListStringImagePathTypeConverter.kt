@@ -4,12 +4,12 @@ import androidx.room.TypeConverter
 
 class ListOfListStringImagePathTypeConverter {
     @TypeConverter
-    fun fromListOfListStringImagePath(list: List<List<String>>):String{
-         return list.joinToString("; ") { "(${it.joinToString(", ")})" }
+    fun fromListOfListStringImagePath(list: List<List<String>>): String {
+        return list.joinToString("; ") { "(${it.joinToString(", ")})" }
     }
 
     @TypeConverter
-    fun toListOfListStringImagePath(value:String):List<List<String>>{
+    fun toListOfListStringImagePath(value: String): List<List<String>> {
         return value.split("; ")
             .map {
                 it.removeSurrounding(

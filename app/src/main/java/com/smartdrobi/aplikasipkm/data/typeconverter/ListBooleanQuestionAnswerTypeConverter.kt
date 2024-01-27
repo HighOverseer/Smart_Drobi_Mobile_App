@@ -7,15 +7,15 @@ class ListBooleanQuestionAnswerTypeConverter {
 
     @TypeConverter
     fun fromListBooleanQuestionAnswer(
-        list:List<BridgeCheckField.BooleanQuestionAnswer>
-    ):String{
+        list: List<BridgeCheckField.BooleanQuestionAnswer>
+    ): String {
         return list.joinToString(", ") { it.toString() }
     }
 
     @TypeConverter
     fun toListBooleanQuestionAnswer(
-        value:String
-    ):List<BridgeCheckField.BooleanQuestionAnswer>{
+        value: String
+    ): List<BridgeCheckField.BooleanQuestionAnswer> {
         return value.split(", ").map {
             BridgeCheckField.BooleanQuestionAnswer.valueOf(it)
         }

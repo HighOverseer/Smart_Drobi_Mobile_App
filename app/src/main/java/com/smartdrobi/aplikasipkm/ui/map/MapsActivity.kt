@@ -4,11 +4,11 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationServices
@@ -32,28 +32,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var binding:ActivityMapsBinding
-    private lateinit var map:GoogleMap
+    private lateinit var binding: ActivityMapsBinding
+    private lateinit var map: GoogleMap
     private lateinit var geoCoder: Geocoder
 
     private var settingCurrMarkerJob: Job? = null
 
-    private var currMarker:Marker?=null
-        get(){
-            if (field == null){
+    private var currMarker: Marker? = null
+        get() {
+            if (field == null) {
                 map.clear()
                 field = map.addMarker(
                     MarkerOptions()
                         .position(
                             LatLng(
                                 JAKARTA_LAT,
-                            JAKARTA_LON
+                                JAKARTA_LON
                             )
                         )
                         .title(getString(R.string.jakarta))
-                        //.snippet(getString(R.string.ibu_kota_indonesia))
+                    //.snippet(getString(R.string.ibu_kota_indonesia))
                 )
             }
             return field
@@ -62,14 +62,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ){ permissions ->
+    ) { permissions ->
         if (
             permissions[Manifest.permission.ACCESS_FINE_LOCATION] != true
             || permissions[Manifest.permission.ACCESS_COARSE_LOCATION] != true
-        ){
+        ) {
             showToast(this, getString(R.string.location_permission_info))
             finish()
-        }else goToCurrLocation()
+        } else goToCurrLocation()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,13 +79,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         initViewComponents()
     }
 
-    private fun initViewComponents(){
+    private fun initViewComponents() {
         initMaps()
         initButtons()
         geoCoder = Geocoder(this, Locale.getDefault())
     }
 
-    private fun initButtons(){
+    private fun initButtons() {
         binding.apply {
 
             ibBack.setOnClickListener {
@@ -99,14 +99,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
 
     }
 
-    private fun finishSessionReturnResult(){
+    private fun finishSessionReturnResult() {
         currMarker?.let {
             val lat = it.position.latitude
             val lon = it.position.longitude
             val markerTitle = it.title
-            val mapLocationName = if (markerTitle?.contains(getString(R.string.curr_location)) == true){
-                markerTitle.removeRange(0, 16)
-            }else markerTitle
+            val mapLocationName =
+                if (markerTitle?.contains(getString(R.string.curr_location)) == true) {
+                    markerTitle.removeRange(0, 16)
+                } else markerTitle
 
             val intent = Intent().apply {
                 putExtra(AddBridgeFormActivity.LAT_KEY, lat)
@@ -115,10 +116,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
             }
             setResult(AddBridgeFormActivity.ACTIVITY_MAP_RESULT_CODE, intent)
             finish()
-        }?:return
+        } ?: return
     }
 
-    private fun initMaps(){
+    private fun initMaps() {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.container_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -130,20 +131,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
             uiSettings.apply {
                 isMapToolbarEnabled = false
             }
-            moveCamera(CameraUpdateFactory.newLatLngZoom(
-                LatLng(
-                    JAKARTA_LAT,
-                    JAKARTA_LON
-                ),
-                16f
-            ))
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        JAKARTA_LAT,
+                        JAKARTA_LON
+                    ),
+                    16f
+                )
+            )
             setZoomControlPosition()
             goToCurrLocation()
         }
 
     }
 
-    private fun setCurrMarker(position:LatLng, title:String = ""){
+    private fun setCurrMarker(position: LatLng, title: String = "") {
         settingCurrMarkerJob?.cancel()
 
         settingCurrMarkerJob = lifecycleScope.launch {
@@ -159,7 +162,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
 
                 val isLocationPointOfInterest = title.isNotBlank()
 
-                if (isLocationPointOfInterest){
+                if (isLocationPointOfInterest) {
                     val adressArray = locName.split(", ")
                     val city = adressArray[adressArray.size - 2]
                     val province = adressArray[adressArray.size - 1]
@@ -169,11 +172,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                 it.hideInfoWindow()
                 it.position = position
                 it.title = locName
-               /* it.snippet = getString(
-                    R.string.default_location_snippet,
-                    position.latitude.toString().substring(0, 7),
-                    position.longitude.toString().substring(0, 7)
-                )*/
+                /* it.snippet = getString(
+                     R.string.default_location_snippet,
+                     position.latitude.toString().substring(0, 7),
+                     position.longitude.toString().substring(0, 7)
+                 )*/
                 it.showInfoWindow()
                 map.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
@@ -187,7 +190,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
 
     }
 
-    private fun setZoomControlPosition(){
+    private fun setZoomControlPosition() {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.container_map) as SupportMapFragment
         mapFragment.view?.also {
@@ -205,7 +208,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
     }
 
 
-    private fun goToCurrLocation(){
+    private fun goToCurrLocation() {
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
@@ -225,7 +228,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                 setMapClickListeners()
             }
 
-        }else{
+        } else {
             requestPermissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -235,7 +238,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         }
     }
 
-    private fun setMapClickListeners(){
+    private fun setMapClickListeners() {
         map.apply {
             setOnMapClickListener {
                 setCurrMarker(
@@ -251,7 +254,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         }
     }
 
-    private fun checkPermission(permission:String):Boolean{
+    private fun checkPermission(permission: String): Boolean {
         return ActivityCompat.checkSelfPermission(
             this,
             permission
@@ -272,9 +275,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                 val list = geocoder.getFromLocation(lat.toDouble(), lon.toDouble(), 1)
                 if (list != null && list.size != 0) {
                     val thoroughFare = list[0].thoroughfare
-                    addressName = if (thoroughFare != null){
+                    addressName = if (thoroughFare != null) {
                         "${thoroughFare}, ${list[0].locality}, ${list[0].subAdminArea}, ${list[0].adminArea}"
-                    }else "${list[0].locality}, ${list[0].subAdminArea}, ${list[0].adminArea}"
+                    } else "${list[0].locality}, ${list[0].subAdminArea}, ${list[0].adminArea}"
 
                     println(addressName)
                     addressName
@@ -288,7 +291,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         } else addressName
     }
 
-    companion object{
+    companion object {
         private const val MAP_ZOOM_CONTROL_ID = 0x1
     }
 

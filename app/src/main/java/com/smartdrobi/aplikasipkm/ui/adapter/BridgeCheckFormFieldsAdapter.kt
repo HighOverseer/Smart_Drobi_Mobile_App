@@ -24,79 +24,81 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form.BridgeEmergencyFormFragment
 
 class BridgeCheckFormFieldsAdapter(
-    private val fields:List<BridgeCheckField>,
+    private val fields: List<BridgeCheckField>,
     private val onGeneralItemCallback: OnGeneralItemCallback
-):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var booleansOnItemCallback: BooleanQuestionsAdapter.OnItemCallback?=null
-    fun setBooleansQuestionItemCallback(callback:BooleanQuestionsAdapter.OnItemCallback){
+    private var booleansOnItemCallback: BooleanQuestionsAdapter.OnItemCallback? = null
+    fun setBooleansQuestionItemCallback(callback: BooleanQuestionsAdapter.OnItemCallback) {
         booleansOnItemCallback = callback
     }
 
-    private var headerBooleanQuestionWithImagesCallback:OnHeaderBooleanQuestionWithImagesCallback?=null
-    fun setHeaderBooleanQuestionWithImagesCallback(callback: OnHeaderBooleanQuestionWithImagesCallback){
+    private var headerBooleanQuestionWithImagesCallback: OnHeaderBooleanQuestionWithImagesCallback? =
+        null
+
+    fun setHeaderBooleanQuestionWithImagesCallback(callback: OnHeaderBooleanQuestionWithImagesCallback) {
         headerBooleanQuestionWithImagesCallback = callback
     }
 
-    private var headerBooleanQuestionCallback:OnHeaderBooleanQuestionCallback?=null
-    fun setHeaderBooleanQuestionImagesCallback(callback: OnHeaderBooleanQuestionCallback){
+    private var headerBooleanQuestionCallback: OnHeaderBooleanQuestionCallback? = null
+    fun setHeaderBooleanQuestionImagesCallback(callback: OnHeaderBooleanQuestionCallback) {
         headerBooleanQuestionCallback = callback
     }
 
-    private var textDateCallback:OnTextDateCallback?=null
-    fun setTextDateCallback(callback: OnTextDateCallback){
+    private var textDateCallback: OnTextDateCallback? = null
+    fun setTextDateCallback(callback: OnTextDateCallback) {
         textDateCallback = callback
     }
 
-    private var onImageCollectionCallback:ImageCollectionAdapter.OnImageCollectionCallback?=null
-    fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback){
+    private var onImageCollectionCallback: ImageCollectionAdapter.OnImageCollectionCallback? = null
+    fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback) {
         onImageCollectionCallback = callback
     }
 
-    private var textCallback:OnTextCallback?=null
-    fun setTextCallback(callback:OnTextCallback){
+    private var textCallback: OnTextCallback? = null
+    fun setTextCallback(callback: OnTextCallback) {
         textCallback = callback
     }
 
-    private var multiFieldCallback:OnMultiFieldCallback?=null
-    fun setMultiFieldCallback(callback:OnMultiFieldCallback){
+    private var multiFieldCallback: OnMultiFieldCallback? = null
+    fun setMultiFieldCallback(callback: OnMultiFieldCallback) {
         multiFieldCallback = callback
     }
 
-    sealed class ItemCallbackAction private constructor(){
-        data object ClearFocus:ItemCallbackAction()
+    sealed class ItemCallbackAction private constructor() {
+        data object ClearFocus : ItemCallbackAction()
 
         data class SaveHeaderImageCollectionVisibility(
             val fieldPosition: Int,
             val newVisibility: Boolean
-        ):ItemCallbackAction()
+        ) : ItemCallbackAction()
 
         data class ShowDatePicker(
             val fieldPosition: Int
-        ):ItemCallbackAction()
+        ) : ItemCallbackAction()
 
         data class SaveTextRegularText(
             val fieldPosition: Int,
-            val lastText:String
-        ):ItemCallbackAction()
+            val lastText: String
+        ) : ItemCallbackAction()
 
         data class SaveBooleanAnswers(
             val fieldPosition: Int,
             val newAnswer: BridgeCheckField.BooleanQuestionAnswer
-        ):ItemCallbackAction()
+        ) : ItemCallbackAction()
 
         data class SaveMultifieldText(
-            val viewId:BridgeEmergencyFormFragment.ElementFieldViewId,
+            val viewId: BridgeEmergencyFormFragment.ElementFieldViewId,
             val newText: String
-        ):ItemCallbackAction()
+        ) : ItemCallbackAction()
 
     }
 
     class HeaderViewHolder(
-        val binding:AddHeaderTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddHeaderTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
         init {
             binding.root.setOnClickListener {
                 action(ItemCallbackAction.ClearFocus)
@@ -114,9 +116,9 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class TextViewHolder(
-        val binding:AddTextTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddTextTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
 
         init {
             binding.apply {
@@ -167,9 +169,9 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class DateViewHolder(
-        val binding:AddDateTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddDateTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
         init {
             binding.apply {
                 root.setOnClickListener {
@@ -208,9 +210,9 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class MultilineTextViewHolder(
-        val binding:AddMultilineTextTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddMultilineTextTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
         init {
             binding.apply {
                 root.setOnClickListener {
@@ -247,17 +249,19 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class ContainerBooleansViewHolder(
-        val binding:AddContainerBooleansTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddContainerBooleansTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
 
-        private var booleansOnItemCallback:BooleanQuestionsAdapter.OnItemCallback?=null
-        fun setBooleanOnItemCallback(callback: BooleanQuestionsAdapter.OnItemCallback){
+        private var booleansOnItemCallback: BooleanQuestionsAdapter.OnItemCallback? = null
+        fun setBooleanOnItemCallback(callback: BooleanQuestionsAdapter.OnItemCallback) {
             booleansOnItemCallback = callback
         }
 
-        private var onImageCollectionCallback:ImageCollectionAdapter.OnImageCollectionCallback?=null
-        fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback){
+        private var onImageCollectionCallback: ImageCollectionAdapter.OnImageCollectionCallback? =
+            null
+
+        fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback) {
             onImageCollectionCallback = callback
         }
 
@@ -287,7 +291,8 @@ class BridgeCheckFormFieldsAdapter(
                 )
                 val parentFieldPosition = adapterPosition
 
-                val isCallbacksNull = booleansOnItemCallback == null && onImageCollectionCallback == null
+                val isCallbacksNull =
+                    booleansOnItemCallback == null && onImageCollectionCallback == null
 
                 if (isCallbacksNull) return
 
@@ -305,19 +310,21 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class HeaderBooleanQuestionViewHolder(
-        val binding:AddTextBooleanTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit,
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddTextBooleanTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
 
-        private var onImageCollectionCallback: ImageCollectionAdapter.OnImageCollectionCallback?=null
-        fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback){
+        private var onImageCollectionCallback: ImageCollectionAdapter.OnImageCollectionCallback? =
+            null
+
+        fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback) {
             onImageCollectionCallback = callback
         }
 
         init {
             val displayMetrics = itemView.context.resources.displayMetrics
             binding.apply {
-                if (adapterPosition == 1){
+                if (adapterPosition == 1) {
                     tvQuestion.setMargin(marginTop = 0)
                 }
                 tvQuestion.textSize = 12f
@@ -380,17 +387,19 @@ class BridgeCheckFormFieldsAdapter(
             }
         }
 
-        private fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer){
+        private fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer) {
             binding.apply {
-                when(answer){
-                    BridgeCheckField.BooleanQuestionAnswer.NONE ->{
+                when (answer) {
+                    BridgeCheckField.BooleanQuestionAnswer.NONE -> {
                         btnYes.alpha = 0.3f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.YES -> {
                         btnYes.alpha = 1f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.NO -> {
                         btnNo.alpha = 1f
                         btnYes.alpha = 0.3f
@@ -408,7 +417,7 @@ class BridgeCheckFormFieldsAdapter(
                 setAnswer(currField.answer)
 
                 val spanCount = countSpanImageCollection(
-                    currField.listImagePath.size,4
+                    currField.listImagePath.size, 4
                 )
 
                 tvQuestion.text = currField.tvInfoText.getValue(
@@ -439,8 +448,8 @@ class BridgeCheckFormFieldsAdapter(
         }
 
         private fun setImageCollectionVisibility(
-            isShown:Boolean
-        ){
+            isShown: Boolean
+        ) {
             binding.apply {
                 tvInfoPhoto.isVisible = isShown
                 rvImages.isVisible = isShown
@@ -454,9 +463,9 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     class HeaderBooleanQuestionWithoutImagesVH(
-        val binding:AddTextBooleanWithoutImagesItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddTextBooleanWithoutImagesItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
         init {
             binding.apply {
                 btnYes.setOnClickListener {
@@ -485,17 +494,19 @@ class BridgeCheckFormFieldsAdapter(
             }
         }
 
-        private fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer){
+        private fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer) {
             binding.apply {
-                when(answer){
-                    BridgeCheckField.BooleanQuestionAnswer.NONE ->{
+                when (answer) {
+                    BridgeCheckField.BooleanQuestionAnswer.NONE -> {
                         btnYes.alpha = 0.3f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.YES -> {
                         btnYes.alpha = 1f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.NO -> {
                         btnNo.alpha = 1f
                         btnYes.alpha = 0.3f
@@ -518,15 +529,15 @@ class BridgeCheckFormFieldsAdapter(
             }
         }
     }
-    
+
     class MultifieldViewHolder(
-        val binding:AddMultifieldTextTypeItemLayoutBinding,
-        inline val action:(ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root), BindViewHolder{
+        val binding: AddMultifieldTextTypeItemLayoutBinding,
+        inline val action: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), BindViewHolder {
 
         private fun produceTextChangedListener(
-            viewId:BridgeEmergencyFormFragment.ElementFieldViewId
-        ):(Editable?) -> Unit{
+            viewId: BridgeEmergencyFormFragment.ElementFieldViewId
+        ): (Editable?) -> Unit {
             return {
                 it?.let {
                     action(
@@ -605,7 +616,7 @@ class BridgeCheckFormFieldsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        when(viewType){
+        when (viewType) {
             BridgeCheckField.HEADER_TYPE -> {
                 val binding = getBinding(
                     parent,
@@ -613,6 +624,7 @@ class BridgeCheckFormFieldsAdapter(
                 )
                 return HeaderViewHolder(binding, ::onAction)
             }
+
             BridgeCheckField.TEXT_TYPE -> {
                 val binding = getBinding(
                     parent,
@@ -620,6 +632,7 @@ class BridgeCheckFormFieldsAdapter(
                 )
                 return TextViewHolder(binding, ::onAction)
             }
+
             BridgeCheckField.MULTILINE_TEXT_TYPE -> {
                 val binding = getBinding(
                     parent,
@@ -627,6 +640,7 @@ class BridgeCheckFormFieldsAdapter(
                 )
                 return MultilineTextViewHolder(binding, ::onAction)
             }
+
             BridgeCheckField.CONTAINER_BOOLEANS_TYPE -> {
                 val binding = getBinding(
                     parent,
@@ -637,29 +651,37 @@ class BridgeCheckFormFieldsAdapter(
                     onImageCollectionCallback?.let { setImageCollectionCallback(it) }
                 }
             }
-            BridgeCheckField.BOOLEAN_QUESTION_TYPE ->{
+
+            BridgeCheckField.BOOLEAN_QUESTION_TYPE -> {
                 val binding = getBinding(
                     parent,
                     AddTextBooleanTypeItemLayoutBinding::class.java
                 )
                 return HeaderBooleanQuestionViewHolder(binding, ::onAction).also {
-                    onImageCollectionCallback?.let { callback -> it.setImageCollectionCallback(callback) }
+                    onImageCollectionCallback?.let { callback ->
+                        it.setImageCollectionCallback(
+                            callback
+                        )
+                    }
                 }
             }
-            BridgeCheckField.BOOLEAN_QUESTION_WITHOUT_IMAGES_TYPE ->{
+
+            BridgeCheckField.BOOLEAN_QUESTION_WITHOUT_IMAGES_TYPE -> {
                 val binding = getBinding(
                     parent,
                     AddTextBooleanWithoutImagesItemLayoutBinding::class.java
                 )
                 return HeaderBooleanQuestionWithoutImagesVH(binding, ::onAction)
             }
-            BridgeCheckField.MULTIFIELD_TEXT_TYPE ->{
+
+            BridgeCheckField.MULTIFIELD_TEXT_TYPE -> {
                 val binding = getBinding(
                     parent,
                     AddMultifieldTextTypeItemLayoutBinding::class.java
                 )
                 return MultifieldViewHolder(binding, ::onAction)
             }
+
             else -> {
                 val binding = getBinding(
                     parent,
@@ -673,23 +695,20 @@ class BridgeCheckFormFieldsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currField = fields[position]
 
-        if (holder is BindViewHolder){
+        if (holder is BindViewHolder) {
             holder.bind(currField)
         }
     }
 
 
-
-
-
-   /* private fun AppCompatEditText.setMargin(
-        marginStart:Int
-    ){
-        val displayMetrics = resources.displayMetrics
-        val params = this.layoutParams as ConstraintLayout.LayoutParams
-        params.marginStart = marginStart.toDp(displayMetrics)
-        this.layoutParams = params
-    }*/
+    /* private fun AppCompatEditText.setMargin(
+         marginStart:Int
+     ){
+         val displayMetrics = resources.displayMetrics
+         val params = this.layoutParams as ConstraintLayout.LayoutParams
+         params.marginStart = marginStart.toDp(displayMetrics)
+         this.layoutParams = params
+     }*/
 
     override fun getItemCount() = fields.size
 
@@ -697,27 +716,37 @@ class BridgeCheckFormFieldsAdapter(
         return fields[position].typeId
     }
 
-    private fun onAction(action:ItemCallbackAction){
-        when(action){
+    private fun onAction(action: ItemCallbackAction) {
+        when (action) {
             is ItemCallbackAction.SaveTextRegularText -> textCallback?.saveLastText(
                 action.fieldPosition,
                 action.lastText
             )
+
             is ItemCallbackAction.SaveMultifieldText -> multiFieldCallback?.saveNewText(
                 action.viewId,
                 action.newText
             )
+
             ItemCallbackAction.ClearFocus -> onGeneralItemCallback.clearFocus()
             is ItemCallbackAction.SaveBooleanAnswers -> {
-                headerBooleanQuestionWithImagesCallback?.saveAnswer(action.fieldPosition, action.newAnswer)
-                    ?:headerBooleanQuestionCallback?.saveAnswer(action.fieldPosition, action.newAnswer)
+                headerBooleanQuestionWithImagesCallback?.saveAnswer(
+                    action.fieldPosition,
+                    action.newAnswer
+                )
+                    ?: headerBooleanQuestionCallback?.saveAnswer(
+                        action.fieldPosition,
+                        action.newAnswer
+                    )
             }
+
             is ItemCallbackAction.SaveHeaderImageCollectionVisibility -> {
                 headerBooleanQuestionWithImagesCallback?.saveCollectionsVisibility(
                     action.fieldPosition,
                     action.newVisibility
                 )
             }
+
             is ItemCallbackAction.ShowDatePicker -> {
                 textDateCallback?.showDatePicker(action.fieldPosition)
             }
@@ -725,7 +754,7 @@ class BridgeCheckFormFieldsAdapter(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun<T:ViewBinding>getBinding(parent: ViewGroup, bindingClass: Class<T>):T{
+    private fun <T : ViewBinding> getBinding(parent: ViewGroup, bindingClass: Class<T>): T {
         val inflater = LayoutInflater.from(
             parent.context
         )
@@ -739,46 +768,46 @@ class BridgeCheckFormFieldsAdapter(
         return inflateMethod.invoke(null, inflater, parent, false) as T
     }
 
-    interface BindViewHolder{
-        fun bind(currField:BridgeCheckField)
+    interface BindViewHolder {
+        fun bind(currField: BridgeCheckField)
     }
 
-    interface OnTextCallback{
+    interface OnTextCallback {
         fun saveLastText(
             fieldPosition: Int,
-            newText:String
+            newText: String
         )
     }
 
-    interface OnGeneralItemCallback{
+    interface OnGeneralItemCallback {
         fun clearFocus()
     }
 
-    interface OnTextDateCallback{
+    interface OnTextDateCallback {
         fun showDatePicker(
-            fieldPosition:Int
+            fieldPosition: Int
         )
     }
 
-    interface OnHeaderBooleanQuestionCallback{
+    interface OnHeaderBooleanQuestionCallback {
         fun saveAnswer(
             fieldPosition: Int,
             newAnswer: BridgeCheckField.BooleanQuestionAnswer
         )
     }
 
-    interface OnHeaderBooleanQuestionWithImagesCallback:OnHeaderBooleanQuestionCallback{
+    interface OnHeaderBooleanQuestionWithImagesCallback : OnHeaderBooleanQuestionCallback {
         fun saveCollectionsVisibility(
             selectedFieldPosition: Int,
-            newVisibility:Boolean
+            newVisibility: Boolean
         )
     }
 
     //sus
-    interface OnMultiFieldCallback{
+    interface OnMultiFieldCallback {
         fun saveNewText(
             viewId: BridgeEmergencyFormFragment.ElementFieldViewId,
-            newText:String
+            newText: String
         )
     }
 

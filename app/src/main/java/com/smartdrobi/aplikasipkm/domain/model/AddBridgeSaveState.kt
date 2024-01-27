@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class AddBridgeSaveState(
-    val imagePath:String?=null,
-    val position:LatLng = LatLng(JAKARTA_LAT, JAKARTA_LON),
-    val mapLocName:String = "Jakarta"
-):Parcelable
+    val imagePath: String? = null,
+    val position: LatLng = LatLng(JAKARTA_LAT, JAKARTA_LON),
+    val mapLocName: String = "Jakarta"
+) : Parcelable

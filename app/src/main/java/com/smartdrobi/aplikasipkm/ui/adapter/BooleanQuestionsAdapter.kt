@@ -11,31 +11,31 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 
 class BooleanQuestionsAdapter(
     private val parentFieldPosition: Int,
-    private val booleanQuestions:List<BridgeCheckField.BooleanQuestion>,
+    private val booleanQuestions: List<BridgeCheckField.BooleanQuestion>,
     private val onItemCallback: OnItemCallback
-):RecyclerView.Adapter<BooleanQuestionsAdapter.BooleanQuestionsViewHolder>() {
+) : RecyclerView.Adapter<BooleanQuestionsAdapter.BooleanQuestionsViewHolder>() {
 
-    private var onImageCollectionCallback:ImageCollectionAdapter.OnImageCollectionCallback?=null
-    fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback){
+    private var onImageCollectionCallback: ImageCollectionAdapter.OnImageCollectionCallback? = null
+    fun setImageCollectionCallback(callback: ImageCollectionAdapter.OnImageCollectionCallback) {
         onImageCollectionCallback = callback
     }
 
-    sealed class OnItemCallbackAction private constructor(){
+    sealed class OnItemCallbackAction private constructor() {
         data class SaveImageCollectionsVisibility(
             val fieldPosition: Int,
             val newVisibility: Boolean,
-        ):OnItemCallbackAction()
+        ) : OnItemCallbackAction()
 
         data class SaveAnswer(
             val fieldPosition: Int,
             val newAnswer: BridgeCheckField.BooleanQuestionAnswer
-        ):OnItemCallbackAction()
+        ) : OnItemCallbackAction()
     }
 
     class BooleanQuestionsViewHolder(
-        val binding:AddTextBooleanTypeItemLayoutBinding,
-        inline val action:(OnItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root){
+        val binding: AddTextBooleanTypeItemLayoutBinding,
+        inline val action: (OnItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             val displayMetrics = itemView.context.resources.displayMetrics
@@ -95,17 +95,19 @@ class BooleanQuestionsAdapter(
 
         }
 
-        fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer){
+        fun setAnswer(answer: BridgeCheckField.BooleanQuestionAnswer) {
             binding.apply {
-                when(answer){
-                    BridgeCheckField.BooleanQuestionAnswer.NONE ->{
+                when (answer) {
+                    BridgeCheckField.BooleanQuestionAnswer.NONE -> {
                         btnYes.alpha = 0.3f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.YES -> {
                         btnYes.alpha = 1f
                         btnNo.alpha = 0.3f
                     }
+
                     BridgeCheckField.BooleanQuestionAnswer.NO -> {
                         btnNo.alpha = 1f
                         btnYes.alpha = 0.3f
@@ -115,8 +117,8 @@ class BooleanQuestionsAdapter(
         }
 
         fun setImageCollectionVisibility(
-            isShown:Boolean
-        ){
+            isShown: Boolean
+        ) {
             binding.apply {
                 tvInfoPhoto.isVisible = isShown
                 rvImages.isVisible = isShown
@@ -180,8 +182,8 @@ class BooleanQuestionsAdapter(
         }
     }
 
-    private fun action(onItemCallbackAction: OnItemCallbackAction){
-        when(onItemCallbackAction){
+    private fun action(onItemCallbackAction: OnItemCallbackAction) {
+        when (onItemCallbackAction) {
             is OnItemCallbackAction.SaveImageCollectionsVisibility -> {
                 onItemCallback.saveImageCollectionsVisibility(
                     parentFieldPosition,
@@ -189,6 +191,7 @@ class BooleanQuestionsAdapter(
                     onItemCallbackAction.newVisibility
                 )
             }
+
             is OnItemCallbackAction.SaveAnswer -> {
                 onItemCallback.saveAnswerInChild(
                     parentFieldPosition,
@@ -201,7 +204,7 @@ class BooleanQuestionsAdapter(
 
     override fun getItemCount() = booleanQuestions.size
 
-    interface OnItemCallback{
+    interface OnItemCallback {
 
         fun saveImageCollectionsVisibility(
             parentFieldPosition: Int,

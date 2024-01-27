@@ -2,8 +2,8 @@ package com.smartdrobi.aplikasipkm.ui.dronecam
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.smartdrobi.aplikasipkm.databinding.ActivityDroneCamCaptureBinding
@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 
 class DroneCamCaptureActivity : AppCompatActivity(), OnCaptureSessionSuccess {
 
-    private lateinit var binding:ActivityDroneCamCaptureBinding
+    private lateinit var binding: ActivityDroneCamCaptureBinding
     private var parentImageCollectionFieldPosition = -1
     private var imageCollectionFieldPosition = -1
 
-    private var job:Job?=null
+    private var job: Job? = null
 
     private var isLoading = false
 
@@ -29,7 +29,7 @@ class DroneCamCaptureActivity : AppCompatActivity(), OnCaptureSessionSuccess {
         binding = ActivityDroneCamCaptureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState!= null){
+        if (savedInstanceState != null) {
             isLoading = savedInstanceState.getBoolean(IS_LOADING_STATE_KEY)
         }
         setIsProgressBarVisible(isLoading)
@@ -54,14 +54,14 @@ class DroneCamCaptureActivity : AppCompatActivity(), OnCaptureSessionSuccess {
         setIsProgressBarVisible(true)
         lifecycleScope.launch {
             val intent = Intent()
-            val parcelData:CapturedImageParcelData
+            val parcelData: CapturedImageParcelData
             val file = imageBitmap.saveToFile(this@DroneCamCaptureActivity)
             val hasSaved = file.exists()
 
             if (!hasSaved) return@launch
 
             val isIncludeParent = parentImageCollectionFieldPosition != -1
-            if (isIncludeParent){
+            if (isIncludeParent) {
                 parcelData = CapturedImageParcelData.IncludeParent(
                     parentImageCollectionFieldPosition,
                     imageCollectionFieldPosition,
@@ -96,7 +96,7 @@ class DroneCamCaptureActivity : AppCompatActivity(), OnCaptureSessionSuccess {
         }
     }
 
-    private fun setIsProgressBarVisible(isVisible:Boolean){
+    private fun setIsProgressBarVisible(isVisible: Boolean) {
         isLoading = isVisible
         binding.progressBar.isVisible = isVisible
     }
@@ -106,7 +106,7 @@ class DroneCamCaptureActivity : AppCompatActivity(), OnCaptureSessionSuccess {
         outState.putBoolean(IS_LOADING_STATE_KEY, isLoading)
     }
 
-    companion object{
+    companion object {
         const val FIELD_POSITION_KEY = "field"
         const val PARENT_FIELD_POSITION_KEY = "parent"
 

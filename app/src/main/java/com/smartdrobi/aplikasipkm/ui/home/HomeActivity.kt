@@ -1,9 +1,9 @@
 package com.smartdrobi.aplikasipkm.ui.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -14,14 +14,13 @@ import com.longdo.mjpegviewer.MjpegView
 import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.ActivityHomeBinding
-import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.showToast
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment
 import com.smartdrobi.aplikasipkm.ui.home.otherview.NonTopLevelFragmentCallback
+import com.smartdrobi.aplikasipkm.ui.home.toplevelview.FragmentActivityCallback
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.GuideFragment
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.HistoryFragment
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.HomeFragment
-import com.smartdrobi.aplikasipkm.ui.home.toplevelview.FragmentActivityCallback
 
 class HomeActivity
     : AppCompatActivity(),
@@ -30,10 +29,10 @@ class HomeActivity
     AddBridgeCheckLauncher,
     EditBridgeCheckLauncher {
 
-    private lateinit var binding:ActivityHomeBinding
+    private lateinit var binding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var navController:NavController
-    private lateinit var navHostFragment:NavHostFragment
+    private lateinit var navController: NavController
+    private lateinit var navHostFragment: NavHostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +49,8 @@ class HomeActivity
                     currFragment !is HomeFragment &&
                     currFragment !is GuideFragment &&
                     currFragment !is HistoryFragment
-                ){
-                    when(it.itemId){
+                ) {
+                    when (it.itemId) {
                         R.id.home -> {
                             (currFragment as NonTopLevelFragmentCallback)
                                 .popUpBackStack()
@@ -61,7 +60,7 @@ class HomeActivity
             }
 
             binding.containerDroneCam.setOnClickListener {
-                when(navController.currentDestination?.id){
+                when (navController.currentDestination?.id) {
                     R.id.home -> navController.navigate(R.id.action_home_to_droneCamRecordActivity2)
                     R.id.detailFragment -> navController.navigate(R.id.action_detailFragment_to_droneCamRecordActivity2)
                 }
@@ -69,12 +68,13 @@ class HomeActivity
         }
     }
 
-    private fun getCurrentFragment():Fragment{
+    private fun getCurrentFragment(): Fragment {
         return navHostFragment.childFragmentManager.fragments[0]
     }
 
     private fun setUpNavigation() {
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_framgent) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_framgent) as NavHostFragment
         navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
         appBarConfiguration = AppBarConfiguration(
@@ -86,7 +86,7 @@ class HomeActivity
         )
     }
 
-    private fun initViewDroneCam(){
+    private fun initViewDroneCam() {
         binding.apply {
             viewDroneCam.apply {
                 mode = MjpegView.MODE_STRETCH
@@ -99,7 +99,7 @@ class HomeActivity
 
     override fun keepBottomNavSelected(menuId: Int) {
         binding.bottomNavigationView.apply {
-            when(menuId){
+            when (menuId) {
                 R.id.guide, R.id.home, R.id.history -> {
                     val menuItem = menu.findItem(menuId)
                     menuItem.isChecked = true
@@ -110,10 +110,10 @@ class HomeActivity
 
     private val onDestinationChangeListener by lazy {
         NavController.OnDestinationChangedListener { _, destination, _ ->
-            if (destination.id != R.id.home && destination.id != R.id.detailFragment){
+            if (destination.id != R.id.home && destination.id != R.id.detailFragment) {
                 binding.viewDroneCam.stopStream()
                 binding.viewDroneCam.isVisible = false
-            }else {
+            } else {
                 binding.viewDroneCam.startStream()
                 binding.viewDroneCam.isVisible = true
             }
@@ -122,7 +122,7 @@ class HomeActivity
 
     private val addBridgeFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){result ->
+    ) { result ->
         if (result.resultCode != ADD_BRIDGE_RESULT_SUCCESS) return@registerForActivityResult
 
         val currFragment = getCurrentFragment()
@@ -135,7 +135,7 @@ class HomeActivity
 
     private val addBridgeCheckFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
+    ) { result ->
         if (result.resultCode != ADD_CHECK_RESULT_SUCCESS) return@registerForActivityResult
 
         showToast(
@@ -160,7 +160,7 @@ class HomeActivity
 
     private val editBridgeCheckFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ result ->
+    ) { result ->
         if (result.resultCode != EDIT_CHECK_RESULT_SUCCESS) return@registerForActivityResult
 
         showToast(
@@ -209,7 +209,7 @@ class HomeActivity
         super.onStop()
     }
 
-    companion object{
+    companion object {
         const val ADD_BRIDGE_RESULT_SUCCESS = 10
         const val ADD_CHECK_RESULT_SUCCESS = 100
         const val EDIT_CHECK_RESULT_SUCCESS = 200

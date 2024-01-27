@@ -1,8 +1,8 @@
 package com.smartdrobi.aplikasipkm.di
 
 import android.content.Context
-import com.smartdrobi.aplikasipkm.data.Repository
 import com.smartdrobi.aplikasipkm.data.BridgeDatabase
+import com.smartdrobi.aplikasipkm.data.Repository
 
 object Injection {
     fun provideRepository(context: Context): Repository {

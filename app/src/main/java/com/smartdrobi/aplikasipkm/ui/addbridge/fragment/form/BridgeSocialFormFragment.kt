@@ -1,14 +1,11 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form
 
-import android.content.Intent
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogIntentPhoto
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgeCheckFormFieldsAdapter
 import com.smartdrobi.aplikasipkm.ui.adapter.ImageCollectionAdapter
-import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.IntentPhotoInterface
 import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
-import com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamCaptureActivity
 
 class BridgeSocialFormFragment
     : BaseFormFragment(FormPage.SOCIAL),
@@ -65,9 +62,9 @@ class BridgeSocialFormFragment
         )
     }
 
-    enum class ViewId(val id:Int){
-            UNCLEANLINESS(0),
-            INCOMPATIBILITY(1),
-            ACTIVITY(2)
+    enum class ViewId(val id: Int) {
+        UNCLEANLINESS(0),
+        INCOMPATIBILITY(1),
+        ACTIVITY(2)
     }
 }

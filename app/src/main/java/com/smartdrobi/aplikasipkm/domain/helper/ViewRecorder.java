@@ -8,11 +8,11 @@ import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Looper;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
 import android.util.Size;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 
 /**
@@ -25,7 +25,7 @@ import android.view.View;
  * <p>Main thread is set for drawing as capture is only available in this thread,
  * it's OK to move composing to a background thread with {@link #setWorkerLooper(Looper)},
  * in this case, a capture buffer for multi-thread may be required.
- *
+ * <p>
  * Created by z4hyoung on 2017/11/8.
  */
 public class ViewRecorder extends SurfaceMediaRecorder {
@@ -34,12 +34,12 @@ public class ViewRecorder extends SurfaceMediaRecorder {
 
     private Size mVideoSize;
 
-    public ViewRecorder(){
+    public ViewRecorder() {
         super();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
-    public ViewRecorder(Context context){
+    public ViewRecorder(Context context) {
         super(context);
     }
 

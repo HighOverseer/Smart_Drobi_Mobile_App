@@ -19,7 +19,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentDetailBinding
-import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogConfirmation
@@ -41,10 +40,10 @@ import java.util.Calendar
 
 class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
-    private var binding:FragmentDetailBinding?=null
-    private lateinit var viewModel:DetailViewModel
+    private var binding: FragmentDetailBinding? = null
+    private lateinit var viewModel: DetailViewModel
 
-    private lateinit var selectedBridge:Bridge
+    private lateinit var selectedBridge: Bridge
 
     private var textWatcherJob: Job? = null
 
@@ -57,7 +56,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
@@ -65,9 +63,9 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         setListeners()
     }
 
-    private fun setObservers(){
+    private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedBridge.collectLatest {
                     if (it == null) return@collectLatest
 
@@ -89,7 +87,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedBridgeCheckPreviews.collectLatest {
 
                     binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
@@ -103,7 +101,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
         }
 
-        viewModel.toastEvent.observe(viewLifecycleOwner){
+        viewModel.toastEvent.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { stringRes ->
                 showToast(requireActivity(), stringRes.getValue(requireActivity()))
             }
@@ -125,7 +123,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     }
 
-    private fun setListeners(){
+    private fun setListeners() {
         binding?.apply {
             btnStartCheck.setOnClickListener {
                 val activity = requireActivity()
@@ -161,13 +159,13 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     }
 
-    private fun goToMap(){
+    private fun goToMap() {
         val lat = selectedBridge.latitudePosition
         val lon = selectedBridge.longitudePosition
         val locName = selectedBridge.mapLocName
         val mapUri = Uri.parse("geo:$lat,$lon?q=${Uri.encode(locName)}")
         val intent = Intent(Intent.ACTION_VIEW, mapUri)
-        if (intent.resolveActivity(requireActivity().packageManager) != null){
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(intent)
             return
         }
@@ -204,7 +202,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         }
     }
 
-    private fun init(){
+    private fun init() {
         /*arguments?.let { args ->
             val id = args.getInt(SELECTED_BRIDGE_ID_KEY, -1)
 
@@ -231,7 +229,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         }
 
         val activityFragment = requireActivity()
-        if (activityFragment is FragmentActivityCallback){
+        if (activityFragment is FragmentActivityCallback) {
             activityFragment.keepBottomNavSelected(R.id.home)
         }
 
@@ -254,7 +252,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         }
     }
 
-    private fun setDesc(){
+    private fun setDesc() {
         binding?.apply {
             selectedBridge.apply {
                 tvName.text = name
@@ -318,56 +316,56 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
                 etNextInspectionDate.setText(inspectionPlanDate)
 
-               /* rvCheckHistory.apply {
-                    layoutManager = LinearLayoutManager(
-                        requireActivity(),
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-                    addItemDecoration(
-                        BridgePreviewsItemDecoration(
-                            resources.displayMetrics,
-                            paddingTop = 2,
-                            paddingStart = 2,
-                            paddingBottom = 4,
-                            paddingEnd = 4
-                        )
-                    )
-                    val data = Dummy.getBridgeCheckPreview(selectedBridge)
-                    adapter = DetailBridgeCheckPreviewAdapter(
-                        data,
-                        ::checkHistoryClickAction
-                    )
+                /* rvCheckHistory.apply {
+                     layoutManager = LinearLayoutManager(
+                         requireActivity(),
+                         LinearLayoutManager.HORIZONTAL,
+                         false
+                     )
+                     addItemDecoration(
+                         BridgePreviewsItemDecoration(
+                             resources.displayMetrics,
+                             paddingTop = 2,
+                             paddingStart = 2,
+                             paddingBottom = 4,
+                             paddingEnd = 4
+                         )
+                     )
+                     val data = Dummy.getBridgeCheckPreview(selectedBridge)
+                     adapter = DetailBridgeCheckPreviewAdapter(
+                         data,
+                         ::checkHistoryClickAction
+                     )
 
-                    tvEmptyInfo.isVisible = data.isEmpty()
+                     tvEmptyInfo.isVisible = data.isEmpty()
 
 
-                }*/
+                 }*/
             }
         }
     }
 
-    private fun showDatePicker(clickedView: View){
+    private fun showDatePicker(clickedView: View) {
         val editText = clickedView as AppCompatEditText
         val currSelectedDate = editText.text.toString()
 
-        val year:Int
-        val month:Int
-        val day:Int
+        val year: Int
+        val month: Int
+        val day: Int
 
-        if (currSelectedDate.isBlank()){
+        if (currSelectedDate.isBlank()) {
             val c = Calendar.getInstance()
             year = c.get(Calendar.YEAR)
             month = c.get(Calendar.MONTH)
             day = c.get(Calendar.DAY_OF_MONTH)
-        }else{
+        } else {
             val splittedDate = currSelectedDate.split("/")
             day = splittedDate[0].toInt()
             month = splittedDate[1].toInt() - 1
             year = splittedDate[2].toInt()
         }
 
-        DatePickerDialog(requireActivity(), { _, yearr,monthOfTheYear, dayOfTheMonth ->
+        DatePickerDialog(requireActivity(), { _, yearr, monthOfTheYear, dayOfTheMonth ->
             val newDate = getString(
                 R.string.date,
                 dayOfTheMonth.toString(),
@@ -382,14 +380,14 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     private fun etNextInspectionWatcher(
         s: Editable?
-    ){
+    ) {
         textWatcherJob?.cancel()
         textWatcherJob = lifecycleScope.launch {
             delay(250L)
             binding?.apply {
                 s?.let {
                     val isTheDefault = it.toString() == selectedBridge.inspectionPlanDate
-                    if (isTheDefault){
+                    if (isTheDefault) {
                         btnSave.isEnabled = false
                         btnSave.alpha = 0.6f
                         return@launch
@@ -404,7 +402,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     }
 
-    private fun checkHistoryClickAction(clickedItemId:Int){
+    private fun checkHistoryClickAction(clickedItemId: Int) {
         val activity = requireActivity()
         if (activity !is EditBridgeCheckLauncher) return
 
@@ -432,7 +430,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
         binding = null
     }
 
-    companion object{
+    companion object {
         const val SELECTED_BRIDGE_ID_KEY = "key"
     }
 

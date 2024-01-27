@@ -13,17 +13,17 @@ import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val repository: Repository
-):ViewModel() {
+) : ViewModel() {
 
     private val bridgePreviewsByHistory = repository
         .getBridgePreviewsByHistory()
         .asLiveData()
 
     private val _uiState = MediatorLiveData(UiState())
-    val uiState:LiveData<UiState> = _uiState
+    val uiState: LiveData<UiState> = _uiState
 
 
-    fun getLatestBridgeCheckIdInEachBridge(selectedBridgeId:Int) {
+    fun getLatestBridgeCheckIdInEachBridge(selectedBridgeId: Int) {
         _uiState.value = _uiState.value?.copy(isLoading = true)
 
         viewModelScope.launch {
@@ -36,7 +36,7 @@ class HistoryViewModel(
     }
 
     init {
-        _uiState.addSource(bridgePreviewsByHistory){
+        _uiState.addSource(bridgePreviewsByHistory) {
             _uiState.value = _uiState.value?.copy(
                 listBridgePreviewsByHistory = it
             )
@@ -44,21 +44,22 @@ class HistoryViewModel(
     }
 
     data class UiState(
-        val listBridgePreviewsByHistory:List<BridgePreview> = emptyList(),
-        val isLoading:Boolean = false,
-        val bridgeCheckIdForSelectedBridgeEvent:SingleEvent<Int>? = null
+        val listBridgePreviewsByHistory: List<BridgePreview> = emptyList(),
+        val isLoading: Boolean = false,
+        val bridgeCheckIdForSelectedBridgeEvent: SingleEvent<Int>? = null
     )
 
-    class ViewModelFactory (
+    class ViewModelFactory(
         private val repository: Repository
-    ): ViewModelProvider.NewInstanceFactory() {
+    ) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            modelClass.let out@ {
+            modelClass.let out@{
                 when {
                     it.isAssignableFrom(HistoryViewModel::class.java) -> {
                         return HistoryViewModel(repository) as T
                     }
+
                     else -> return@out
                 }
             }

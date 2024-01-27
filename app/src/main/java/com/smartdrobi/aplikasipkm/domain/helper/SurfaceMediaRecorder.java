@@ -7,10 +7,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.view.Surface;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
-import android.view.Surface;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,11 +21,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * {@link #setWorkerLooper(Looper)}
  * {@link #setVideoFrameDrawer(VideoFrameDrawer)}
  * </pre>
- *
+ * <p>
  * Also you can use it as same as {@link MediaRecorder} for other functions.
  *
  * <p> By the way, one more error type {@link #MEDIA_RECORDER_ERROR_SURFACE} is defined for surface error.
- *
+ * <p>
  * Created by z4hyoung on 2017/11/8.
  */
 
@@ -62,12 +62,12 @@ public class SurfaceMediaRecorder extends MediaRecorder {
         void onDraw(Canvas canvas);
     }
 
-    public SurfaceMediaRecorder(){
+    public SurfaceMediaRecorder() {
         super();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
-    public SurfaceMediaRecorder(Context context){
+    public SurfaceMediaRecorder(Context context) {
         super(context);
     }
 
@@ -216,10 +216,11 @@ public class SurfaceMediaRecorder extends MediaRecorder {
 
     /**
      * Sets video frame drawer for composing.
+     *
      * @param drawer the drawer to compose frame with {@link Canvas}
      * @throws IllegalStateException if it is called after {@link #start()}
      */
-    public void setVideoFrameDrawer(@NonNull VideoFrameDrawer drawer) throws IllegalStateException{
+    public void setVideoFrameDrawer(@NonNull VideoFrameDrawer drawer) throws IllegalStateException {
         if (isRecording()) {
             throw new IllegalStateException("setVideoFrameDrawer called in an invalid state: Recording");
         }
@@ -228,6 +229,7 @@ public class SurfaceMediaRecorder extends MediaRecorder {
 
     /**
      * Sets worker looper in which composing task executed
+     *
      * @param looper the looper for composing
      * @throws IllegalStateException if it is called after {@link #start()}
      */
@@ -240,6 +242,7 @@ public class SurfaceMediaRecorder extends MediaRecorder {
 
     /**
      * Returns whether Surface is editable
+     *
      * @return true if surface editable
      */
     protected boolean isSurfaceAvailable() {
@@ -253,7 +256,7 @@ public class SurfaceMediaRecorder extends MediaRecorder {
     private void localReset() {
         if (isSurfaceAvailable()) {
             mStarted.compareAndSet(true, false);
-            mPaused.compareAndSet(true,false);
+            mPaused.compareAndSet(true, false);
             if (mWorkerHandler != null) {
                 mWorkerHandler.removeCallbacks(mWorkerRunnable);
             }

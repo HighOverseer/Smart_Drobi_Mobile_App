@@ -5,12 +5,12 @@ import com.smartdrobi.aplikasipkm.domain.model.BridgeMaterial
 
 class BridgeMaterialTypeConverter {
     @TypeConverter
-    fun toBridgeMaterial(value:String):BridgeMaterial{
+    fun toBridgeMaterial(value: String): BridgeMaterial {
         return BridgeMaterial.valueOf(value)
     }
 
     @TypeConverter
-    fun fromBridgeMaterial(bridgeMaterial: BridgeMaterial):String{
+    fun fromBridgeMaterial(bridgeMaterial: BridgeMaterial): String {
         return bridgeMaterial.toString()
     }
 }

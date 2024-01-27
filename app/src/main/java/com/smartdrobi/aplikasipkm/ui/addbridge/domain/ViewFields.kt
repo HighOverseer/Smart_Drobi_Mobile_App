@@ -34,7 +34,7 @@ suspend fun getFirstFormFields(
                 30,
                 lastEtText = inspectorName
 
-            ){bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     firstPageAnswer = firstPageAnswer.copy(
                         inspectorName = field.getValue()
@@ -49,13 +49,13 @@ suspend fun getFirstFormFields(
                 29f.toInt(),
                 2,
                 lastEtText = inspectionDate
-            ){bridgeCheck, field  ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     firstPageAnswer = firstPageAnswer.copy(
                         inspectionDate = field.getValue()
                     )
                 }
-             },
+            },
             BridgeCheckField.RegularText(
                 AddBridgeCheckFragment.ViewId.TRAFFIC_VAL.id,
                 StaticString(
@@ -66,11 +66,11 @@ suspend fun getFirstFormFields(
                 4,
                 BridgeCheckField.EditTextInputType.NUMBER_DECIMAL,
                 lastEtText = trafficValue?.toString() ?: ""
-            ){bridgeCheck , field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val doubleVal = try {
                         field.getValue<String>().toDouble()
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         0.0
                     }
@@ -79,7 +79,7 @@ suspend fun getFirstFormFields(
                         trafficValue = doubleVal
                     )
                 }
-             },
+            },
             BridgeCheckField.RegularText(
                 AddBridgeCheckFragment.ViewId.LHR.id,
                 StaticString(
@@ -90,11 +90,11 @@ suspend fun getFirstFormFields(
                 4,
                 BridgeCheckField.EditTextInputType.NUMBER_DECIMAL,
                 lastEtText = lhr?.toString() ?: ""
-            ){bridgeCheck , field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val doubleVal = try {
                         field.getValue<String>().toDouble()
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         0.0
                     }
@@ -103,7 +103,7 @@ suspend fun getFirstFormFields(
                         lhr = doubleVal
                     )
                 }
-             },
+            },
             BridgeCheckField.RegularText(
                 AddBridgeCheckFragment.ViewId.Year.id,
                 StaticString(
@@ -114,11 +114,11 @@ suspend fun getFirstFormFields(
                 4,
                 BridgeCheckField.EditTextInputType.NUMBER,
                 lastEtText = year?.toString() ?: ""
-            ){bridgeCheck, field  ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val intVal = try {
                         field.getValue<String>().toInt()
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         0
                     }
@@ -127,7 +127,7 @@ suspend fun getFirstFormFields(
                         year = intVal
                     )
                 }
-             },
+            },
             BridgeCheckField.MultilineText(
                 AddBridgeCheckFragment.ViewId.Note.id,
                 StaticString(
@@ -136,7 +136,7 @@ suspend fun getFirstFormFields(
                 4f.toInt(),
                 15f.toInt(),
                 lastEtText = note
-            ){bridgeCheck, field  ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     firstPageAnswer = firstPageAnswer.copy(
                         note = field.getValue()
@@ -171,7 +171,7 @@ suspend fun getConvenienceFormFields(
                         answer = floorSystemAnswer,
                         listImagePath = floorSystemImagePaths.toMutableList(),
                         isImageCollectionsVisible = floorSystemImagePaths.isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             conveniencePageAnswer = conveniencePageAnswer.copy(
@@ -196,7 +196,7 @@ suspend fun getConvenienceFormFields(
                         answer = upperBuildingAnswer,
                         listImagePath = upperBuildingImagePaths.toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths.isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             conveniencePageAnswer = conveniencePageAnswer.copy(
@@ -221,7 +221,7 @@ suspend fun getConvenienceFormFields(
                         answer = shortRoadAnswer,
                         listImagePath = shortRoadImagePaths.toMutableList(),
                         isImageCollectionsVisible = shortRoadImagePaths.isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             conveniencePageAnswer = conveniencePageAnswer.copy(
@@ -260,7 +260,7 @@ suspend fun getMaintenanceFormFields(
                         answer = routineAnswer[0],
                         listImagePath = routineImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = routineImagePaths[0].isNotEmpty(),
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             bridgeCheck.maintenancePageAnswer.apply {
@@ -277,7 +277,7 @@ suspend fun getMaintenanceFormFields(
                         answer = routineAnswer[1],
                         listImagePath = routineImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = routineImagePaths[1].isNotEmpty(),
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             bridgeCheck.maintenancePageAnswer.apply {
@@ -294,7 +294,7 @@ suspend fun getMaintenanceFormFields(
                         answer = routineAnswer[2],
                         listImagePath = routineImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = routineImagePaths[2].isNotEmpty(),
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             bridgeCheck.maintenancePageAnswer.apply {
@@ -311,7 +311,7 @@ suspend fun getMaintenanceFormFields(
                         answer = routineAnswer[3],
                         listImagePath = routineImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = routineImagePaths[3].isNotEmpty(),
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             bridgeCheck.maintenancePageAnswer.apply {
@@ -336,7 +336,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[0],
                         listImagePath = periodicImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[0] = content.answer
@@ -351,7 +351,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[1],
                         listImagePath = periodicImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[1] = content.answer
@@ -366,7 +366,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[2],
                         listImagePath = periodicImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[2] = content.answer
@@ -381,7 +381,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[3],
                         listImagePath = periodicImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[3] = content.answer
@@ -396,7 +396,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[4],
                         listImagePath = periodicImagePaths[4].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[4].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[4] = content.answer
@@ -411,7 +411,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[5],
                         listImagePath = periodicImagePaths[5].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[5].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[5] = content.answer
@@ -426,7 +426,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[6],
                         listImagePath = periodicImagePaths[6].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[6].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[6] = content.answer
@@ -441,7 +441,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[7],
                         listImagePath = periodicImagePaths[7].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[7].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[7] = content.answer
@@ -456,7 +456,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[8],
                         listImagePath = periodicImagePaths[8].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[8].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[8] = content.answer
@@ -471,7 +471,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[9],
                         listImagePath = periodicImagePaths[9].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[9].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[9] = content.answer
@@ -486,7 +486,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[10],
                         listImagePath = periodicImagePaths[10].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[10].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[10] = content.answer
@@ -501,7 +501,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[11],
                         listImagePath = periodicImagePaths[11].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[11].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[11] = content.answer
@@ -516,7 +516,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[12],
                         listImagePath = periodicImagePaths[12].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[12].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[12] = content.answer
@@ -531,7 +531,7 @@ suspend fun getMaintenanceFormFields(
                         answer = periodicAnswer[13],
                         listImagePath = periodicImagePaths[13].toMutableList(),
                         isImageCollectionsVisible = periodicImagePaths[13].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             periodicAnswer[13] = content.answer
@@ -554,7 +554,7 @@ suspend fun getMaintenanceFormFields(
                         answer = rehabilitationAnswer[0],
                         listImagePath = rehabilitationImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = rehabilitationImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->  
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             rehabilitationAnswer[0] = content.answer
@@ -569,7 +569,7 @@ suspend fun getMaintenanceFormFields(
                         answer = rehabilitationAnswer[1],
                         listImagePath = rehabilitationImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = rehabilitationImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             rehabilitationAnswer[1] = content.answer
@@ -584,7 +584,7 @@ suspend fun getMaintenanceFormFields(
                         answer = rehabilitationAnswer[2],
                         listImagePath = rehabilitationImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = rehabilitationImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             rehabilitationAnswer[2] = content.answer
@@ -607,7 +607,7 @@ suspend fun getMaintenanceFormFields(
                         answer = replacementAnswer[0],
                         listImagePath = replacementImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = replacementImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             replacementAnswer[0] = content.answer
@@ -622,7 +622,7 @@ suspend fun getMaintenanceFormFields(
                         answer = replacementAnswer[1],
                         listImagePath = replacementImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = replacementImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.maintenancePageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             replacementAnswer[1] = content.answer
@@ -639,7 +639,7 @@ suspend fun getMaintenanceFormFields(
                 answer = wideningAnswer,
                 listImagePath = wideningImagePaths.toMutableList(),
                 isImageCollectionsVisible = wideningImagePaths.isNotEmpty()
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                     maintenancePageAnswer = maintenancePageAnswer.copy(
@@ -677,7 +677,7 @@ suspend fun getSafetyFormFields(
                         backRestAnswer[0],
                         backRestImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = backRestImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             backRestAnswer[0] = content.answer
@@ -692,7 +692,7 @@ suspend fun getSafetyFormFields(
                         backRestAnswer[1],
                         backRestImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = backRestImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             backRestAnswer[1] = content.answer
@@ -707,7 +707,7 @@ suspend fun getSafetyFormFields(
                         backRestAnswer[2],
                         backRestImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = backRestImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             backRestAnswer[2] = content.answer
@@ -730,7 +730,7 @@ suspend fun getSafetyFormFields(
                         signAnswer[0],
                         signImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = signImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             signAnswer[0] = content.answer
@@ -745,7 +745,7 @@ suspend fun getSafetyFormFields(
                         signAnswer[1],
                         signImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = signImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             signAnswer[1] = content.answer
@@ -768,7 +768,7 @@ suspend fun getSafetyFormFields(
                         lightningRodAnswer[0],
                         lightningRodImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = lightningRodImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lightningRodAnswer[0] = content.answer
@@ -783,7 +783,7 @@ suspend fun getSafetyFormFields(
                         lightningRodAnswer[1],
                         lightningRodImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = lightningRodImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lightningRodAnswer[1] = content.answer
@@ -798,7 +798,7 @@ suspend fun getSafetyFormFields(
                         lightningRodAnswer[2],
                         lightningRodImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = lightningRodImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lightningRodAnswer[2] = content.answer
@@ -813,7 +813,7 @@ suspend fun getSafetyFormFields(
                         lightningRodAnswer[3],
                         lightningRodImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = lightningRodImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lightningRodAnswer[3] = content.answer
@@ -836,7 +836,7 @@ suspend fun getSafetyFormFields(
                         smksAnswer[0],
                         smksImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = smksImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             smksAnswer[0] = content.answer
@@ -851,7 +851,7 @@ suspend fun getSafetyFormFields(
                         smksAnswer[1],
                         smksImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = smksImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.safetyPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             smksAnswer[1] = content.answer
@@ -888,7 +888,7 @@ suspend fun getSecurityFormFields(
                         landfillAnswer,
                         landFillImagePaths.toMutableList(),
                         isImageCollectionsVisible = landFillImagePaths.isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             securityPageAnswer = securityPageAnswer.copy(
@@ -913,7 +913,7 @@ suspend fun getSecurityFormFields(
                         riverFlowAnswer[0],
                         riverFlowImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = riverFlowImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             riverFlowAnswer[0] = content.answer
@@ -928,7 +928,7 @@ suspend fun getSecurityFormFields(
                         riverFlowAnswer[1],
                         riverFlowImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = riverFlowImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             riverFlowAnswer[1] = content.answer
@@ -943,7 +943,7 @@ suspend fun getSecurityFormFields(
                         riverFlowAnswer[2],
                         riverFlowImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = riverFlowImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             riverFlowAnswer[2] = content.answer
@@ -958,7 +958,7 @@ suspend fun getSecurityFormFields(
                         riverFlowAnswer[3],
                         riverFlowImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = riverFlowImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             riverFlowAnswer[3] = content.answer
@@ -981,7 +981,7 @@ suspend fun getSecurityFormFields(
                         foundationAnswer[0],
                         foundationImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = foundationImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             foundationAnswer[0] = content.answer
@@ -996,7 +996,7 @@ suspend fun getSecurityFormFields(
                         foundationAnswer[1],
                         foundationImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = foundationImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             foundationAnswer[1] = content.answer
@@ -1011,7 +1011,7 @@ suspend fun getSecurityFormFields(
                         foundationAnswer[2],
                         foundationImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = foundationImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             foundationAnswer[2] = content.answer
@@ -1026,7 +1026,7 @@ suspend fun getSecurityFormFields(
                         foundationAnswer[3],
                         foundationImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = foundationImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             foundationAnswer[3] = content.answer
@@ -1049,7 +1049,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[0],
                         lowerBuildingImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[0] = content.answer
@@ -1064,7 +1064,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[1],
                         lowerBuildingImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[1] = content.answer
@@ -1079,7 +1079,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[2],
                         lowerBuildingImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[2] = content.answer
@@ -1094,7 +1094,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[3],
                         lowerBuildingImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[3] = content.answer
@@ -1109,7 +1109,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[4],
                         lowerBuildingImagePaths[4].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[4].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[4] = content.answer
@@ -1124,7 +1124,7 @@ suspend fun getSecurityFormFields(
                         lowerBuildingAnswer[5],
                         lowerBuildingImagePaths[5].toMutableList(),
                         isImageCollectionsVisible = lowerBuildingImagePaths[5].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             lowerBuildingAnswer[5] = content.answer
@@ -1147,7 +1147,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[0],
                         upperBuildingImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[0] = content.answer
@@ -1162,7 +1162,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[1],
                         upperBuildingImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[1] = content.answer
@@ -1177,7 +1177,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[2],
                         upperBuildingImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[2] = content.answer
@@ -1192,7 +1192,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[3],
                         upperBuildingImagePaths[3].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[3].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[3] = content.answer
@@ -1207,7 +1207,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[4],
                         upperBuildingImagePaths[4].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[4].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[4] = content.answer
@@ -1222,7 +1222,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[5],
                         upperBuildingImagePaths[5].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[5].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[5] = content.answer
@@ -1237,7 +1237,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[6],
                         upperBuildingImagePaths[6].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[6].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[6] = content.answer
@@ -1252,7 +1252,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[7],
                         upperBuildingImagePaths[7].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[7].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[7] = content.answer
@@ -1267,7 +1267,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[8],
                         upperBuildingImagePaths[8].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[8].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[8] = content.answer
@@ -1282,7 +1282,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[9],
                         upperBuildingImagePaths[9].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[9].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[9] = content.answer
@@ -1297,7 +1297,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[10],
                         upperBuildingImagePaths[10].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[10].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[10] = content.answer
@@ -1312,7 +1312,7 @@ suspend fun getSecurityFormFields(
                         upperBuildingAnswer[11],
                         upperBuildingImagePaths[11].toMutableList(),
                         isImageCollectionsVisible = upperBuildingImagePaths[11].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             upperBuildingAnswer[11] = content.answer
@@ -1335,7 +1335,7 @@ suspend fun getSecurityFormFields(
                         siarMuaiAnswer[0],
                         siarMuaiImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = siarMuaiImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             siarMuaiAnswer[0] = content.answer
@@ -1350,7 +1350,7 @@ suspend fun getSecurityFormFields(
                         siarMuaiAnswer[1],
                         siarMuaiImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = siarMuaiImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             siarMuaiAnswer[1] = content.answer
@@ -1365,7 +1365,7 @@ suspend fun getSecurityFormFields(
                         siarMuaiAnswer[2],
                         siarMuaiImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = siarMuaiImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             siarMuaiAnswer[2] = content.answer
@@ -1388,7 +1388,7 @@ suspend fun getSecurityFormFields(
                         placementAnswer[0],
                         placementImagePaths[0].toMutableList(),
                         isImageCollectionsVisible = placementImagePaths[0].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             placementAnswer[0] = content.answer
@@ -1403,7 +1403,7 @@ suspend fun getSecurityFormFields(
                         placementAnswer[1],
                         placementImagePaths[1].toMutableList(),
                         isImageCollectionsVisible = placementImagePaths[1].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             placementAnswer[1] = content.answer
@@ -1418,7 +1418,7 @@ suspend fun getSecurityFormFields(
                         placementAnswer[2],
                         placementImagePaths[2].toMutableList(),
                         isImageCollectionsVisible = placementImagePaths[2].isNotEmpty()
-                    ){ bridgeCheck, field ->
+                    ) { bridgeCheck, field ->
                         bridgeCheck.securityPageAnswer.apply {
                             val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                             placementAnswer[2] = content.answer
@@ -1451,7 +1451,7 @@ suspend fun getSocialFormFields(
                 uncleanlinessAnswer,
                 uncleanlinessImagePaths.toMutableList(),
                 isImageCollectionsVisible = uncleanlinessImagePaths.isNotEmpty()
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                     socialPageAnswer = socialPageAnswer.copy(
@@ -1468,7 +1468,7 @@ suspend fun getSocialFormFields(
                 incompatibilityAnswer,
                 incompatibilityImagePaths.toMutableList(),
                 isImageCollectionsVisible = incompatibilityImagePaths.isNotEmpty()
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                     socialPageAnswer = socialPageAnswer.copy(
@@ -1485,7 +1485,7 @@ suspend fun getSocialFormFields(
                 activityAnswer,
                 activityImagePaths.toMutableList(),
                 isImageCollectionsVisible = activityImagePaths.isNotEmpty()
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val content = field.getValue<BridgeCheckField.BooleanQuestionContent>()
                     socialPageAnswer = socialPageAnswer.copy(
@@ -1514,12 +1514,12 @@ suspend fun getEmergencyFormFields(
                     R.string.apakah_tindakan_darurat_disarankan
                 ),
                 actAnswer
-                ){ bridgeCheck, field ->
-                 bridgeCheck.apply {
-                     emergencyPageAnswer = emergencyPageAnswer.copy(
-                         actAnswer = field.getValue()
-                     )
-                 }
+            ) { bridgeCheck, field ->
+                bridgeCheck.apply {
+                    emergencyPageAnswer = emergencyPageAnswer.copy(
+                        actAnswer = field.getValue()
+                    )
+                }
             },
             BridgeCheckField.MultifieldText(
                 BridgeEmergencyFormFragment.ViewId.ELEMENT.id,
@@ -1530,7 +1530,7 @@ suspend fun getEmergencyFormFields(
                 y = elementY,
                 z = elementZ,
                 reason = elementReason
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     val content = field.getValue<BridgeCheckField.MultifieldContent>()
                     emergencyPageAnswer = emergencyPageAnswer.copy(
@@ -1550,7 +1550,7 @@ suspend fun getEmergencyFormFields(
                     R.string.apakah_kondisi_jembatan_sesuai_dengan
                 ),
                 conditionInventoryAnswer
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     emergencyPageAnswer = emergencyPageAnswer.copy(
                         conditionInventoryAnswer = field.getValue()
@@ -1563,7 +1563,7 @@ suspend fun getEmergencyFormFields(
                     R.string.apakah_kondisi_jembatan_sesuai_dengan_pemeriksaan_detail_terakhir
                 ),
                 conditionDetailAnswer
-            ){ bridgeCheck, field ->
+            ) { bridgeCheck, field ->
                 bridgeCheck.apply {
                     emergencyPageAnswer = emergencyPageAnswer.copy(
                         conditionDetailAnswer = field.getValue()

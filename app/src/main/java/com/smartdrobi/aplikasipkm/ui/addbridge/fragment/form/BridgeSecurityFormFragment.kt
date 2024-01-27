@@ -1,21 +1,11 @@
 package com.smartdrobi.aplikasipkm.ui.addbridge.fragment.form
 
-import android.content.Intent
-import androidx.navigation.findNavController
-import com.smartdrobi.aplikasipkm.R
-import com.smartdrobi.aplikasipkm.domain.StaticString
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogIntentPhoto
-import com.smartdrobi.aplikasipkm.domain.helper.toDp
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 import com.smartdrobi.aplikasipkm.ui.adapter.BooleanQuestionsAdapter
 import com.smartdrobi.aplikasipkm.ui.adapter.ImageCollectionAdapter
-import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity
 import com.smartdrobi.aplikasipkm.ui.addbridge.domain.IntentPhotoInterface
 import com.smartdrobi.aplikasipkm.ui.addbridge.uiaction.CheckFormUiAction
-import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
-import com.smartdrobi.aplikasipkm.ui.dronecam.DroneCamCaptureActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 
 class BridgeSecurityFormFragment
@@ -86,7 +76,7 @@ class BridgeSecurityFormFragment
     }
 
 
-    enum class ViewId(val id:Int){
+    enum class ViewId(val id: Int) {
         LANDFILL(0),
         RIVER_FLOW(1),
         FOUNDATION(2),
@@ -96,7 +86,7 @@ class BridgeSecurityFormFragment
         PLACEMENT(6)
     }
 
-    enum class QuestionId(val id:Int){
+    enum class QuestionId(val id: Int) {
         LANDFILL_A(0),
 
         RIVER_FLOW_A(1),

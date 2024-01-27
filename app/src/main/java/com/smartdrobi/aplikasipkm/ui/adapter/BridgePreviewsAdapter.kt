@@ -1,61 +1,57 @@
 package com.smartdrobi.aplikasipkm.ui.adapter
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.TouchDelegate
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemLayoutBinding
-import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
+import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.ui.home.toplevelview.SearchState
 
 //used in history fragment
 class BridgePreviewsAdapter(
     private val items: List<BridgePreview>,
     private val onItemClickedEvent: OnItemClickedEvent,
-    private val isHeaderWithSearchBar:Boolean
+    private val isHeaderWithSearchBar: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class ViewType {
         HEADER, ITEM_LAYOUT
     }
 
-    sealed class ItemCallbackAction private constructor(){
-        data object ClearFocus:ItemCallbackAction()
+    sealed class ItemCallbackAction private constructor() {
+        data object ClearFocus : ItemCallbackAction()
 
-        data class Search(val searchState: SearchState):ItemCallbackAction()
+        data class Search(val searchState: SearchState) : ItemCallbackAction()
 
-        data class ClickItem(val itemPosition:Int):ItemCallbackAction()
+        data class ClickItem(val itemPosition: Int) : ItemCallbackAction()
 
     }
 
-/*    private var initSearchBarQuery:String?=null
-    private var initSearchBarFocus:Boolean = false
+    /*    private var initSearchBarQuery:String?=null
+        private var initSearchBarFocus:Boolean = false
 
-    constructor(
-        items:List<BridgePreview>,
-        onItemClickedEvent: OnItemClickedEvent,
-        isHeaderWithSearchBar: Boolean,
-        initSearchBarFocus:Boolean,
-        initSearchBarQuery:String?
-    ):this(items, onItemClickedEvent, isHeaderWithSearchBar){
-        this.initSearchBarFocus = initSearchBarFocus
-        this.initSearchBarQuery = initSearchBarQuery
-    }*/
+        constructor(
+            items:List<BridgePreview>,
+            onItemClickedEvent: OnItemClickedEvent,
+            isHeaderWithSearchBar: Boolean,
+            initSearchBarFocus:Boolean,
+            initSearchBarQuery:String?
+        ):this(items, onItemClickedEvent, isHeaderWithSearchBar){
+            this.initSearchBarFocus = initSearchBarFocus
+            this.initSearchBarQuery = initSearchBarQuery
+        }*/
 
 
     class ItemViewHolder(
         val binding: HomeCheckScheduleItemLayoutBinding,
-        sendAction:(ItemCallbackAction) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root){
+        sendAction: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private val clickListener = OnClickListener {
             sendAction(
@@ -73,8 +69,8 @@ class BridgePreviewsAdapter(
 
             binding.apply {
                 tvName.setOnClickListener(clickListener)
-                tvLastInspectionDate.setOnClickListener (clickListener)
-                tvNextInspectionDate.setOnClickListener (clickListener)
+                tvLastInspectionDate.setOnClickListener(clickListener)
+                tvNextInspectionDate.setOnClickListener(clickListener)
                 tvLocation.setOnClickListener(clickListener)
 
             }
@@ -83,9 +79,9 @@ class BridgePreviewsAdapter(
     }
 
     class HeaderWithoutSearchBarVH(
-        val binding:HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding,
+        val binding: HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding,
         sendAction: (ItemCallbackAction) -> Unit
-    ):RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
                 sendAction(
@@ -97,8 +93,8 @@ class BridgePreviewsAdapter(
 
     class HeaderViewHolder(
         val binding: HomeCheckScheduleItemHeaderLayoutBinding,
-        sendAction:(ItemCallbackAction) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root){
+        sendAction: (ItemCallbackAction) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
 
         init {
@@ -115,23 +111,23 @@ class BridgePreviewsAdapter(
                 }else {
                     searchBar.clearEditTextFocus()
                 }*/
-           /*     searchBar.editText.addTextChangedListener(
-                    afterTextChanged = { text: Editable? ->
-                        text?.let {
-                            sendAction(
-                                ItemCallbackAction.Search(
-                                    SearchState(
-                                        it.toString(),
-                                        true
-                                    )
-                                )
-                            )
-                        }
+                /*     searchBar.editText.addTextChangedListener(
+                         afterTextChanged = { text: Editable? ->
+                             text?.let {
+                                 sendAction(
+                                     ItemCallbackAction.Search(
+                                         SearchState(
+                                             it.toString(),
+                                             true
+                                         )
+                                     )
+                                 )
+                             }
 
-                    }
-                )*/
+                         }
+                     )*/
 
-                searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         sendAction(
                             ItemCallbackAction.ClearFocus
@@ -150,7 +146,7 @@ class BridgePreviewsAdapter(
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        val q = newText ?:""
+                        val q = newText ?: ""
                         sendAction(
                             ItemCallbackAction.Search(
                                 SearchState(
@@ -172,7 +168,7 @@ class BridgePreviewsAdapter(
     ): RecyclerView.ViewHolder {
         when (viewType) {
             ViewType.HEADER.ordinal -> {
-                if (isHeaderWithSearchBar){
+                if (isHeaderWithSearchBar) {
                     val binding = HomeCheckScheduleItemHeaderLayoutBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
@@ -243,8 +239,8 @@ class BridgePreviewsAdapter(
     }
 
 
-    private fun onAction(action:ItemCallbackAction){
-        when(action){
+    private fun onAction(action: ItemCallbackAction) {
+        when (action) {
             ItemCallbackAction.ClearFocus -> onItemClickedEvent.clearFocus()
             is ItemCallbackAction.Search -> onItemClickedEvent.searchBridge(action.searchState)
             is ItemCallbackAction.ClickItem -> onItemClickedEvent.onItemClicked(items[action.itemPosition].id)
@@ -264,7 +260,7 @@ class BridgePreviewsAdapter(
 
         fun searchBridge(searchState: SearchState)
 
-        fun onItemClicked(itemClickedId:Int)
+        fun onItemClicked(itemClickedId: Int)
 
         fun clearFocus()
 

@@ -33,9 +33,9 @@ class JustifyTextView : AppCompatTextView {
      */
     private fun init(attrs: AttributeSet?) {
 
-   /*     val ta = context.obtainStyledAttributes(attrs, R.styleable.DTextView, 0, 0)
-        justify = ta.getBoolean(R.styleable.DTextView_justify, false)
-        ta.recycle()*/
+        /*     val ta = context.obtainStyledAttributes(attrs, R.styleable.DTextView, 0, 0)
+             justify = ta.getBoolean(R.styleable.DTextView_justify, false)
+             ta.recycle()*/
     }
 
     override fun onDraw(canvas: Canvas) {
