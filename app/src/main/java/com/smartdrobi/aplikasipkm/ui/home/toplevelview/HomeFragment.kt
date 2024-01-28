@@ -23,6 +23,7 @@ import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsListAdapter
 import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeFormActivity
 import com.smartdrobi.aplikasipkm.ui.customeview.MySearchView
 import com.smartdrobi.aplikasipkm.ui.home.AddBridgeLauncher
+import com.smartdrobi.aplikasipkm.ui.home.HomeActivity
 import com.smartdrobi.aplikasipkm.ui.home.OnSettingDroneCamListener
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DroneCamSettingDialogFragment
@@ -193,6 +194,11 @@ class HomeFragment :
 
     override fun onConnect(newIP: String) {
         viewModel.connectDroneCam(newIP)
+
+        val parentActivity = activity
+        if (parentActivity !is HomeActivity) return
+
+        parentActivity.initViewDroneCam(true)
     }
 
     override fun onDestroyView() {

@@ -11,9 +11,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.longdo.mjpegviewer.MjpegView
-import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.ActivityHomeBinding
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.domain.helper.showToast
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment
 import com.smartdrobi.aplikasipkm.ui.home.otherview.NonTopLevelFragmentCallback
@@ -86,16 +86,21 @@ class HomeActivity
         )
     }
 
-    private fun initViewDroneCam() {
+    fun initViewDroneCam(startEagerly: Boolean = false) {
         binding.apply {
+            if (startEagerly) viewDroneCam.stopStream()
+
             viewDroneCam.apply {
                 mode = MjpegView.MODE_STRETCH
 
                 isAdjustHeight = true
-                setUrl(BuildConfig.DRONE_CAM_URL)
+                setUrl(DRONE_CAM_IP_ADDRESS)
             }
+
+            if (startEagerly) viewDroneCam.startStream()
         }
     }
+
 
     override fun keepBottomNavSelected(menuId: Int) {
         binding.bottomNavigationView.apply {

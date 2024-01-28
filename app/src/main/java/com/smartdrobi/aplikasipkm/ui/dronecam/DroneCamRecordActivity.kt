@@ -9,9 +9,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import androidx.appcompat.app.AppCompatActivity
 import com.longdo.mjpegviewer.MjpegView
-import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.ActivityDroneCamRecordBinding
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.domain.helper.ViewRecorder
 import java.io.IOException
 
@@ -140,7 +140,7 @@ class DroneCamRecordActivity : AppCompatActivity() {
                 } else MjpegView.MODE_FIT_WIDTH
 
                 isAdjustHeight = true
-                setUrl(BuildConfig.DRONE_CAM_URL)
+                setUrl(DRONE_CAM_IP_ADDRESS)
             }
         }
     }

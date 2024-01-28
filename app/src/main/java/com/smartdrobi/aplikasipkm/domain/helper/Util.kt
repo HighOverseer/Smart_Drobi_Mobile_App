@@ -51,6 +51,8 @@ const val AUTHORITY = "com.smartdrobi.aplikasipkm"
 
 const val DATE_FORMAT_PATTERN = "dd/MM/yyyy"
 
+var DRONE_CAM_IP_ADDRESS = "http://10.0.2.2:5000/video_feed"
+
 fun <T> Flow<T>.toStateFlow(scope: CoroutineScope, initialValue: T): StateFlow<T> {
     return stateIn(
         scope,

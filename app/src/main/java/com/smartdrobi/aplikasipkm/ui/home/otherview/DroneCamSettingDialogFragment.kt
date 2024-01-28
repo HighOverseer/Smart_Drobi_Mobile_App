@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentDialogDroneCamSettingBinding
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.ui.home.OnSettingDroneCamListener
 
 class DroneCamSettingDialogFragment : DialogFragment() {
@@ -59,8 +62,16 @@ class DroneCamSettingDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
+            etServerIp.setText(DRONE_CAM_IP_ADDRESS)
+
             btnConnect.setOnClickListener {
-                val newIP = etServerIp.text.toString()
+                val newIP = etServerIp.text.toString().ifBlank {
+                    Toast.makeText(
+                        requireActivity(),
+                        getString(R.string.ip_adress_tidak_boleh_kosong), Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
                 listener.onConnect(newIP)
                 dialog?.dismiss()
             }

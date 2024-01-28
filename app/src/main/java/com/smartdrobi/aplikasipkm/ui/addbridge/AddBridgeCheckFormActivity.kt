@@ -14,10 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.longdo.mjpegviewer.MjpegView
-import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.ActivityAddBridgeCheckFormBinding
 import com.smartdrobi.aplikasipkm.domain.helper.AUTHORITY
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.domain.helper.createCustomTempFile
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.helper.showDialogConfirmation
@@ -212,7 +212,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                 mode = MjpegView.MODE_STRETCH
 
                 isAdjustHeight = true
-                setUrl(BuildConfig.DRONE_CAM_URL)
+                setUrl(DRONE_CAM_IP_ADDRESS)
             }
         }
     }

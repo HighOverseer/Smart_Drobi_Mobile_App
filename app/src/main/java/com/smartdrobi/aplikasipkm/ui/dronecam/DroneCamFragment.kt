@@ -10,9 +10,9 @@ import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.longdo.mjpegviewer.MjpegView
-import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentDroneCamBinding
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.domain.model.CaptureImageBitmapParcel
 
 
@@ -89,7 +89,7 @@ class DroneCamFragment : Fragment() {
                 } else MjpegView.MODE_FIT_WIDTH
 
                 isAdjustHeight = true
-                setUrl(BuildConfig.DRONE_CAM_URL)
+                setUrl(DRONE_CAM_IP_ADDRESS)
             }
         }
     }

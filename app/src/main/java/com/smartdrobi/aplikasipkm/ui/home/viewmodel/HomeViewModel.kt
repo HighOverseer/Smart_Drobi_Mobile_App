@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.smartdrobi.aplikasipkm.data.Repository
+import com.smartdrobi.aplikasipkm.domain.helper.DRONE_CAM_IP_ADDRESS
 import com.smartdrobi.aplikasipkm.domain.helper.toStateFlow
 import com.smartdrobi.aplikasipkm.domain.model.ListItem
 import com.smartdrobi.aplikasipkm.domain.model.SearchHeaderBridgePreview
@@ -46,7 +47,9 @@ class HomeViewModel(
             }
         }.toStateFlow(viewModelScope, emptyList())
 
-    fun connectDroneCam(ipAdress: String) {
+    fun connectDroneCam(ipAddress: String) {
+        DRONE_CAM_IP_ADDRESS = ipAddress
+
         connectDroneCamJob?.cancel()
         connectDroneCamJob = viewModelScope.launch {
             _searchHeaderBridgePreview.value = _searchHeaderBridgePreview.value.copy(
@@ -74,6 +77,9 @@ class HomeViewModel(
 
     }
 
+    init {
+        connectDroneCam(DRONE_CAM_IP_ADDRESS)
+    }
 
     class ViewModelFactory(
         private val repository: Repository
