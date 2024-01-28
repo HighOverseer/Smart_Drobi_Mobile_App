@@ -3,11 +3,7 @@ package com.smartdrobi.aplikasipkm.domain.model
 import com.smartdrobi.aplikasipkm.domain.helper.getCurrentDate
 import java.util.Date
 
-/*private var currentIncrementId = 100
-    get(){
-        field += 1
-        return field
-    }*/
+
 data class BridgeCheck(
     val id: Int = 0,
     val bridgeId: Int,
@@ -19,51 +15,7 @@ data class BridgeCheck(
     var socialPageAnswer: SocialPageAnswer = SocialPageAnswer(),
     var emergencyPageAnswer: EmergencyPageAnswer = EmergencyPageAnswer(),
     val inspectionDate: Date = getCurrentDate()
-) {
-    fun clone(): BridgeCheck {
-
-        return this.copy(
-            firstPageAnswer = firstPageAnswer.copy(),
-            securityPageAnswer = securityPageAnswer.copy(
-                riverFlowAnswer = securityPageAnswer.riverFlowAnswer.toMutableList(),
-                riverFlowImagePaths = securityPageAnswer.riverFlowImagePaths.toMutableList(),
-                foundationAnswer = securityPageAnswer.foundationAnswer.toMutableList(),
-                foundationImagePaths = securityPageAnswer.foundationImagePaths.toMutableList(),
-                lowerBuildingAnswer = securityPageAnswer.lowerBuildingAnswer.toMutableList(),
-                lowerBuildingImagePaths = securityPageAnswer.lowerBuildingImagePaths.toMutableList(),
-                upperBuildingAnswer = securityPageAnswer.upperBuildingAnswer.toMutableList(),
-                upperBuildingImagePaths = securityPageAnswer.upperBuildingImagePaths.toMutableList(),
-                siarMuaiAnswer = securityPageAnswer.siarMuaiAnswer.toMutableList(),
-                siarMuaiImagePaths = securityPageAnswer.siarMuaiImagePaths.toMutableList(),
-                placementAnswer = securityPageAnswer.placementAnswer.toMutableList(),
-                placementImagePaths = securityPageAnswer.placementImagePaths.toMutableList()
-            ),
-            safetyPageAnswer = safetyPageAnswer.copy(
-                backRestAnswer = safetyPageAnswer.backRestAnswer.toMutableList(),
-                backRestImagePaths = safetyPageAnswer.backRestImagePaths.toMutableList(),
-                signAnswer = safetyPageAnswer.signAnswer.toMutableList(),
-                signImagePaths = safetyPageAnswer.signImagePaths.toMutableList(),
-                lightningRodAnswer = safetyPageAnswer.lightningRodAnswer.toMutableList(),
-                lightningRodImagePaths = safetyPageAnswer.lightningRodImagePaths.toMutableList(),
-                smksAnswer = safetyPageAnswer.smksAnswer.toMutableList(),
-                smksImagePaths = safetyPageAnswer.smksImagePaths.toMutableList()
-            ),
-            conveniencePageAnswer = conveniencePageAnswer.copy(),
-            maintenancePageAnswer = maintenancePageAnswer.copy(
-                routineAnswer = maintenancePageAnswer.routineAnswer.toMutableList(),
-                routineImagePaths = maintenancePageAnswer.routineImagePaths.toMutableList(),
-                periodicAnswer = maintenancePageAnswer.periodicAnswer.toMutableList(),
-                periodicImagePaths = maintenancePageAnswer.periodicImagePaths.toMutableList(),
-                rehabilitationAnswer = maintenancePageAnswer.rehabilitationAnswer.toMutableList(),
-                rehabilitationImagePaths = maintenancePageAnswer.rehabilitationImagePaths.toMutableList(),
-                replacementAnswer = maintenancePageAnswer.replacementAnswer.toMutableList(),
-                replacementImagePaths = maintenancePageAnswer.replacementImagePaths.toMutableList()
-            ),
-            socialPageAnswer = socialPageAnswer.copy(),
-            emergencyPageAnswer = emergencyPageAnswer.copy()
-        )
-    }
-}
+)
 
 
 data class FirstPageAnswer(

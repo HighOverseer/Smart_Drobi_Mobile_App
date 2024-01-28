@@ -42,5 +42,5 @@ sealed class CheckFormUiAction private constructor(
     class SaveMultifieldText(
         val viewId: BridgeEmergencyFormFragment.ElementFieldViewId,
         val newText: String
-    ) : CheckFormUiAction(-1) //might want to see later
+    ) : CheckFormUiAction(-1)
 }

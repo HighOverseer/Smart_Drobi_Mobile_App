@@ -14,7 +14,6 @@ import com.smartdrobi.aplikasipkm.ui.dronecam.domain.OnCaptureSessionSuccess
 class CapturedImageFragment : Fragment() {
 
     private var binding: FragmentCapturedImageBinding? = null
-    //private val viewModel by activityViewModels<AddBridgeCheckFormViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +47,7 @@ class CapturedImageFragment : Fragment() {
 
     }
 
+    @Suppress("DEPRECATION")
     private fun getDataParcel(): CaptureImageBitmapParcel? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(BITMAP_KEY, CaptureImageBitmapParcel::class.java)
@@ -56,20 +56,6 @@ class CapturedImageFragment : Fragment() {
         }
     }
 
-    /*private fun captureImage(capturedImageBitmap:Bitmap){
-        arguments?.also {
-            val position = it.getInt(FIELD_POSITION_KEY)
-            viewModel.sendAction(
-                CheckFormUiAction.SaveCapturedImage(
-                    capturedImageBitmap,
-                    position
-                )
-            )
-            view?.findNavController()?.navigate(
-                R.id.action_capturedImageFragment_to_addBridgeCheckFragment2
-            )
-        }
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

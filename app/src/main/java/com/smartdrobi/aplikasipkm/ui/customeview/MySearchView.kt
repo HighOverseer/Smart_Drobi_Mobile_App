@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.KeyEvent
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -62,10 +61,6 @@ class MySearchView : SearchView {
 
     fun clearEditTextFocus() {
         editText.clearFocus()
-    }
-
-    fun setEditTextFocusChangeListener(listener: OnFocusChangeListener) {
-        editText.onFocusChangeListener = listener
     }
 
 

@@ -1,11 +1,6 @@
 package com.smartdrobi.aplikasipkm.domain.model
 
-import androidx.viewbinding.ViewBinding
-import com.smartdrobi.aplikasipkm.R
-import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemLayoutBinding
-import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
-
 
 
 data class BridgePreview(
@@ -15,7 +10,7 @@ data class BridgePreview(
     val lastInspectionDate: String,
     val nextInspectionDate: String,
     val location: String
-):ListItem{
+) : ListItem {
     override fun getItemId(): Long {
         return id.toLong()
     }
@@ -28,7 +23,7 @@ data class BridgePreview(
 data class SearchHeaderBridgePreview(
     val droneCamConnectivityStatus: DroneCamConnectivityStatus = DroneCamConnectivityStatus.DISCONNECTED,
     val searchState: SearchState = SearchState()
-):ListItem{
+) : ListItem {
 
     override fun getItemId(): Long {
         return -1

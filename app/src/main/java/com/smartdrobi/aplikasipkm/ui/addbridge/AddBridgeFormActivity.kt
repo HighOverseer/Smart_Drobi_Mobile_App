@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -194,7 +193,7 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             saveState.imagePath?.let {
                 File(it).apply {
@@ -229,24 +228,6 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                 else -> return@out
             }
             try {
-                /*Dummy.listBridges.add(
-                    Bridge(
-                        imagePath = imagePath,
-                        name = name.toString(),
-                        nationalNumber = nationalNum.toString().toInt(),
-                        cityNumber = cityNum.toString().toInt(),
-                        tollNumber = tollNum.toString().toInt(),
-                        buildDate = buildDate.toString(),
-                        latitudePosition = lat.toString().toDouble(),
-                        longitudePosition = lon.toString().toDouble(),
-                        mapLocName = mapLocName,
-                        provinceCity = provinceCity.toString(),
-                        length = length.toString().toDouble(),
-                        wide = wide.toString().toDouble(),
-                        inspectionPlanDate = inspectPlanDate.toString(),
-                        bridgeMaterial = material
-                    )
-                )*/
 
                 viewModel.insertBridge(
                     Bridge(
@@ -451,7 +432,7 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                         file
                     )
 
-                    saveState.imagePath?.let {path ->
+                    saveState.imagePath?.let { path ->
                         File(path).apply {
                             if (exists()) delete()
                         }
@@ -466,7 +447,7 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                     it
                 )
 
-                saveState.imagePath?.let {path ->
+                saveState.imagePath?.let { path ->
                     File(path).apply {
                         if (exists()) delete()
                     }

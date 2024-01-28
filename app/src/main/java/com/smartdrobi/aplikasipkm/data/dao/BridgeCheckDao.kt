@@ -25,9 +25,6 @@ interface BridgeCheckDao {
         bridgeCheckId: Int
     ): BridgeCheckAndAnswers
 
-    /*@Query("SELECT * FROM bridge_check WHERE bridgeId = :bridgeId")
-    fun getBridgeCheckPreviewLiveData(bridgeId: Int):LiveData<List<BridgeCheckBridgeAndFirstPage>>*/
-
     @Transaction
     @Query("SELECT * FROM bridge_check WHERE bridgeId = :bridgeId")
     fun getBridgeCheckPreviewInFlow(bridgeId: Int): Flow<List<BridgeCheckBridgeAndFirstPage>>

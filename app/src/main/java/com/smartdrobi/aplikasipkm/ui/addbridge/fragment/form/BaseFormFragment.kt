@@ -25,7 +25,7 @@ abstract class BaseFormFragment(
     protected var binding: FragmentAddBaseFormBinding? = null
 
     protected val viewModel by activityViewModels<AddBridgeCheckFormViewModel>()
-    protected lateinit var rvAdapter: BridgeCheckFormFieldsAdapter
+    private lateinit var rvAdapter: BridgeCheckFormFieldsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,13 +46,7 @@ abstract class BaseFormFragment(
                 clearAllViewFocus()
             }
 
-            //for handling click on rv empty space
-            /*rvFields.setOnTouchListener { v, _ ->
-                if (v == root){
-                    root.performClick()
-                }
-                false
-            }*/
+
         }
 
         viewModel.apply {
@@ -103,13 +97,7 @@ abstract class BaseFormFragment(
                             }
                         }
                     }
-                    /*is CheckFormUiEvent.EndingSession -> {
-                        event{
-                            val activity = requireActivity()
-                            activity.setResult(event.resultCode)
-                            activity.finish()
-                        }
-                    }*/
+
                     else -> return@observe
                 }
             }

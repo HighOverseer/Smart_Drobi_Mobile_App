@@ -23,5 +23,4 @@ data class BridgeEntity(
     val wide: Double,
     val inspectionPlanDate: String,
     val bridgeMaterial: BridgeMaterial,
-    //val lastInspectionDate:String?=null
 )

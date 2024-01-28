@@ -32,7 +32,7 @@
             android:layout_marginHorizontal="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logo"
-            android:text="Jembatan Siti Nurbaya"
+            tools:text="Jembatan Siti Nurbaya"
             tools:viewBindingIgnore="true" />
 
 
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Nomor Jembatan"
+                    tools:text="Nomor Jembatan"
                     app:layout_constraintStart_toStartOf="@id/container_image"
                     app:layout_constraintTop_toBottomOf="@id/container_image"/>
 
@@ -188,25 +188,6 @@
                     android:text="@string/bahan_jembatan_1_s"
                     app:layout_constraintStart_toStartOf="@id/tv_wide"
                     app:layout_constraintTop_toBottomOf="@id/tv_wide"/>
-            <!--    <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/MyTextView.SansSerif.Medium.Black.H7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/no_jembatan_1_s"
-                    app:layout_constraintTop_toBottomOf="@id/container_image"/>-->
-
-
-                <!--<androidx.appcompat.widget.AppCompatTextView
-                    style="@style/MyTextView.SansSerif.Medium.Black.H7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:lineSpacingExtra="10sp"
-                    android:minLines="7"
-                    android:paddingBottom="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/container_image"
-                    android:text="Nomor Jembatan : 11234212\nTanggal Dibangun : 21/01/2021\nAlamat Jembatan : unknown name here\nPanjang : 1200 m\nLebar : 20 m\nRencana Pemeriksaan : 30/12/2023\nBahan Jembatan : Besi" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 

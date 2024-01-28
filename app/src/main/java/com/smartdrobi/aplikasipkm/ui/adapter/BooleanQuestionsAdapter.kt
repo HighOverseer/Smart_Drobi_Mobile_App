@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smartdrobi.aplikasipkm.databinding.AddTextBooleanTypeItemLayoutBinding
-import com.smartdrobi.aplikasipkm.domain.helper.countSpanImageCollection
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
 
 class BooleanQuestionsAdapter(
@@ -71,13 +70,6 @@ class BooleanQuestionsAdapter(
                     )
                 }
 
-                /*btnChooseDroneCamera.setOnClickListener {
-                    action(
-                        OnItemCallbackAction.OpenDroneCameraView(
-                            adapterPosition
-                        )
-                    )
-                }*/
 
                 btnImagesVisibility.setOnClickListener {
                     val newVisibility = !btnImagesVisibility.isActivated
@@ -122,10 +114,6 @@ class BooleanQuestionsAdapter(
             binding.apply {
                 tvInfoPhoto.isVisible = isShown
                 rvImages.isVisible = isShown
-                /*btnChooseDroneCamera.isVisible = isShown
-                btnChooseCamera.isVisible = isShown
-                btnChooseFile.isVisible = isShown*/
-
                 btnImagesVisibility.isActivated = isShown
             }
         }
@@ -153,18 +141,12 @@ class BooleanQuestionsAdapter(
                 )
                 setAnswer(currQuestion.answer)
 
-                val spanCount = countSpanImageCollection(
-                    currQuestion.listImagePath.size,
-                    3
-                )
 
                 onImageCollectionCallback?.let {
                     val fieldPosition = holder.adapterPosition
                     rvImages.apply {
                         adapter = ImageCollectionAdapter(
                             currQuestion.listImagePath,
-                            /*spanCount,
-                            3,*/
                             fieldPosition,
                             parentFieldPosition,
                             it
@@ -172,7 +154,7 @@ class BooleanQuestionsAdapter(
 
                         layoutManager = GridLayoutManager(
                             context,
-                            4/*spanCount*/,
+                            4,
                             GridLayoutManager.VERTICAL,
                             false
                         )

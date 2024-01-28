@@ -35,30 +35,6 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        //initSp()
-
-        /*   binding?.apply {
-               val data = Dummy.getBridgePreviewsByHistory()
-
-               adapter = BridgePreviewsAdapter(
-                   data,
-                   onItemAdapterClickedEvent,
-                   false
-               )
-               recyclerView.apply {
-                   addItemDecoration(
-                       BridgePreviewsItemDecoration(
-                           resources.displayMetrics,
-                           paddingBottom = 15
-                       )
-                   )
-                   this.adapter = this@HistoryFragment.adapter
-                   layoutManager = LinearLayoutManager(requireActivity())
-               }
-
-               //if only header
-               tvEmptyInfo.isVisible = data.size == 1
-           }*/
 
         binding?.apply {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
@@ -118,28 +94,11 @@ class HistoryFragment : Fragment() {
             override fun clearFocus() {}
             override fun searchBridge(searchState: SearchState) {}
             override fun onItemClicked(itemClickedId: Int) {
-                /*val sortedBridgeCheck = Dummy.listBridgeCheck.sortedByDescending { it.inspectionDate }
-                val latestBridgeCheck = sortedBridgeCheck.find { it.bridgeId == itemClickedId } ?: return
-
-                val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
-                intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)
-                intent.putExtra(AddBridgeCheckFormActivity.MODE_ID_KEY, latestBridgeCheck.id)
-                requireActivity().startActivity(intent)*/
-
                 viewModel.getLatestBridgeCheckIdInEachBridge(itemClickedId)
             }
         }
     }
 
-    /*private fun initSp(){
-        binding?.apply {
-            val years = resources.getStringArray(R.array.years_list).toList()
-            spYear.setInit(requireActivity(), years)
-
-            val months = resources.getStringArray(R.array.months_list).toList()
-            spMonth.setInit(requireActivity(), months)
-        }
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -66,44 +66,6 @@
         app:layout_constraintBottom_toBottomOf="@id/btn_no"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-<!--
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_choose_file"
-        style="@style/BtnChooseStyle.Small"
-        android:layout_marginTop="8dp"
-        android:text="@string/choose_file"
-        android:textSize="10sp"
-        app:layout_constraintTop_toBottomOf="@id/rv_images"
-        app:layout_constraintStart_toStartOf="@id/rv_images"
-        tools:ignore="SmallSp,TouchTargetSizeCheck" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_choose_drone_camera"
-        style="@style/BtnChooseStyle.Small"
-        android:text="@string/drone_camera"
-        android:textSize="10sp"
-        android:includeFontPadding="true"
-        android:paddingHorizontal="12dp"
-        android:layout_marginStart="14dp"
-        app:layout_constraintTop_toTopOf="@id/btn_choose_file"
-        app:layout_constraintBottom_toBottomOf="@id/btn_choose_file"
-        app:layout_constraintStart_toEndOf="@id/btn_choose_file"
-        tools:ignore="SmallSp,TouchTargetSizeCheck" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_choose_camera"
-        style="@style/BtnChooseStyle.Small"
-        android:text="@string/camera"
-        android:includeFontPadding="true"
-        android:paddingHorizontal="12dp"
-        android:layout_marginStart="14dp"
-
-        app:layout_constraintTop_toTopOf="@id/btn_choose_drone_camera"
-        app:layout_constraintBottom_toBottomOf="@id/btn_choose_drone_camera"
-        app:layout_constraintStart_toEndOf="@id/btn_choose_drone_camera"
-        tools:ignore="SmallSp,TouchTargetSizeCheck" />
--->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_images"
         android:layout_width="0dp"

@@ -18,8 +18,8 @@ import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
 import com.smartdrobi.aplikasipkm.domain.model.ListItem
 import com.smartdrobi.aplikasipkm.domain.model.SearchHeaderBridgePreview
-import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import com.smartdrobi.aplikasipkm.domain.model.SearchState
+import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 
 //used in home fragment, more suitable with search bar
 class BridgePreviewsListAdapter(
@@ -95,7 +95,7 @@ class BridgePreviewsListAdapter(
     class HeaderViewHolder(
         val binding: HomeCheckScheduleItemHeaderLayoutBinding,
         sendAction: (ItemCallbackAction) -> Unit,
-        initialQuery:String?=null
+        initialQuery: String? = null
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -186,13 +186,11 @@ class BridgePreviewsListAdapter(
                         parent,
                         false
                     )
-                    /*return HeaderViewHolder(binding, initSearchBarFocus, initSearchBarQuery){
-                        onItemClickedEvent.searchBridge(it)
-                    }*/
+
                     val initialSearchQuery = try {
                         val headerItem = getItem(0) as SearchHeaderBridgePreview
                         headerItem.searchState.query
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         null
                     }
 
@@ -233,8 +231,11 @@ class BridgePreviewsListAdapter(
                 setStatusDroneText(currItem.droneCamConnectivityStatus)
 
 
-                holder.binding.searchBar.setQuery(currItem.searchState.query, !currItem.searchState.hasFocus)
-                if (!currItem.searchState.hasFocus){
+                holder.binding.searchBar.setQuery(
+                    currItem.searchState.query,
+                    !currItem.searchState.hasFocus
+                )
+                if (!currItem.searchState.hasFocus) {
                     holder.binding.searchBar.clearEditTextFocus()
                 }
             }
@@ -280,6 +281,7 @@ class BridgePreviewsListAdapter(
 
                 onItemClickedEvent.onItemClicked(item.id)
             }
+
             is ItemCallbackAction.ShowDroneCamSettingDialog -> onItemClickedEvent.showDroneCamSettingDialog()
         }
     }

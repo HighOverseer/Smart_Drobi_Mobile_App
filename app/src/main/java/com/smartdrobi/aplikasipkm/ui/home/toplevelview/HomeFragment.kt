@@ -16,7 +16,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentHomeBinding
-import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.model.SearchState
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsItemDecoration
@@ -24,7 +23,6 @@ import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsListAdapter
 import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeFormActivity
 import com.smartdrobi.aplikasipkm.ui.customeview.MySearchView
 import com.smartdrobi.aplikasipkm.ui.home.AddBridgeLauncher
-import com.smartdrobi.aplikasipkm.ui.home.OnAddBridgeSuccessListener
 import com.smartdrobi.aplikasipkm.ui.home.OnSettingDroneCamListener
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DroneCamSettingDialogFragment
@@ -36,7 +34,6 @@ import kotlinx.coroutines.launch
 
 class HomeFragment :
     Fragment(),
-    OnAddBridgeSuccessListener,
     OnSettingDroneCamListener {
 
     private var binding: FragmentHomeBinding? = null
@@ -46,8 +43,6 @@ class HomeFragment :
     private lateinit var adapter: BridgePreviewsListAdapter
 
     private var searchJob: Job? = null
-
-    private var connectDroneJob: Job? = null
 
     private var lastQuery: String? = null
     private var searchBarEditTextFocusState: Boolean = false
@@ -71,41 +66,6 @@ class HomeFragment :
                 clearAllViewFocus()
             }
 
-            /*val data = Dummy.getBridgePreviews()
-            adapter = BridgePreviewsAdapter(
-                data,
-                onItemAdapterClickedEvent,
-                true
-            )*/
-            /*       adapter = BridgePreviewsListAdapter(
-                       onItemAdapterClickedEvent,
-                       true,
-                       DroneCamConnectivityStatus.entries.first{ it.string == Dummy.droneCamStatus }
-                   ).also {
-                       it.submitList(data)
-
-                       //sus
-                       it.setHasStableIds(true)
-                   }
-                   recyclerView.apply {
-                       addItemDecoration(
-                           BridgePreviewsItemDecoration(
-                               resources.displayMetrics,
-                               paddingBottom = 15
-                           )
-                       )
-                       this.adapter = this@HomeFragment.adapter
-                   }
-
-                   tvEmptyInfo.isVisible = data.size == 1*/
-
-
-            /*viewModel.bridgePreviews.observe(viewLifecycleOwner){
-                adapter.submitList(it)
-                adapter.setHasStableIds(true)
-                tvEmptyInfo.isVisible = it.size == 1
-            }*/
-
             ibAdd.setOnClickListener {
                 val activity = requireActivity()
 
@@ -114,12 +74,6 @@ class HomeFragment :
                 val intent = Intent(activity, AddBridgeFormActivity::class.java)
                 activity.launchAddBridgeAct(intent)
 
-                /*view.findNavController()
-                    .navigate(
-                        R.id.action_home_to_bridgeFormActivity,
-
-
-                   )*/
             }
         }
     }
@@ -129,7 +83,7 @@ class HomeFragment :
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.bridgePreviewsWithSearchHeader.collectLatest {
                     adapter.submitList(it)
-                    //adapter.setHasStableIds(true)
+
                     binding?.tvEmptyInfo?.isVisible = it.size == 1
                 }
             }
@@ -181,45 +135,10 @@ class HomeFragment :
             }
 
             override fun searchBridge(searchState: SearchState) {
-
                 this@HomeFragment.lastQuery = searchState.query
                 this@HomeFragment.searchBarEditTextFocusState = searchState.hasFocus
                 viewModel.searchBridgePreviews(searchState)
 
-                /*searchJob?.cancel()
-
-                searchJob = lifecycleScope.launch {
-                    var delayTime = 500L
-                    if (!searchState.hasFocus) delayTime = 0L
-
-                    delay(delayTime)
-
-                    this@HomeFragment.lastQuery = searchState.query
-                    this@HomeFragment.searchBarEditTextFocusState = searchState.hasFocus
-                    val data = Dummy.getBridgePreviewsByQuery(searchState.query)
-                    val isEmptyInfoVisible = data.size == 1
-                    if (!isEmptyInfoVisible){
-                        adapter.notifyItemRangeInserted(1, data.size - 2)
-                    }
-                    binding?.tvEmptyInfo?.isVisible = isEmptyInfoVisible
-
-
-
-                    *//*val data = Dummy.getBridgePreviewsByQuery(searchState.query)
-                    adapter.submitList(data)
-                    binding?.tvEmptyInfo?.isVisible = data.size == 1*//*
-
-              *//*      binding?.apply {
-                        tvEmptyInfo.isVisible = data.size == 1
-                        lastQuery?.let {
-                            getRefToSearchBar()?.editText?.setText(it)
-                        }
-                        if (searchBarEditTextFocusState){
-                            getRefToSearchBar()?.editText?.requestFocus()
-                        }
-                    }*//*
-
-                }*/
             }
 
             override fun onItemClicked(itemClickedId: Int) {
@@ -245,10 +164,7 @@ class HomeFragment :
     }
 
     private fun getRefToSearchBar(): MySearchView? {
-        //binding?.recyclerView?.scrollToPosition(0)
         val headerView = binding?.recyclerView
-            /*?.layoutManager
-            ?.findViewByPosition(0)*/
             ?.getChildAt(0)
         return headerView?.findViewById(R.id.search_bar)
     }
@@ -274,45 +190,9 @@ class HomeFragment :
         }
     }
 
-    //not used
-    override fun updateAdapter() {
-        val data = Dummy.getBridgePreviews()
-        /*adapter = BridgePreviewsAdapter(
-            data,
-            onItemAdapterClickedEvent,
-            true
-        )*/
-        /*adapter = BridgePreviewsListAdapter(
-            onItemAdapterClickedEvent,
-            true,
-            DroneCamConnectivityStatus.values().first{ it.string == Dummy.droneCamStatus }
-        )*/
-        adapter.submitList(data)
-        binding?.apply {
-            recyclerView.swapAdapter(adapter, false)
-            tvEmptyInfo.isVisible = data.size == 1
-        }
-    }
 
     override fun onConnect(newIP: String) {
         viewModel.connectDroneCam(newIP)
-        /*connectDroneJob?.cancel()
-        connectDroneJob = lifecycleScope.launch {
-            val vh = binding?.recyclerView?.findViewHolderForItemId(-1)
-            if (vh !is BridgePreviewsListAdapter.HeaderViewHolder) return@launch
-
-            Dummy.droneCamStatus = DroneCamConnectivityStatus.CONNECTING.string
-            vh.setStatusDroneText(DroneCamConnectivityStatus.CONNECTING)
-
-
-
-            delay(1500L)
-
-            Dummy.droneCamStatus = DroneCamConnectivityStatus.CONNECTED.string
-            vh.setStatusDroneText(DroneCamConnectivityStatus.CONNECTED)
-
-
-        }*/
     }
 
     override fun onDestroyView() {

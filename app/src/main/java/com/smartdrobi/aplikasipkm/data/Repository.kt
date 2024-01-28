@@ -2,7 +2,6 @@ package com.smartdrobi.aplikasipkm.data
 
 import com.smartdrobi.aplikasipkm.data.dao.BridgeCheckDao
 import com.smartdrobi.aplikasipkm.data.dao.BridgeDao
-import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.mapper.BridgeCheckMapper
 import com.smartdrobi.aplikasipkm.domain.mapper.BridgeMapper
 import com.smartdrobi.aplikasipkm.domain.model.Bridge
@@ -42,18 +41,6 @@ class Repository private constructor(
         )
     }
 
-    suspend fun getBridges(): List<Bridge> = withContext(Dispatchers.Default) {
-        bridgeDao.getBridgesWithLastInspectionDate().map {
-            BridgeMapper.toBridge(it)
-        }
-    }
-
-    /*fun getSelectedBridgebyId(bridgeId: Int):LiveData<Bridge>{
-        return bridgeDao.getSelectedBridgeById(bridgeId).map {
-            BridgeMapper.toBridge(it)
-        }
-    }*/
-
     fun getSelectedBridgeById(bridgeId: Int): Flow<Bridge> {
         return bridgeDao.getSelectedBridgeById(bridgeId).map {
             withContext(Dispatchers.Default) {
@@ -62,54 +49,6 @@ class Repository private constructor(
         }
     }
 
-    suspend fun getBridgePreviews(): List<BridgePreview> = withContext(Dispatchers.Default) {
-        bridgeDao.getBridgesWithLastInspectionDate().map {
-            BridgeMapper.toBridgePreview(it)
-        }
-    }
-
-    /*    fun getBridgePreviewsLiveData():LiveData<List<BridgePreview>>{
-            return bridgeDao.getBridgesWithLastInspectionDateLiveData()
-                .map { list ->
-                    val listWithHeader = mutableListOf(
-                        BridgePreview(
-                            -1,
-                            "",
-                            Dummy.droneCamStatus,
-                            "",
-                            "",
-                            "")
-                    )
-                    list.forEach{
-                        listWithHeader.add(BridgeMapper.toBridgePreview(it))
-                    }
-                    listWithHeader
-                }
-        }*/
-
-    /*fun getBridgePreviewsByHistory():LiveData<List<BridgePreview>>{
-        return bridgeDao.searchBridgePreview(query = "")
-            .map { list ->
-                val listBridgePreviewByHistory = mutableListOf(
-                    BridgePreview(
-                        -1,
-                        "",
-                        "",
-                        "",
-                        "",
-                        ""
-                    )
-                )
-                list.sortedByDescending {
-                    it.lastInspectionDate
-                }.forEach{
-                    listBridgePreviewByHistory.add(BridgeMapper.toBridgePreview(it))
-                }
-                listBridgePreviewByHistory
-
-        }
-
-    }*/
 
     fun getBridgePreviewsByHistory(): Flow<List<BridgePreview>> {
         return bridgeDao.getBridgePreviewByHistory()
@@ -136,24 +75,6 @@ class Repository private constructor(
 
     }
 
-    /*fun searchBridgePreview(query: String = ""): LiveData<List<BridgePreview>> {
-        return bridgeDao.searchBridgePreview(query)
-            .map { list ->
-                val listWithHeader = mutableListOf(
-                    BridgePreview(
-                        -1,
-                        "",
-                        Dummy.droneCamStatus,
-                        "",
-                        "",
-                        "")
-                )
-                list.forEach{
-                    listWithHeader.add(BridgeMapper.toBridgePreview(it))
-                }
-                listWithHeader
-            }
-    }*/
 
     fun searchBridgePreview(query: String = ""): Flow<List<BridgePreview>> {
         return bridgeDao.searchBridgePreview(query).map { list ->
@@ -168,14 +89,6 @@ class Repository private constructor(
             )
             BridgeCheckMapper.toBridgeCheck(bridgeCheckAndAnswer)
         }
-
-    /*fun getBridgeCheckPreviewsInLiveData(bridgeId: Int): LiveData<List<BridgeCheckPreview>> {
-        return bridgeCheckDao.getBridgeCheckPreviewLiveData(bridgeId).map { list ->
-            list.map {
-                BridgeCheckMapper.toBridgeCheckPreview(it)
-            }
-        }
-    }*/
 
     fun getBridgeCheckPreviewsInFlow(bridgeId: Int): Flow<List<BridgeCheckPreview>> {
         val flow = bridgeCheckDao.getBridgeCheckPreviewInFlow(bridgeId)

@@ -48,7 +48,7 @@ class AddBridgeCheckFormViewModel(
     val uiEvent: LiveData<CheckFormUiEvent> = _uiEvent
 
     private val _listImagesPath = mutableListOf<String>()
-    val listImagesPath:List<String> = _listImagesPath
+    val listImagesPath: List<String> = _listImagesPath
 
     private fun sendEvent(event: CheckFormUiEvent) {
         try {
@@ -242,26 +242,6 @@ class AddBridgeCheckFormViewModel(
                     when (currentSession) {
                         Session.ADD -> {
 
-                            /* handled by bridgeDao
-                            val newLastInspectionDate = currentBridgeCheck.inspectionDate.toString(DATE_FORMAT_PATTERN)
-
-                            (0..Dummy.listBridges.lastIndex).forEach {i ->
-                                Dummy.apply {
-                                    val currBridge = listBridges[i]
-                                    if (currBridge.id == currentBridgeCheck.bridgeId){
-                                        listBridges[i] = currBridge.copy(
-                                            lastInspectionDate = newLastInspectionDate
-                                        )
-                                    }
-                                }
-                            }*/
-                            /*Dummy.listBridgeCheck.add(currentBridgeCheck)
-
-                            sendEvent(
-                                CheckFormUiEvent.EndingSession(
-                                    HomeActivity.ADD_CHECK_RESULT_SUCCESS
-                                )
-                            )*/
                             _uiState.value = CheckFormUiState()
 
                             viewModelScope.launch {
@@ -282,23 +262,6 @@ class AddBridgeCheckFormViewModel(
                         }
 
                         Session.EDIT -> {
-
-                            /*//assign clone to fake repo
-
-                            (0..Dummy.listBridgeCheck.lastIndex).forEach {i ->
-                                Dummy.apply {
-                                    val currBridgeCheck = listBridgeCheck[i]
-                                    if (currBridgeCheck.id == currentBridgeCheck.id){
-                                        listBridgeCheck[i] = currentBridgeCheck
-                                    }
-                                }
-                            }
-
-                            sendEvent(
-                                CheckFormUiEvent.EndingSession(
-                                    HomeActivity.EDIT_CHECK_RESULT_SUCCESS
-                                )
-                            )*/
 
                             _uiState.value = CheckFormUiState()
 
@@ -336,10 +299,6 @@ class AddBridgeCheckFormViewModel(
                 } else {
                     currentSession = Session.EDIT
                     val selectedBridgeCheckId = it.getInt(AddBridgeCheckFormActivity.MODE_ID_KEY)
-                    /*currentBridgeCheck = Dummy
-                        .listBridgeCheck
-                        .find { check -> check.id == selectedBridgeCheckId }
-                        ?.clone() ?: return@let*/
                     currentBridgeCheck = repository.getBridgeCheckById(selectedBridgeCheckId)
                 }
             }

@@ -73,15 +73,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
                     setDesc()
                 }
 
-                /*viewModel.selectedBridgeCheckPreviews.collectLatest {
-
-                    binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
-                        it,
-                        ::checkHistoryClickAction
-                    )
-
-                    binding?.tvEmptyInfo?.isVisible = it.isEmpty()
-                }*/
             }
 
         }
@@ -106,21 +97,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
                 showToast(requireActivity(), stringRes.getValue(requireActivity()))
             }
         }
-        /*viewModel.selectedBridge.observe(viewLifecycleOwner){
-            selectedBridge = it
-            setDesc()
-        }*/
-
-        /*viewModel.selectedBridgeCheckPreviews.observe(viewLifecycleOwner){ data ->
-            binding?.rvCheckHistory?.adapter = DetailBridgeCheckPreviewAdapter(
-                data,
-                ::checkHistoryClickAction
-            )
-
-            binding?.tvEmptyInfo?.isVisible = data.isEmpty()
-        }*/
-
-
     }
 
     private fun setListeners() {
@@ -180,22 +156,7 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
     private fun updateNextInspectionDate() {
         binding?.apply {
-            /*Dummy.apply {
-                (0..listBridges.lastIndex).forEach { i  ->
-                    val currBridge = listBridges[i]
-                    if (currBridge.id == selectedBridge.id){
-                        listBridges[i] = currBridge.copy(
-                            inspectionPlanDate = etNextInspectionDate.text.toString()
-                        )
-                        selectedBridge = listBridges[i]
-                        showToast(
-                            requireActivity(),
-                            getString(R.string.berhasil_disimpan)
-                        )
-                        setDesc()
-                    }
-                }
-            }*/
+
             val newInspectionPlanDate = etNextInspectionDate.text.toString()
             viewModel.updateBridge(selectedBridge.copy(inspectionPlanDate = newInspectionPlanDate))
 
@@ -203,23 +164,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
     }
 
     private fun init() {
-        /*arguments?.let { args ->
-            val id = args.getInt(SELECTED_BRIDGE_ID_KEY, -1)
-
-            val bridge = Dummy.listBridges.find { it.id == id }
-
-            if (bridge != null) {
-                selectedBridge = bridge
-            }else popUpBackStack()
-
-        }
-
-        val activityFragment = requireActivity()
-        if (activityFragment is FragmentActivityCallback){
-            activityFragment.keepBottomNavSelected(R.id.home)
-        }
-
-        setDesc()*/
 
         arguments?.let { args ->
             viewModel = obtainViewModel<
@@ -316,31 +260,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
 
                 etNextInspectionDate.setText(inspectionPlanDate)
 
-                /* rvCheckHistory.apply {
-                     layoutManager = LinearLayoutManager(
-                         requireActivity(),
-                         LinearLayoutManager.HORIZONTAL,
-                         false
-                     )
-                     addItemDecoration(
-                         BridgePreviewsItemDecoration(
-                             resources.displayMetrics,
-                             paddingTop = 2,
-                             paddingStart = 2,
-                             paddingBottom = 4,
-                             paddingEnd = 4
-                         )
-                     )
-                     val data = Dummy.getBridgeCheckPreview(selectedBridge)
-                     adapter = DetailBridgeCheckPreviewAdapter(
-                         data,
-                         ::checkHistoryClickAction
-                     )
-
-                     tvEmptyInfo.isVisible = data.isEmpty()
-
-
-                 }*/
             }
         }
     }
@@ -405,14 +324,6 @@ class DetailFragment : Fragment(), NonTopLevelFragmentCallback {
     private fun checkHistoryClickAction(clickedItemId: Int) {
         val activity = requireActivity()
         if (activity !is EditBridgeCheckLauncher) return
-
-        /*val selectedBridgeCheckHistory = Dummy.listBridgeCheck.find { it.id == clickedItemId }?:return
-
-        binding?.etNextInspectionDate?.setText(selectedBridge.inspectionPlanDate)
-        val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
-        intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)
-        intent.putExtra(AddBridgeCheckFormActivity.MODE_ID_KEY, selectedBridgeCheckHistory.id)
-        activity.launchEditBridgeCheckSession(intent)*/
 
         val intent = Intent(activity, AddBridgeCheckFormActivity::class.java)
         intent.putExtra(AddBridgeCheckFormActivity.ADD_MODE_KEY, false)

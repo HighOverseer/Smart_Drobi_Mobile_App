@@ -33,20 +33,6 @@ class BridgePreviewsAdapter(
 
     }
 
-    /*    private var initSearchBarQuery:String?=null
-        private var initSearchBarFocus:Boolean = false
-
-        constructor(
-            items:List<BridgePreview>,
-            onItemClickedEvent: OnItemClickedEvent,
-            isHeaderWithSearchBar: Boolean,
-            initSearchBarFocus:Boolean,
-            initSearchBarQuery:String?
-        ):this(items, onItemClickedEvent, isHeaderWithSearchBar){
-            this.initSearchBarFocus = initSearchBarFocus
-            this.initSearchBarQuery = initSearchBarQuery
-        }*/
-
 
     class ItemViewHolder(
         val binding: HomeCheckScheduleItemLayoutBinding,
@@ -104,28 +90,6 @@ class BridgePreviewsAdapter(
                     sendAction(ItemCallbackAction.ClearFocus)
                 }
 
-                /*initSearchBarQuery?.let {searchBar.setQuery(it, false)}
-
-                if (initSearchBarFocus){
-                    searchBar.requestFocus()
-                }else {
-                    searchBar.clearEditTextFocus()
-                }*/
-                /*     searchBar.editText.addTextChangedListener(
-                         afterTextChanged = { text: Editable? ->
-                             text?.let {
-                                 sendAction(
-                                     ItemCallbackAction.Search(
-                                         SearchState(
-                                             it.toString(),
-                                             true
-                                         )
-                                     )
-                                 )
-                             }
-
-                         }
-                     )*/
 
                 searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -174,9 +138,6 @@ class BridgePreviewsAdapter(
                         parent,
                         false
                     )
-                    /*return HeaderViewHolder(binding, initSearchBarFocus, initSearchBarQuery){
-                        onItemClickedEvent.searchBridge(it)
-                    }*/
                     return HeaderViewHolder(binding, ::onAction)
                 }
 
@@ -207,10 +168,6 @@ class BridgePreviewsAdapter(
         when (getItemViewType(holder.adapterPosition)) {
             ViewType.HEADER.ordinal -> {
                 return
-
-                /*(holder as FragmentViewHolder).apply {
-                    //onItemClickedEvent.onOpenFragmentCallback()
-                }*/
             }
 
             else -> {
@@ -256,7 +213,6 @@ class BridgePreviewsAdapter(
     }
 
     interface OnItemClickedEvent {
-        //fun finishSearching()
 
         fun searchBridge(searchState: SearchState)
 

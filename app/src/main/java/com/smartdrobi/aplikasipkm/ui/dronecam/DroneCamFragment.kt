@@ -8,20 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.longdo.mjpegviewer.MjpegView
 import com.smartdrobi.aplikasipkm.BuildConfig
 import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentDroneCamBinding
 import com.smartdrobi.aplikasipkm.domain.model.CaptureImageBitmapParcel
-import com.smartdrobi.aplikasipkm.ui.addbridge.viewmodel.AddBridgeCheckFormViewModel
 
 
 class DroneCamFragment : Fragment() {
 
     private var binding: FragmentDroneCamBinding? = null
-    private val viewModel by activityViewModels<AddBridgeCheckFormViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

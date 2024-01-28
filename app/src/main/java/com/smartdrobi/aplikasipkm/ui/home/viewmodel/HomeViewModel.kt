@@ -7,8 +7,8 @@ import com.smartdrobi.aplikasipkm.data.Repository
 import com.smartdrobi.aplikasipkm.domain.helper.toStateFlow
 import com.smartdrobi.aplikasipkm.domain.model.ListItem
 import com.smartdrobi.aplikasipkm.domain.model.SearchHeaderBridgePreview
-import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import com.smartdrobi.aplikasipkm.domain.model.SearchState
+import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -16,7 +16,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -26,8 +25,7 @@ class HomeViewModel(
 ) : ViewModel() {
 
     private var searchJob: Job? = null
-    private var connectDroneCamJob:Job?=null
-    //private val _query = MutableLiveData("")
+    private var connectDroneCamJob: Job? = null
 
     private val _searchHeaderBridgePreview = MutableStateFlow(SearchHeaderBridgePreview())
 
@@ -41,17 +39,14 @@ class HomeViewModel(
 
     }.toStateFlow(viewModelScope, emptyList())
 
-    val bridgePreviewsWithSearchHeader = combine(_searchHeaderBridgePreview, bridgePreviews){ sValue, bValue ->
-        withContext(Dispatchers.Default){
-            mutableListOf<ListItem>(sValue).apply { addAll(bValue) }
-        }
-    }.toStateFlow(viewModelScope, emptyList())
+    val bridgePreviewsWithSearchHeader =
+        combine(_searchHeaderBridgePreview, bridgePreviews) { sValue, bValue ->
+            withContext(Dispatchers.Default) {
+                mutableListOf<ListItem>(sValue).apply { addAll(bValue) }
+            }
+        }.toStateFlow(viewModelScope, emptyList())
 
-    /*val bridgePreviews = _query.switchMap {
-        repository.searchBridgePreview(it)
-    }*/
-
-    fun connectDroneCam(ipAdress:String){
+    fun connectDroneCam(ipAdress: String) {
         connectDroneCamJob?.cancel()
         connectDroneCamJob = viewModelScope.launch {
             _searchHeaderBridgePreview.value = _searchHeaderBridgePreview.value.copy(
@@ -77,28 +72,6 @@ class HomeViewModel(
             )
         }
 
-        /*searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            if (searchState.query.length < _searchHeaderBridgePreview.value.searchState.query.length){
-                delay(100L)
-            }
-            _searchHeaderBridgePreview.value = _searchHeaderBridgePreview.value.copy(
-                searchState = searchState,
-            )
-        }*/
-
-        /*searchJob?.cancel()
-
-        searchJob = viewModelScope.launch {
-            var delayTime = 500L
-            if (!searchState.hasFocus) delayTime = 0L
-
-            delay(delayTime)
-
-            _searchHeaderBridgePreview.value = _searchHeaderBridgePreview.value?.copy(
-                searchQuery = query
-            )
-        }*/
     }
 
 

@@ -53,7 +53,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             )
                         )
                         .title(getString(R.string.jakarta))
-                    //.snippet(getString(R.string.ibu_kota_indonesia))
                 )
             }
             return field
@@ -172,11 +171,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 it.hideInfoWindow()
                 it.position = position
                 it.title = locName
-                /* it.snippet = getString(
-                     R.string.default_location_snippet,
-                     position.latitude.toString().substring(0, 7),
-                     position.longitude.toString().substring(0, 7)
-                 )*/
+
                 it.showInfoWindow()
                 map.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
@@ -261,6 +256,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    @Suppress("DEPRECATION")
     private suspend fun convertToAddressLine(
         lat: Float?,
         lon: Float?,

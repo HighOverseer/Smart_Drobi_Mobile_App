@@ -50,11 +50,6 @@ sealed class BridgeCheckField private constructor(
         }
     }
 
-    /*    data class AddImage(
-            val id:Int,
-            val listImages:MutableList<Bitmap> //for temporary
-        ):BridgeCheckField(ADD_IMAGE_TYPE)*/
-
     data class MultilineText(
         val id: Int,
         val tvInfoText: StringRes,

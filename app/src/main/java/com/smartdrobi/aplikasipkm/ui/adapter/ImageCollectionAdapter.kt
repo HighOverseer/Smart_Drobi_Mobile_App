@@ -11,39 +11,13 @@ import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 
 class ImageCollectionAdapter(
     images: List<String?>,
-    /*spanCount:Int,
-    columnCount:Int,*/
     private val fieldPosition: Int,
     private val parentFieldPositionIfAny: Int = -1,
     private val callback: OnImageCollectionCallback
 ) : RecyclerView.Adapter<ImageCollectionAdapter.ImageCollectionViewHolder>() {
 
     private val listImages: List<String?> = images.toMutableList().also { it.add(null) }
-    //private var plusSignPos:Int = -1
 
-
-    /*    init {
-            listImages = images.toMutableList().let {
-                it.add(null)
-
-                val fixImages = MutableList<String?>(columnCount*spanCount){
-                    null
-                }
-
-                for (pos in it.indices){
-
-                    val startPos = (pos%columnCount)*spanCount
-                    val row = pos.div(columnCount)
-                    val finishPos = startPos+row
-                    fixImages[finishPos] = it[pos]
-
-                    if (pos == it.lastIndex){
-                        plusSignPos = finishPos
-                    }
-                }
-                fixImages
-            }
-        }*/
     class ImageCollectionViewHolder(
         val binding: ImageItemLayoutBinding,
     ) : RecyclerView.ViewHolder(binding.root)
@@ -81,20 +55,7 @@ class ImageCollectionAdapter(
                     setOnClickListener(onImageChooserClickListener)
                 }
             }
-            /*else if(position == plusSignPos){
-                                val addSignDrawable = getDrawable(
-                                    resources, R.drawable.btn_add_image_bg
-                                )
-                                holder.binding.ivImage.apply {
-                                    setBackgroundDrawable(
-                                        addSignDrawable
-                                    )
-                                    setOnClickListener {
-                                        showImageChooser()
-                                    }
-                                }
 
-                            }*/
         } catch (e: Exception) {
             e.printStackTrace()
         }

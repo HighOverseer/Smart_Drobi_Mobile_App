@@ -125,12 +125,6 @@ class HomeActivity
     ) { result ->
         if (result.resultCode != ADD_BRIDGE_RESULT_SUCCESS) return@registerForActivityResult
 
-        val currFragment = getCurrentFragment()
-
-        if (currFragment !is OnAddBridgeSuccessListener) return@registerForActivityResult
-
-        //currFragment.updateAdapter()
-
     }
 
     private val addBridgeCheckFormLauncher = registerForActivityResult(
@@ -153,9 +147,6 @@ class HomeActivity
         binding.apply {
             bottomNavigationView.selectedItemId = R.id.history
         }
-        /*if (currFragment !is NonTopLevelFragmentCallback) return@registerForActivityResult
-
-        currFragment.popUpBackStack()*/
     }
 
     private val editBridgeCheckFormLauncher = registerForActivityResult(
@@ -168,16 +159,6 @@ class HomeActivity
             getString(R.string.berhasil_mengupdate_form_pemeriksaan_jembatan)
         )
 
-        /*val currFragment = getCurrentFragment()
-
-        if (currFragment !is DetailFragment) return@registerForActivityResult
-
-        navController.navigate(
-            R.id.action_detailFragment_to_home
-        )
-        binding.apply {
-            bottomNavigationView.selectedItemId = R.id.history
-        }*/
     }
 
     override fun launchAddBridgeCheckSession(intent: Intent) {

@@ -64,9 +64,6 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                 AddBridgeCheckFormViewModel
                 >(this, applicationContext, intent?.extras)
 
-        /*initRetrieveState(savedInstanceState)
-        setUpNavigation()
-        initViewDroneCam()*/
         initViewDroneCam()
         observeUiEvents()
         setUpNavigation()
@@ -78,14 +75,12 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                 showDialogConfirmation(
                     this@AddBridgeCheckFormActivity,
                     getString(R.string.yakin_ingin_keluar_dari_halaman_form),
-                    { clearAllImagesAddedBeforeCancellingSession() ; finish() }
+                    { clearAllImagesAddedBeforeCancellingSession(); finish() }
                 )
             }
 
             btnBack.setOnClickListener {
                 navController.navigateUp()
-                //sus
-                //navController.popBackStack()
             }
 
             containerDroneCam.setOnClickListener {
@@ -99,13 +94,13 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
         }
     }
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             binding.btnCancel.performClick()
         }
     }
 
-    private fun clearAllImagesAddedBeforeCancellingSession(){
+    private fun clearAllImagesAddedBeforeCancellingSession() {
         val list = viewModel.listImagesPath
         list.forEach {
             File(it).apply {
@@ -223,7 +218,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
     }
 
     private val onDestinationChangedListener by lazy {
-        NavController.OnDestinationChangedListener { controller, destination, _ ->
+        NavController.OnDestinationChangedListener { _, destination, _ ->
             binding.apply {
                 initFormFieldForNextDest(destination.id)
                 setBtnNavigationForNextDest(destination.id)
@@ -406,8 +401,6 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                         parentFieldPosition
                     )
                 )
-                /*val file = File(path)
-                    if (file.exists()) file.delete()*/
 
             }
         } else if (result.resultCode == RESULT_CANCELED) {
@@ -444,7 +437,6 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                         )
                     )
 
-                    /*if (file.exists()) file.delete()*/
                 }
 
             }

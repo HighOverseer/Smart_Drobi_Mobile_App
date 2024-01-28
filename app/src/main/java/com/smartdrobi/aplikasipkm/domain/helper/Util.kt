@@ -121,14 +121,6 @@ fun AppCompatSpinner.setInit(context: Context, listItems: List<String>) {
     this.adapter = adapter
 }
 
-fun Float.toDp(displayMetrics: DisplayMetrics): Float {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this,
-        displayMetrics
-    )
-}
-
 fun showDialogIntentPhoto(
     context: Context,
     openGallery: (Int, Int) -> Unit,
@@ -159,12 +151,6 @@ private fun AppCompatSpinner.setScrollable() {
     val displayMetrics = this.context.resources.displayMetrics
     popUpWindow.height = 100.toDp(displayMetrics)
 
-}
-
-fun ImageView.loadImage(context: Context, imageRestId: Int) {
-    Glide.with(context)
-        .load(imageRestId)
-        .into(this)
 }
 
 fun ImageView.loadImage(context: Context, imageBitmap: Bitmap) {
@@ -229,10 +215,6 @@ fun getCurrentDateInString(format: String): String? {
 }
 
 fun getCurrentDate(): Date = Calendar.getInstance().time
-
-fun countSpanImageCollection(imageCount: Int, columnCount: Int): Int {
-    return (imageCount / columnCount) + 1
-}
 
 fun View.setMargin(
     marginTop: Int = -1,
@@ -432,7 +414,6 @@ inline fun showDialogConfirmation(
         .setPositiveButton("Iya") { dialog, _ ->
             dialog.dismiss()
             postiveBtnAction()
-            /*dialog.dismiss()*/
         }
         .setNegativeButton("Tidak") { dialog, _ ->
             negativeBtnAction()

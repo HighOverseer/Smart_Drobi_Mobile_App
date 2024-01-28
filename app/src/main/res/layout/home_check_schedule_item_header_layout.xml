@@ -60,19 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <!--<androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/searchView"
-        style="@style/SearchBarEditText"
-        android:paddingHorizontal="10sp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toTopOf="@id/ib_filter"
-        app:layout_constraintBottom_toBottomOf="@id/ib_filter"
-        app:layout_constraintStart_toEndOf="@id/ib_filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="SmallSp"/>-->
-
-
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_jadwal_info"
         style="@style/MyTextView.SansSerif.Medium.Black.H3"

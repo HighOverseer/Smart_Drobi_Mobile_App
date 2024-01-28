@@ -17,7 +17,6 @@ import com.smartdrobi.aplikasipkm.databinding.AddMultilineTextTypeItemLayoutBind
 import com.smartdrobi.aplikasipkm.databinding.AddTextBooleanTypeItemLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.AddTextBooleanWithoutImagesItemLayoutBinding
 import com.smartdrobi.aplikasipkm.databinding.AddTextTypeItemLayoutBinding
-import com.smartdrobi.aplikasipkm.domain.helper.countSpanImageCollection
 import com.smartdrobi.aplikasipkm.domain.helper.setInputType
 import com.smartdrobi.aplikasipkm.domain.helper.setMargin
 import com.smartdrobi.aplikasipkm.domain.model.BridgeCheckField
@@ -364,14 +363,6 @@ class BridgeCheckFormFieldsAdapter(
                     )
                 }
 
-                /*btnChooseDroneCamera.setOnClickListener {
-                    action(
-                        ItemCallbackAction.ShowDialogImageChooser(
-                            adapterPosition
-                        )
-                    )
-                }*/
-
                 btnImagesVisibility.setOnClickListener {
                     val newVisibility = !btnImagesVisibility.isActivated
                     action(
@@ -416,10 +407,6 @@ class BridgeCheckFormFieldsAdapter(
                 setImageCollectionVisibility(currField.isImageCollectionsVisible)
                 setAnswer(currField.answer)
 
-                val spanCount = countSpanImageCollection(
-                    currField.listImagePath.size, 4
-                )
-
                 tvQuestion.text = currField.tvInfoText.getValue(
                     context
                 )
@@ -429,14 +416,12 @@ class BridgeCheckFormFieldsAdapter(
                         val fieldPosition = adapterPosition
                         adapter = ImageCollectionAdapter(
                             currField.listImagePath,
-                            /*spanCount,
-                            4,*/
                             fieldPosition,
                             callback = it
                         )
                         layoutManager = GridLayoutManager(
                             context,
-                            4/*spanCount*/,
+                            4,
                             GridLayoutManager.VERTICAL,
                             false
                         )
@@ -453,10 +438,6 @@ class BridgeCheckFormFieldsAdapter(
             binding.apply {
                 tvInfoPhoto.isVisible = isShown
                 rvImages.isVisible = isShown
-                /*btnChooseDroneCamera.isVisible = isShown
-                btnChooseCamera.isVisible = isShown
-                btnChooseFile.isVisible = isShown*/
-
                 btnImagesVisibility.isActivated = isShown
             }
         }
@@ -699,16 +680,6 @@ class BridgeCheckFormFieldsAdapter(
             holder.bind(currField)
         }
     }
-
-
-    /* private fun AppCompatEditText.setMargin(
-         marginStart:Int
-     ){
-         val displayMetrics = resources.displayMetrics
-         val params = this.layoutParams as ConstraintLayout.LayoutParams
-         params.marginStart = marginStart.toDp(displayMetrics)
-         this.layoutParams = params
-     }*/
 
     override fun getItemCount() = fields.size
 
