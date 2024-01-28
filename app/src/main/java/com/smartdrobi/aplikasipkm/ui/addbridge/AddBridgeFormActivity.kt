@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +49,10 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityAddBridgeFormBinding
     private lateinit var viewModel: AddBridgeFormViewModel
     private lateinit var mMap: GoogleMap
+
+    //container variabel for saving path on intent Camera
     private var currSelectedPhotoPath: String? = null
+
 
     private var saveState = AddBridgeSaveState()
     private var isStateRetrieved = false
@@ -166,6 +171,10 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initButtons() {
         binding.apply {
+            onBackPressedDispatcher.addCallback(
+                this@AddBridgeFormActivity,
+                onBackPressedCallback
+            )
             btnCancel.setOnClickListener {
                 finish()
             }
@@ -181,6 +190,18 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                 clearAllViewFocus()
                 saveBridge()
             }
+        }
+    }
+
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            saveState.imagePath?.let {
+                File(it).apply {
+                    if (exists()) delete()
+                }
+            }
+            finish()
         }
     }
 
@@ -429,6 +450,12 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                         this@AddBridgeFormActivity,
                         file
                     )
+
+                    saveState.imagePath?.let {path ->
+                        File(path).apply {
+                            if (exists()) delete()
+                        }
+                    }
                     saveState = saveState.copy(
                         imagePath = file.absolutePath
                     )
@@ -438,6 +465,12 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
                     this,
                     it
                 )
+
+                saveState.imagePath?.let {path ->
+                    File(path).apply {
+                        if (exists()) delete()
+                    }
+                }
                 saveState = saveState.copy(
                     imagePath = it
                 )
@@ -469,6 +502,7 @@ class AddBridgeFormActivity : AppCompatActivity(), OnMapReadyCallback {
         const val LOC_NAME_KEY = "loc_key"
 
         private const val SAVE_STATE_KEY = "save"
+
     }
 
 

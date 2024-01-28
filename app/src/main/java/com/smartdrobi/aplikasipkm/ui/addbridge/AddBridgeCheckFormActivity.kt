@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -77,7 +78,7 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
                 showDialogConfirmation(
                     this@AddBridgeCheckFormActivity,
                     getString(R.string.yakin_ingin_keluar_dari_halaman_form),
-                    { finish() }
+                    { clearAllImagesAddedBeforeCancellingSession() ; finish() }
                 )
             }
 
@@ -89,6 +90,26 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
 
             containerDroneCam.setOnClickListener {
                 goToDroneCamRecord()
+            }
+
+            onBackPressedDispatcher.addCallback(
+                this@AddBridgeCheckFormActivity,
+                onBackPressedCallback
+            )
+        }
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            binding.btnCancel.performClick()
+        }
+    }
+
+    private fun clearAllImagesAddedBeforeCancellingSession(){
+        val list = viewModel.listImagesPath
+        list.forEach {
+            File(it).apply {
+                if (exists()) delete()
             }
         }
     }
@@ -245,49 +266,6 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
         viewModel.setFieldsForNextFormPage(nextDestFormPage)
     }
 
-
-    private val captureDroneCamLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        result.data?.extras?.let {
-            when (result.resultCode) {
-                RESULT_WITHOUT_PARENT -> {
-
-                    val parcelData = it.getDataParcel(
-                        FIELD_RESULT_KEY,
-                        CapturedImageParcelData.NonIncludeParent::class.java
-                    )!!
-
-                    viewModel.sendAction(
-                        CheckFormUiAction.SaveCapturedImage(
-                            parcelData.imageFile.absolutePath,
-                            parcelData.fieldPosition
-                        )
-                    )
-
-                }
-
-                RESULT_WITH_PARENT -> {
-
-                    val parcelData = it.getDataParcel(
-                        PARENT_RESULT_KEY,
-                        CapturedImageParcelData.IncludeParent::class.java
-                    )!!
-
-                    viewModel.sendAction(
-                        CheckFormUiAction.SaveCapturedImage(
-                            parcelData.imageFile.absolutePath,
-                            parcelData.fieldPosition,
-                            parcelData.parentFieldPosition
-                        )
-                    )
-
-                }
-
-            }
-        }
-    }
-
     @Suppress("DEPRECATION")
     private fun <T> Bundle.getDataParcel(
         key: String,
@@ -363,6 +341,49 @@ class AddBridgeCheckFormActivity : AppCompatActivity(), IntentPhotoInterface {
         }
         captureDroneCamLauncher
             .launch(intent)
+    }
+
+
+    private val captureDroneCamLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        result.data?.extras?.let {
+            when (result.resultCode) {
+                RESULT_WITHOUT_PARENT -> {
+
+                    val parcelData = it.getDataParcel(
+                        FIELD_RESULT_KEY,
+                        CapturedImageParcelData.NonIncludeParent::class.java
+                    )!!
+
+                    viewModel.sendAction(
+                        CheckFormUiAction.SaveCapturedImage(
+                            parcelData.imageFile.absolutePath,
+                            parcelData.fieldPosition
+                        )
+                    )
+
+                }
+
+                RESULT_WITH_PARENT -> {
+
+                    val parcelData = it.getDataParcel(
+                        PARENT_RESULT_KEY,
+                        CapturedImageParcelData.IncludeParent::class.java
+                    )!!
+
+                    viewModel.sendAction(
+                        CheckFormUiAction.SaveCapturedImage(
+                            parcelData.imageFile.absolutePath,
+                            parcelData.fieldPosition,
+                            parcelData.parentFieldPosition
+                        )
+                    )
+
+                }
+
+            }
+        }
     }
 
     private val intentCamera = registerForActivityResult(

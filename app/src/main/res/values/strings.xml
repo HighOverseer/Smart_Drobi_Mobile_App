@@ -184,6 +184,7 @@
     <string name="_2_ruas_jalan_kabupaten_dan_kota_122">2. Ruas Jalan Kabupaten dan Kota : %1$s</string>
     <string name="_3_ruas_jalan_tol_122">3. Ruas Jalan Tol : %1$s</string>
     <string name="tanggal_pembangunan_12_10_2020">Tanggal Pembangunan : %1$s</string>
+    <string name="tanggal_pemeriksaan_tanggal">Tanggal Pemeriksaan : %1$s</string>
     <string name="alamat_1_s">Alamat : %1$s</string>
     <string name="provinsi_kabupaten_kota_1_s">Provinsi/Kabupaten/Kota : %1$s</string>
     <string name="panjang_jembatan_1_s">Panjang Jembatan : %1$s</string>

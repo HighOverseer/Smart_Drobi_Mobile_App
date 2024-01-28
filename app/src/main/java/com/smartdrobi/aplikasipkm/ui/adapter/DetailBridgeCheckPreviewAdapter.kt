@@ -51,7 +51,7 @@ class DetailBridgeCheckPreviewAdapter(
                     itemView.context,
                     currItem.imagePreview
                 )
-                tvCheckDate.text = currItem.lastInspectionDate
+                tvCheckDate.text = itemView.context.getString(R.string.tanggal_pemeriksaan_tanggal, currItem.lastInspectionDate)
 
                 if (currItem.lastInspectionDate == "-") return
 

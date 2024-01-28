@@ -29,11 +29,12 @@ object BridgeCheckMapper {
         bridgeCheckBridgeAndFirstPage: BridgeCheckBridgeAndFirstPage
     ): BridgeCheckPreview {
         return bridgeCheckBridgeAndFirstPage.run {
+            val dateString = firstPageAnswerEntity.inspectionDate.toString(DATE_FORMAT_PATTERN)
             BridgeCheckPreview(
                 bridgeCheckEntity.id.toInt(),
                 bridgeEntity.imagePath,
                 bridgeEntity.name,
-                "Pemeriksaan terakhir: ${firstPageAnswerEntity.inspectionDate}"
+                dateString
             )
         }
     }

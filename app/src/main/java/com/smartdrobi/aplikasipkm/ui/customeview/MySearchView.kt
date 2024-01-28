@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.KeyEvent
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -35,7 +36,7 @@ class MySearchView : SearchView {
         init(context)
     }
 
-    val editText: SearchAutoComplete = findViewById(androidx.appcompat.R.id.search_src_text)
+    private val editText: SearchAutoComplete = findViewById(androidx.appcompat.R.id.search_src_text)
 
     private fun init(context: Context) {
         setIconifiedByDefault(false)
@@ -45,6 +46,7 @@ class MySearchView : SearchView {
 
         editText.textSize = 11f
         editText.isFocusableInTouchMode = true
+
 
         val clearBtn = findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
         clearBtn.layoutParams.height = 30f.toDp().toInt()
@@ -65,6 +67,7 @@ class MySearchView : SearchView {
     fun setEditTextFocusChangeListener(listener: OnFocusChangeListener) {
         editText.onFocusChangeListener = listener
     }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

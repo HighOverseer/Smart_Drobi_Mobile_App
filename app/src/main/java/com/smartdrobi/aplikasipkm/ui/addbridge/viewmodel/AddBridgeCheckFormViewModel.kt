@@ -47,6 +47,9 @@ class AddBridgeCheckFormViewModel(
     private val _uiEvent = MutableLiveData<CheckFormUiEvent>()
     val uiEvent: LiveData<CheckFormUiEvent> = _uiEvent
 
+    private val _listImagesPath = mutableListOf<String>()
+    val listImagesPath:List<String> = _listImagesPath
+
     private fun sendEvent(event: CheckFormUiEvent) {
         try {
             _uiEvent.value = event
@@ -189,6 +192,8 @@ class AddBridgeCheckFormViewModel(
                         val selectedField = parentField.booleanQuestions[action.fieldPosition]
                         selectedField.listImagePath.add(action.imagePath)
 
+                        _listImagesPath.add(action.imagePath)
+
                         sendEvent(
                             CheckFormUiEvent.NotifyAddedImageOnNestedRv(
                                 action.parentFieldPosition,
@@ -202,6 +207,9 @@ class AddBridgeCheckFormViewModel(
                         val selectedField =
                             currentListFields[action.fieldPosition] as BridgeCheckField.BooleanQuestion
                         selectedField.listImagePath.add(action.imagePath)
+
+                        _listImagesPath.add(action.imagePath)
+
                         sendEvent(
                             CheckFormUiEvent.NotifyAddedImage(
                                 action.fieldPosition

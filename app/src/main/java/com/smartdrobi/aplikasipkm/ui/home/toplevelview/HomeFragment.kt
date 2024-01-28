@@ -18,19 +18,18 @@ import com.smartdrobi.aplikasipkm.R
 import com.smartdrobi.aplikasipkm.databinding.FragmentHomeBinding
 import com.smartdrobi.aplikasipkm.domain.helper.Dummy
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
+import com.smartdrobi.aplikasipkm.domain.model.SearchState
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsItemDecoration
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsListAdapter
 import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeFormActivity
 import com.smartdrobi.aplikasipkm.ui.customeview.MySearchView
 import com.smartdrobi.aplikasipkm.ui.home.AddBridgeLauncher
-import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
 import com.smartdrobi.aplikasipkm.ui.home.OnAddBridgeSuccessListener
 import com.smartdrobi.aplikasipkm.ui.home.OnSettingDroneCamListener
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DetailFragment
 import com.smartdrobi.aplikasipkm.ui.home.otherview.DroneCamSettingDialogFragment
 import com.smartdrobi.aplikasipkm.ui.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -128,7 +127,7 @@ class HomeFragment :
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.bridgePreviews.collectLatest {
+                viewModel.bridgePreviewsWithSearchHeader.collectLatest {
                     adapter.submitList(it)
                     //adapter.setHasStableIds(true)
                     binding?.tvEmptyInfo?.isVisible = it.size == 1
@@ -154,9 +153,9 @@ class HomeFragment :
 
         adapter = BridgePreviewsListAdapter(
             onItemAdapterClickedEvent,
-            true,
-            DroneCamConnectivityStatus.entries.first { it.string == Dummy.droneCamStatus }
+            true
         )
+
         binding?.apply {
             recyclerView.apply {
                 binding?.recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
@@ -167,6 +166,7 @@ class HomeFragment :
                         includeLastOne = true
                     )
                 )
+                itemAnimator = null
                 this.adapter = this@HomeFragment.adapter
             }
 
@@ -181,11 +181,10 @@ class HomeFragment :
             }
 
             override fun searchBridge(searchState: SearchState) {
-                if (searchState.query == getRefToSearchBar()?.query) return
 
                 this@HomeFragment.lastQuery = searchState.query
                 this@HomeFragment.searchBarEditTextFocusState = searchState.hasFocus
-                viewModel.searchBridgePreviews(searchState.query, searchState)
+                viewModel.searchBridgePreviews(searchState)
 
                 /*searchJob?.cancel()
 
@@ -296,7 +295,8 @@ class HomeFragment :
     }
 
     override fun onConnect(newIP: String) {
-        connectDroneJob?.cancel()
+        viewModel.connectDroneCam(newIP)
+        /*connectDroneJob?.cancel()
         connectDroneJob = lifecycleScope.launch {
             val vh = binding?.recyclerView?.findViewHolderForItemId(-1)
             if (vh !is BridgePreviewsListAdapter.HeaderViewHolder) return@launch
@@ -304,27 +304,16 @@ class HomeFragment :
             Dummy.droneCamStatus = DroneCamConnectivityStatus.CONNECTING.string
             vh.setStatusDroneText(DroneCamConnectivityStatus.CONNECTING)
 
-            //adapter.notifyItemChanged(0)
+
 
             delay(1500L)
 
             Dummy.droneCamStatus = DroneCamConnectivityStatus.CONNECTED.string
             vh.setStatusDroneText(DroneCamConnectivityStatus.CONNECTED)
 
-            //adapter.notifyItemChanged(0)
 
-        }
+        }*/
     }
-
-    /* private fun getRefDroneStatus():AppCompatTextView?{
-         binding?.apply {
-             val headerView = binding?.recyclerView
-                 *//*?.layoutManager
-                ?.findViewByPosition(0)*//*
-                ?.getChildAt(0)
-            return headerView?.findViewById(R.id.tv_info_status_drone)
-        }
-    }*/
 
     override fun onDestroyView() {
         searchJob?.cancel()

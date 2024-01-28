@@ -16,15 +16,16 @@ import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderWithout
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemLayoutBinding
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
+import com.smartdrobi.aplikasipkm.domain.model.ListItem
+import com.smartdrobi.aplikasipkm.domain.model.SearchHeaderBridgePreview
 import com.smartdrobi.aplikasipkm.ui.home.DroneCamConnectivityStatus
-import com.smartdrobi.aplikasipkm.ui.home.toplevelview.SearchState
+import com.smartdrobi.aplikasipkm.domain.model.SearchState
 
 //used in home fragment, more suitable with search bar
 class BridgePreviewsListAdapter(
     private val onItemClickedEvent: OnItemClickedEvent,
-    private val isHeaderWithSearchBar: Boolean,
-    private val initialDroneStatus: DroneCamConnectivityStatus
-) : ListAdapter<BridgePreview, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    private val isHeaderWithSearchBar: Boolean
+) : ListAdapter<ListItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     init {
         setHasStableIds(true)
@@ -93,8 +94,8 @@ class BridgePreviewsListAdapter(
 
     class HeaderViewHolder(
         val binding: HomeCheckScheduleItemHeaderLayoutBinding,
-        private val initialDroneStatus: DroneCamConnectivityStatus,
-        sendAction: (ItemCallbackAction) -> Unit
+        sendAction: (ItemCallbackAction) -> Unit,
+        initialQuery:String?=null
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
@@ -125,7 +126,6 @@ class BridgePreviewsListAdapter(
         }
 
         init {
-            setStatusDroneText(initialDroneStatus)
 
             binding.apply {
                 root.setOnClickListener {
@@ -135,7 +135,6 @@ class BridgePreviewsListAdapter(
                 binding.tvInfoStatusDrone.setOnClickListener {
                     sendAction(ItemCallbackAction.ShowDroneCamSettingDialog)
                 }
-
 
                 searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -156,6 +155,7 @@ class BridgePreviewsListAdapter(
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
+
                         val q = newText ?: ""
                         sendAction(
                             ItemCallbackAction.Search(
@@ -168,6 +168,8 @@ class BridgePreviewsListAdapter(
                         return true
                     }
                 })
+
+                searchBar.setQuery(initialQuery, true)
             }
         }
     }
@@ -187,7 +189,14 @@ class BridgePreviewsListAdapter(
                     /*return HeaderViewHolder(binding, initSearchBarFocus, initSearchBarQuery){
                         onItemClickedEvent.searchBridge(it)
                     }*/
-                    return HeaderViewHolder(binding, initialDroneStatus, ::onAction)
+                    val initialSearchQuery = try {
+                        val headerItem = getItem(0) as SearchHeaderBridgePreview
+                        headerItem.searchState.query
+                    }catch (e:Exception){
+                        null
+                    }
+
+                    return HeaderViewHolder(binding, ::onAction, initialSearchQuery)
                 }
 
                 val binding = HomeCheckScheduleItemHeaderWithoutSearchBarLayoutBinding.inflate(
@@ -218,14 +227,23 @@ class BridgePreviewsListAdapter(
         val currItem = getItem(position)
 
         if (getItemViewType(holder.adapterPosition) == ViewType.HEADER.ordinal) {
-            /*(holder as HeaderViewHolder).apply {
-                val status = DroneCamConnectivityStatus.values().first{ it.string == currItem.name }
-                setStatusDroneText(status)
-            }*/
+            (holder as HeaderViewHolder).apply {
+                if (currItem !is SearchHeaderBridgePreview) return
+
+                setStatusDroneText(currItem.droneCamConnectivityStatus)
+
+
+                holder.binding.searchBar.setQuery(currItem.searchState.query, !currItem.searchState.hasFocus)
+                if (!currItem.searchState.hasFocus){
+                    holder.binding.searchBar.clearEditTextFocus()
+                }
+            }
             return
         }
 
         (holder as ItemViewHolder).apply {
+            if (currItem !is BridgePreview) return
+
             val context = itemView.context
             binding.apply {
 
@@ -249,14 +267,19 @@ class BridgePreviewsListAdapter(
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).id.toLong()
+        return getItem(position).getItemId()
     }
 
     private fun onAction(action: ItemCallbackAction) {
         when (action) {
             ItemCallbackAction.ClearFocus -> onItemClickedEvent.clearFocus()
             is ItemCallbackAction.Search -> onItemClickedEvent.searchBridge(action.searchState)
-            is ItemCallbackAction.ClickItem -> onItemClickedEvent.onItemClicked(getItem(action.itemPosition).id)
+            is ItemCallbackAction.ClickItem -> {
+                val item = getItem(action.itemPosition)
+                if (item !is BridgePreview) return
+
+                onItemClickedEvent.onItemClicked(item.id)
+            }
             is ItemCallbackAction.ShowDroneCamSettingDialog -> onItemClickedEvent.showDroneCamSettingDialog()
         }
     }
@@ -281,16 +304,16 @@ class BridgePreviewsListAdapter(
 
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BridgePreview>() {
-            override fun areItemsTheSame(oldItem: BridgePreview, newItem: BridgePreview): Boolean {
-                return oldItem.id == newItem.id
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListItem>() {
+            override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
+                return oldItem.getItemId() == newItem.getItemId()
             }
 
             override fun areContentsTheSame(
-                oldItem: BridgePreview,
-                newItem: BridgePreview
+                oldItem: ListItem,
+                newItem: ListItem
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.equalsTo(newItem)
             }
         }
 

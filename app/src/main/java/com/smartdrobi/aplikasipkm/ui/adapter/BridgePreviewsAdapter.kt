@@ -11,7 +11,7 @@ import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemHeaderWithout
 import com.smartdrobi.aplikasipkm.databinding.HomeCheckScheduleItemLayoutBinding
 import com.smartdrobi.aplikasipkm.domain.helper.loadImage
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
-import com.smartdrobi.aplikasipkm.ui.home.toplevelview.SearchState
+import com.smartdrobi.aplikasipkm.domain.model.SearchState
 
 //used in history fragment
 class BridgePreviewsAdapter(

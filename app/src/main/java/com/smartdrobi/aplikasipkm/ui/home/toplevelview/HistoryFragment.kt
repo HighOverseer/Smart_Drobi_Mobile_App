@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartdrobi.aplikasipkm.databinding.FragmentHistoryBinding
 import com.smartdrobi.aplikasipkm.domain.helper.obtainViewModel
 import com.smartdrobi.aplikasipkm.domain.model.BridgePreview
+import com.smartdrobi.aplikasipkm.domain.model.SearchState
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsAdapter
 import com.smartdrobi.aplikasipkm.ui.adapter.BridgePreviewsItemDecoration
 import com.smartdrobi.aplikasipkm.ui.addbridge.AddBridgeCheckFormActivity

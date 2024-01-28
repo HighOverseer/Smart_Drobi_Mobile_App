@@ -156,25 +156,9 @@ class Repository private constructor(
     }*/
 
     fun searchBridgePreview(query: String = ""): Flow<List<BridgePreview>> {
-        return bridgeDao.searchBridgePreview(query)
-            .map { list ->
-                withContext(Dispatchers.Default) {
-                    val listWithHeader = mutableListOf(
-                        BridgePreview(
-                            -1,
-                            "",
-                            Dummy.droneCamStatus,
-                            "",
-                            "",
-                            ""
-                        )
-                    )
-                    list.forEach {
-                        listWithHeader.add(BridgeMapper.toBridgePreview(it))
-                    }
-                    listWithHeader
-                }
-            }
+        return bridgeDao.searchBridgePreview(query).map { list ->
+            list.map { BridgeMapper.toBridgePreview(it) }
+        }
     }
 
     suspend fun getBridgeCheckById(bridgeCheckId: Int): BridgeCheck =
