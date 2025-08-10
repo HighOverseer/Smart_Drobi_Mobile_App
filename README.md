@@ -1,4 +1,4 @@
-# Smart Drobi
+# Smart Drobi App
 
 A specialized Android application for streamlined bridge inspection and reporting, developed for one of Andalas University's PKM (Pekan Kreativitas Mahasiswa) team with drone integration capabilities.
 
